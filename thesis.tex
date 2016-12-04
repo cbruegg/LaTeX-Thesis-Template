@@ -34,6 +34,8 @@ bibtotocnumbered%
 %%% Mathematik
 \usepackage{amsmath}
 \usepackage{amssymb}
+\DeclareMathOperator*{\argmin}{arg\!\min}
+\DeclareMathOperator*{\argmax}{arg\!\max}
 
 %%% Sonstiges
 \usepackage[below]{placeins}                   % Manages Floats
@@ -47,6 +49,10 @@ bibtotocnumbered%
 
 \usepackage{tikz}                              % If you want to use TikZ for some figures
 \input{img/tikzsetup}                          % See img/tikzsetup.tex for further explanations
+
+\usepackage{algorithm}% http://ctan.org/pkg/algorithms
+\usepackage{algpseudocode}% http://ctan.org/pkg/algorithmicx
+\algnewcommand{\LeftComment}[1]{\Statex \(\triangleright\) #1}
 
 %%% If you need code-listings
 %\usepackage{listings}
@@ -112,6 +118,7 @@ bibtotocnumbered%
 \include{background}
 \include{relatedwork}
 \include{experiment}
+\include{method}
 \include{problemstatement}
 \include{contribution1}
 \include{contribution2}

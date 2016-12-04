@@ -1,0 +1,97 @@
+\chapter{Methode}
+\label{chap:method}
+
+\section{Implementierung der Aufzeichnungssoftware}
+\subsection{Definition der Messdaten}
+\todo{Def:} Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
+
+\section{Transformation der Daten}
+Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form von Features und einem Target, d.h. Instanzen erwarten. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
+
+Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Aktuell umfasst das Intervall immer noch mehrere Messungen, die aggregiert werden müssen.
+
+\todo{Illustration}
+
+\subsection{Beschreibung der Aggregatfunktionen}
+\todo{Quelle angeben}
+Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen wie folgt definiert:
+\subsubsection{Average}
+\[
+\text{Avg}(A) := \frac{1}{N} * \sum_{a \in A} a
+\]
+\subsubsection{Standard Deviation}
+\[
+\text{StdDev}(A) := \sqrt{\frac{1}{N} * \sum_{a \in A} (a - \text{Avg}(A))^2}
+\]
+\subsubsection{Average Absolute Difference}
+\[
+\text{AvgAbsDiff}(A) := \frac{1}{N} * \sum_{a \in A} |\text{Avg}(A) - a|
+\]
+\subsubsection{$k$-Binned Distribution}
+Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-Vektor anstatt einen Skalar. Seien $i \in {0, ..., k - 1}, S := \frac{\max A - \min A}{k}$.
+\[
+\text{Bin}(A, i) := \#\{a \in A | (\min A) + i * S \leq a < (\min A) + (i + 1) * S\}
+\]
+$\text{Bin}(A, i)$ ist demzufolge die Anzahl der Elemente in Korb $i$, wenn man $A$ der Größe nach sortiert auf $k$ Körbe verteilt. Somit gilt:
+\[
+\text{Bin}(A) := [\text{Bin}(A, 1), ..., \text{Bin}(A, k)]^T
+\]
+\subsubsection{Average Root of Squares}
+Auch diese Aggregatfunktion unterscheidet sich von den bisherigen, da sie mehrere Listen als Parameter erhält:
+\[
+\text{Aros}(A_1, ..., A_M) = \frac{1}{M} * \sum_{i = 1}^{M} \sqrt{\sum_{a \in A_i} a^2}
+\]
+\subsubsection{Average Time between Peaks}
+Diese Aggregatfunktion gibt die durchschnittliche Zeit zwischen Höhepunkten in $A$ zurück, wofür zusätzlich eine Funktion $\text{timeForIndex}: \mathbb{N} \to \mathbb{N}$ benötigt wird. Die Wahl der Höhepunkte erfolgt durch eine Heuristik. 
+
+Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes. Zunächst wird mittels Algorithmus~\ref{algo:indicesOfPeaks} bestimmt, an welchen Indizes in der Liste Werte stehen, die deutlich größer als ihre Nachfolger sind. Dadurch wird definiert, was eine Spitze in dieser spezifischen Liste ausmacht. Anschließend werden Spitzen gesucht, die maximal um den Faktor \textit{threshold} kleiner sind als die größte Spitze, die der Algorithmus gefunden hast. Diese Grenze wird solange gesenkt, bis genügend Spitzen gefunden wurden oder die Grenze so niedrig liegt, dass es sich nicht mehr um Spitzen handelt. Als letztes berechnet der Algorithmus die durchschnittliche Zeit zwischen den Spitzen mithilfe der Funktion \textit{timeForIndex}.
+
+Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den von uns gesammelten Daten als hinreichend. Für andere Datensätze kann eine Anpassung erforderlich sein.
+
+\begin{algorithm}
+    \caption{indicesOfPeaks($A$, $t$), $t \in [0,1]$}
+    \label{algo:indicesOfPeaks}
+    \Comment{Returns a list of indices $i$ where $A[i] * t \geq A[i+1]$}
+    \begin{algorithmic}
+        \State $\text{indices} \gets \emptyset$
+        \For{$i \in \{1, ..., |A| - 1\}$}
+            \If{$A[i] * t \geq A[i+1]$}
+                \State $\text{indices} \gets \text{indices} \cup \{i\}$
+            \EndIf
+        \EndFor
+        \State \Return $\text{indices}$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+    \caption{averageTimeBetweenPeaks($A, \text{timeForIndex}, \text{minPeaks}$)}
+    \label{algo:avgTimeBetweenPeaks}
+    \begin{algorithmic}
+        \State \LeftComment \textit{First, heuristically define what a peak is}
+        \State $\text{indicesOfPeaks} \gets \text{indicesOfPeaks}(A, t = 0.8)$
+        \If{$\text{indicesOfPeaks} = \emptyset$}
+            \State \Return Nil
+        \EndIf
+        \State $\text{highestPeakIdx} \gets$ Index of highest peak in indicesOfPeaks
+        \State \LeftComment{\textit{Lower the threshold until we have found enough peaks or the threshold is too low}}
+        \State $\text{otherPeakIndices} \gets \emptyset$
+        \State threshold $\gets 0.8$
+        \Repeat
+            \State otherPeakIndices $\gets$ Indices of $A$ where $A[i] \geq A[\text{highestPeakIdx}] * $ threshold
+            \State threshold $\gets \text{threshold} * 0.9$
+        \Until{$|\text{otherPeaksIndices}| \geq \text{minPeaks} \vee \text{threshold} < 0.3$}
+        \State \LeftComment \textit{Check whether we have found enough peaks}
+        \If{$|\text{otherPeakIndices}| < $ minPeaks}
+            \State \Return Nil
+        \EndIf
+        \State \LeftComment \textit{Calculate the average time between the peaks}
+        \State timesBetweenPeaks $\gets \emptyset$
+        \For{$i \in \{2, ..., |\text{otherPeakIndices}|\}$}
+            \State time $\gets$ timeForIndex(otherPeakIndices[$i$]) - timeForIndex(otherPeakIndices[$i - 1$])
+            \State timesBetweenPeaks $\gets$ timesBetweenPeaks $\cup \{\text{time}\}$
+        \EndFor
+        \State \Return \Call{Avg}{timesBetweenPeaks}
+    \end{algorithmic}
+\end{algorithm}
+
+\section{Anwendung von ML-Klassifikationsalgorithmen}
