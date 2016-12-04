@@ -7,7 +7,7 @@
   year          = {2016},
   pages         = {426--429},
   month         = feb,
-  __markedentry = {[Christian:6]},
+  __markedentry = {[Christian:]},
   doi           = {10.1109/BHI.2016.7455925},
   keywords      = {accelerometers, biomechanics, biomedical engineering, gyroscopes, learning (artificial intelligence), smart phones, watches, accelerometer, biomedical application, drinking activity, eating activity, gyroscope, hand-based activities, health application, machine learning approach, smartphone-based activity recognition, smartwatch-based activity recognition, user eating habit, user movement, Accelerometers, Data models, Gyroscopes, Radio frequency, Sensors, Smart phones, Training data},
 }
@@ -25,6 +25,14 @@
   month        = {12},
   year         = {2016},
   url          = {https://developer.android.com/guide/topics/sensors/sensors_overview.html},
+}
+
+@TechReport{Ng2011a,
+  author        = {Ng, AY},
+  title         = {Cs229 lecture notes on machine learning},
+  institution   = {Technical report, Stanford University, Department of Computer Science, Stanford, USA, 2011. 39, 116, 140},
+  year          = {2011},
+  __markedentry = {[Christian:6]},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
