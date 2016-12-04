@@ -8,7 +8,7 @@
 \section{Transformation der Daten}
 Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form von Features und einem Target, d.h. Instanzen erwarten. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
 
-Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Aktuell umfasst das Intervall immer noch mehrere Messungen, die aggregiert werden müssen.
+Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Aktuell umfasst das Intervall immer noch mehrere Readings, die aggregiert werden müssen.
 
 \todo{Illustration}
 
@@ -31,10 +31,7 @@ Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-V
 \[
 \text{Bin}(A, i) := \#\{a \in A | (\min A) + i * S \leq a < (\min A) + (i + 1) * S\}
 \]
-$\text{Bin}(A, i)$ ist demzufolge die Anzahl der Elemente in Korb $i$, wenn man $A$ der Größe nach sortiert auf $k$ Körbe verteilt. Somit gilt:
-\[
-\text{Bin}(A) := [\text{Bin}(A, 1), ..., \text{Bin}(A, k)]^T
-\]
+$\text{Bin}(A, i)$ ist demzufolge die Anzahl der Elemente in Korb $i$, wenn man $A$ der Größe nach sortiert auf $k$ Körbe verteilt.
 \subsubsection{Average Root of Squares}
 Auch diese Aggregatfunktion unterscheidet sich von den bisherigen, da sie mehrere Listen als Parameter erhält:
 \[
@@ -48,7 +45,7 @@ Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes.
 Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den von uns gesammelten Daten als hinreichend. Für andere Datensätze kann eine Anpassung erforderlich sein.
 
 \begin{algorithm}
-    \caption{indicesOfPeaks($A$, $t$), $t \in [0,1]$}
+    \caption{IndicesOfPeaks($A$, $t$), $t \in [0,1]$}
     \label{algo:indicesOfPeaks}
     \Comment{Returns a list of indices $i$ where $A[i] * t \geq A[i+1]$}
     \begin{algorithmic}
@@ -63,11 +60,11 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
 \end{algorithm}
 
 \begin{algorithm}
-    \caption{averageTimeBetweenPeaks($A, \text{timeForIndex}, \text{minPeaks}$)}
+    \caption{AverageTimeBetweenPeaks($A, \text{timeForIndex}, \text{minPeaks}$)}
     \label{algo:avgTimeBetweenPeaks}
     \begin{algorithmic}
         \State \LeftComment \textit{First, heuristically define what a peak is}
-        \State $\text{indicesOfPeaks} \gets \text{indicesOfPeaks}(A, t = 0.8)$
+        \State $\text{indicesOfPeaks} \gets \text{IndicesOfPeaks}(A, t = 0.8)$
         \If{$\text{indicesOfPeaks} = \emptyset$}
             \State \Return Nil
         \EndIf
@@ -92,5 +89,24 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
         \State \Return \Call{Avg}{timesBetweenPeaks}
     \end{algorithmic}
 \end{algorithm}
+
+\subsection{Anwendung der Aggregatfunktionen}
+Die Transformationssoftware reduziert nun mithilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
+\subsubsection{Pro Kombination von Gerät und Sensor}
+Seien $P$ die einzelnen Komponenten des Sensors, beispielsweise $P = \{x, y, z\}$.
+\begin{align}
+    \text{aros} &\gets \text{Aros}(I[G][S][P[1]], ..., I[G][S][P[|P|]]) \\
+    F_I &\gets F_I \cup \{((G, S), \text{aros})\}
+\end{align}
+Im Kontext betrachtet liefert \textit{Aros} am Beispiel des Beschleunigungssensors gewissermaßen die durchschnittliche Beschleunigung, die alle Achsen zusammen erfahren haben.
+\subsubsection{Pro Kombination von Gerät, Sensor und Komponente}
+Sei \textit{timeForIdx} hier eine Funktion, die den Zeitstempel des jeweiligen Datums im Intervall zurückgibt. Sei außerdem $k := 10$, sodass 10 Körbe verwendet werden, was sich experimentell als geeignet herausstellte.
+\begin{align}
+    F_I &\gets F_I \cup \{((G, S, K), \text{Avg}(I[G][S][K])\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{StdDev}(I[G][S][K])\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{AvgAbsDiff}(I[G][S][K])\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{AverageTimeBetweenPeaks}(I[G][S][K], \text{timeForIdx}, 3)\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{Bin}(I[G][S][K], i)\} \forall i \in \{1, ..., k\}
+\end{align}
 
 \section{Anwendung von ML-Klassifikationsalgorithmen}
