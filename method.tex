@@ -102,11 +102,11 @@ Im Kontext betrachtet liefert \textit{Aros} am Beispiel des Beschleunigungssenso
 \subsubsection{Pro Kombination von Gerät, Sensor und Komponente}
 Sei \textit{timeForIdx} hier eine Funktion, die den Zeitstempel des jeweiligen Datums im Intervall zurückgibt. Sei außerdem $k := 10$, sodass 10 Körbe verwendet werden, was sich experimentell als geeignet herausstellte.
 \begin{align}
-    F_I &\gets F_I \cup \{((G, S, K), \text{Avg}(I[G][S][K])\} \\
-    F_I &\gets F_I \cup \{((G, S, K), \text{StdDev}(I[G][S][K])\} \\
-    F_I &\gets F_I \cup \{((G, S, K), \text{AvgAbsDiff}(I[G][S][K])\} \\
-    F_I &\gets F_I \cup \{((G, S, K), \text{AverageTimeBetweenPeaks}(I[G][S][K], \text{timeForIdx}, 3)\} \\
-    F_I &\gets F_I \cup \{((G, S, K), \text{Bin}(I[G][S][K], i)\} \forall i \in \{1, ..., k\}
+    F_I &\gets F_I \cup \{((G, S, K), \text{Avg}(I[G][S][K]))\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{StdDev}(I[G][S][K]))\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{AvgAbsDiff}(I[G][S][K]))\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{AverageTimeBetweenPeaks}(I[G][S][K], \text{timeForIdx}, 3))\} \\
+    F_I &\gets F_I \cup \{((G, S, K), \text{Bin}(I[G][S][K], i))\} \forall i \in \{1, ..., k\}
 \end{align}
 
 \section{Anwendung von ML-Klassifikationsalgorithmen}
