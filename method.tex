@@ -91,7 +91,7 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
 \end{algorithm}
 
 \subsection{Anwendung der Aggregatfunktionen}
-Die Transformationssoftware reduziert nun mithilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
+Die Transformationssoftware reduziert nun mithilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}^\alpha$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
 \subsubsection{Pro Kombination von Gerät und Sensor}
 Seien $P$ die einzelnen Komponenten des Sensors, beispielsweise $P = \{x, y, z\}$.
 \begin{align}
