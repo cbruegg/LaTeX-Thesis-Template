@@ -1,30 +1,39 @@
-\chapter{Background Information (optional)}
+\chapter{Grundlagen}
 \label{chap:background}
-A brief section giving background information may be necessary, especially if
-your work spans two or more traditional fields. That means that your readers
-may not have any experience with some of the material needed to follow your
-thesis, so you need to give it to them. A different title than that given
-above is usually better; e.g., "A Brief Review of Frammis Algebra." 
+\section{Erläuterung der verwendeten Sensoren}
+\todo{Grafiken zur Erläuterung}
+Während in der Einleitung nur generisch von "Sensordaten" die Rede war, werden diese nun konkretisiert. Zur Aufnahme werden das Smartphone OnePlus 3 sowie der Fitness-Tracker Microsoft Band 2 verwendet. Beide Geräte besitzen einen Beschleunigungssensor sowie ein Gyroskop. Des Weiteren besitzt das Band unter anderem einen Sensor, der den elektrischen Widerstand der Haut des Trägers misst, sowie einen Hauttemperatursensor.
 
-\section{A note from the template-author}
-In a master thesis you might not need a background chapter. Discuss with your
-advisor, whether it is feasible to put background information either in the
-introduction or related-work chapter.
+\subsection{Beschleunigungssensor}
+Ein Beschleunigungssensor, auch \textit{Accelerometer} genannt, misst die echte Beschleunigung eines Objektes im Raum je physikalischer Achse ($x$, $y$ und $z$). Dies beinhaltet auch die Beschleunigung, die von der Erdgravitation ausgeht: Liegt das Objekt beispielsweise auf dem Boden, erfährt es auf der im rechten Winkel zum Boden stehenden Achse eine Beschleunigung von $g \approx 9.81$ $m/s^2$\cite{SensorsOverview}\cite{nistsi}. Über diesen Sensor kann demnach die Orientierung des Objektes im Raum bestimmt werden. \\
+Die Daten dieses Sensors werden von beiden Geräten aufgezeichnet.
 
-\section{An example of a TikZ image within text}
-This section just demonstrates a coustom-macro for placing figures in the
-text. The source-code for this macro is found in the file '\texttt{macros.tex}'.
-Here is a reference to figure \ref{fig:figure-label2} on the next page.
+\subsection{Gyroskop}
+Ein Gyroskop misst die Rotationsgeschwindigkeit je physikalischer Achse\cite{SensorsOverview}. Demnach bedeutet der Messwert $(x=0, y=0, z=0)$, dass das Objekt relativ zur Erde nicht bewegt wird, während $(x=1, y=0, z=0)$ bedeutet, dass das Objekt um die $x$-Achse gedreht wird. \\
+Die Daten dieses Sensors werden von beiden Geräten aufgezeichnet.
 
-\Blindtext
+\subsection{Hautwiderstandssensor}
+Je nach aktueller körperlicher Betätigung ändert sich die elektrische Leitfähigkeit der Hautoberfläche durch Schweiß. Der Hautwiderstandssensor misst den elektrischen Widerstand der Haut, der sich umgekehrt proportional zur Leitfähigkeit verhält.
+Dieser Sensor ist nur im Band integriert, das daher für diesen die einzige Datenquelle ist.
 
-\FIG[The caption for the List-of-Figures]{The slightly longer caption,
-containing additional information for the figure itself.}%
-{figure-label2}{htbp}{%
-    \includegraphics[width=0.8\linewidth]{img/Glacier.pdf}
-}
+\subsection{Hauttemperatursensor}
+Der Hauttemperatursensor misst die Temperatur der Haut des Nutzers, die an der Unterseite des Band anliegt. Leider reagierte dieser Sensor in einem Test sogar bereits langsam auf Temperaturveränderungen, wenn das Band abgelegt wurde, sodass auf die Aufzeichnung dieser Daten verzichtet wurde.
 
-\blindtext
-\blinditemize
+\section{Grundlagen der Machine Learning-Klassifikation}
+In den folgenden Abschnitten wird von einem grundlegenden Verständnis von Machine Learning-Klassifikation ausgegangen, weshalb wir diese Technik nun kurz erläutern. \\
+\todo{put this in an actual definition}
+Gegeben sei ein Datensatz $D \ni (x_1, ..., x_n, y)$ mit $|D| = m$ Instanzen. Dann sind $x = (x_1, ..., x_n)$ die \textit{Input Features} und $y$ ist das \textit{Target}. Im Falle eines Klassifikationsproblems ist $y$ nominal, d.h. ein deskriptiver Wert zur Identifikation. Gesucht ist nun eine \textit{Hypothesenfunktion} $h(x) = \hat{y}$, die zu gegebenen Features den wahrscheinlichsten Wert des Targets bestimmt\cite{Ng2011a}.
+
+Ein einfaches Beispiel kann wie folgt konstruiert werden: Sei $x = (x_1)$, wobei $x_1$ die Wohnfläche einer Wohnung oder eines Hauses in $m^2$ ist. Des Weiteren sei $D = \{(50, \text{Wohnung}), (75, \text{Wohnung}), (200, \text{Haus}), (300, \text{Haus})\}$. Eine sinnvolle Hypothesenfunktion wäre in diesem Fall beispielsweise gegeben durch:
+
+\[
+h(x) = 
+\begin{cases}
+\text{Wohnung}, & \text{wenn } x_1 < 200 \\
+\text{Haus}, & \text{sonst}
+\end{cases}
+\]
+
+Das beschriebene Klassifikationsproblem kann mittels Algorithmen des \textit{Machine Learnings} (im Folgenden \textit{ML}) gelöst werden, indem eine Verlustfunktion definiert wird, die ein solcher Algorithmus zu minimieren versucht. Eine solche Verlustfunktion bestraft die fehlerhafte Klassifikation einer Instanz, indem sie einen höheren Wert annimmt.
 
 % vim: set ft=tex

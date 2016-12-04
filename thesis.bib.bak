@@ -1,24 +1,30 @@
-% This file was created with JabRef 2.3.1.
-% Encoding: ISO8859_1
+% Encoding: UTF-8
 
-@MISC{chinneck-thesis-howto,
-  author = {Prof. John W. Chinneck},
-  title = {How to Organize your Thesis},
-  month = {Sept.},
-  year = {1999},
-  doi = {http://www.sce.carleton.ca/faculty/chinneck/thesis.html},
-  owner = {myself},
-  timestamp = {2010.04.19},
-  url = {http://www.sce.carleton.ca/faculty/chinneck/thesis.html}
+@InProceedings{Weiss2016,
+  author        = {G. M. Weiss and J. L. Timko and C. M. Gallagher and K. Yoneda and A. J. Schreiber},
+  title         = {Smartwatch-based activity recognition: A machine learning approach},
+  booktitle     = {Proc. IEEE-EMBS Int. Conf. Biomedical and Health Informatics (BHI)},
+  year          = {2016},
+  pages         = {426--429},
+  month         = feb,
+  __markedentry = {[Christian:6]},
+  doi           = {10.1109/BHI.2016.7455925},
+  keywords      = {accelerometers, biomechanics, biomedical engineering, gyroscopes, learning (artificial intelligence), smart phones, watches, accelerometer, biomedical application, drinking activity, eating activity, gyroscope, hand-based activities, health application, machine learning approach, smartphone-based activity recognition, smartwatch-based activity recognition, user eating habit, user movement, Accelerometers, Data models, Gyroscopes, Radio frequency, Sensors, Smart phones, Training data},
 }
 
-@MISC{covington-write-think-learn,
-  author = {Michael A. Covington},
-  title = {How to Write More Clearly, Think More Clearly, and Learn Complex
-	Material More Easily},
-  doi = {http://www.ai.uga.edu/mc/WriteThinkLearn.htm},
-  owner = {myself},
-  timestamp = {2010.04.19},
-  url = {http://www.ai.uga.edu/mc/WriteThinkLearn.htm}
+@Misc{nistsi,
+  author       = {B. N. Taylor and A. Thompson},
+  title        = {The International System of Units (SI)},
+  howpublished = {National Institute of Standards and Technology, Special Publication 330, Gaithersburg, MD},
+  year         = {2008},
 }
 
+@Manual{SensorsOverview,
+  title        = {Android Sensors Overview},
+  organization = {Google Inc.},
+  month        = {12},
+  year         = {2016},
+  url          = {https://developer.android.com/guide/topics/sensors/sensors_overview.html},
+}
+
+@Comment{jabref-meta: databaseType:bibtex;}
