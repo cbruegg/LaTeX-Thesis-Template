@@ -1,15 +1,14 @@
 % Encoding: UTF-8
 
 @InProceedings{Weiss2016,
-  author        = {G. M. Weiss and J. L. Timko and C. M. Gallagher and K. Yoneda and A. J. Schreiber},
-  title         = {Smartwatch-based activity recognition: A machine learning approach},
-  booktitle     = {Proc. IEEE-EMBS Int. Conf. Biomedical and Health Informatics (BHI)},
-  year          = {2016},
-  pages         = {426--429},
-  month         = feb,
-  __markedentry = {[Christian:]},
-  doi           = {10.1109/BHI.2016.7455925},
-  keywords      = {accelerometers, biomechanics, biomedical engineering, gyroscopes, learning (artificial intelligence), smart phones, watches, accelerometer, biomedical application, drinking activity, eating activity, gyroscope, hand-based activities, health application, machine learning approach, smartphone-based activity recognition, smartwatch-based activity recognition, user eating habit, user movement, Accelerometers, Data models, Gyroscopes, Radio frequency, Sensors, Smart phones, Training data},
+  author    = {G. M. Weiss and J. L. Timko and C. M. Gallagher and K. Yoneda and A. J. Schreiber},
+  title     = {Smartwatch-based activity recognition: A machine learning approach},
+  booktitle = {Proc. IEEE-EMBS Int. Conf. Biomedical and Health Informatics (BHI)},
+  year      = {2016},
+  pages     = {426--429},
+  month     = feb,
+  doi       = {10.1109/BHI.2016.7455925},
+  keywords  = {accelerometers, biomechanics, biomedical engineering, gyroscopes, learning (artificial intelligence), smart phones, watches, accelerometer, biomedical application, drinking activity, eating activity, gyroscope, hand-based activities, health application, machine learning approach, smartphone-based activity recognition, smartwatch-based activity recognition, user eating habit, user movement, Accelerometers, Data models, Gyroscopes, Radio frequency, Sensors, Smart phones, Training data},
 }
 
 @Misc{nistsi,
@@ -28,11 +27,88 @@
 }
 
 @TechReport{Ng2011a,
-  author        = {Ng, AY},
-  title         = {Cs229 lecture notes on machine learning},
-  institution   = {Technical report, Stanford University, Department of Computer Science, Stanford, USA, 2011. 39, 116, 140},
+  author      = {Ng, AY},
+  title       = {Cs229 lecture notes on machine learning},
+  institution = {Technical report, Stanford University, Department of Computer Science, Stanford, USA, 2011. 39, 116, 140},
+  year        = {2011},
+}
+
+@book{Quinlan1993,
+  address = {San Mateo, CA},
+  author = {Ross Quinlan},
+  publisher = {Morgan Kaufmann Publishers},
+  title = {C4.5: Programs for Machine Learning},
+  year = {1993}
+}
+@article{Aha1991,
+   author = {D. Aha and D. Kibler},
+   journal = {Machine Learning},
+   pages = {37-66},
+   title = {Instance-based learning algorithms},
+   volume = {6},
+  year = {1991}
+}
+
+@inproceedings{John1995,
+   address = {San Mateo},
+   author = {George H. John and Pat Langley},
+   booktitle = {Eleventh Conference on Uncertainty in Artificial Intelligence},
+   pages = {338-345},
+   publisher = {Morgan Kaufmann},
+   title = {Estimating Continuous Distributions in Bayesian Classifiers},
+   year = {1995}
+}
+
+<div class="small-text" align="right" style="margin-right:10px">
+	
+	BibTeX |
+    
+    <a href="javascript:ColdFusion.Window.show('theformats');ColdFusion.navigate('exportformats.cfm?id=1964918&expformat=endnotes','theformats');" >EndNote</a>  |  
+    
+    <a href="javascript:ColdFusion.Window.show('theformats');ColdFusion.navigate('exportformats.cfm?id=1964918&expformat=acmref','theformats');" >ACM Ref</a>
+    
+</div>
+
+<PRE id="1964918">
+
+@Article{Kwapisz2011,
+  author        = {Kwapisz, Jennifer R. and Weiss, Gary M. and Moore, Samuel A.},
+  title         = {Activity Recognition Using Cell Phone Accelerometers},
+  journal       = {SIGKDD Explor. Newsl.},
   year          = {2011},
+  volume        = {12},
+  number        = {2},
+  pages         = {74--82},
+  month         = mar,
+  __markedentry = {[Christian:]},
+  acmid         = {1964918},
+  address       = {New York, NY, USA},
+  doi           = {10.1145/1964897.1964918},
+  issn          = {1931-0145},
+  issue_date    = {December 2010},
+  keywords      = {accelerometer, activity recognition, cell phone, induction, sensor mining, sensors},
+  numpages      = {9},
+  publisher     = {ACM},
+  url           = {http://doi.acm.org/10.1145/1964897.1964918},
+}
+
+
+ @article{Breiman2001,
+    author = {Leo Breiman},
+    journal = {Machine Learning},
+    number = {1},
+    pages = {5-32},
+    title = {Random Forests},
+    volume = {45},
+    year = {2001}
+ }
+
+@Article{Haykin1994,
+  author        = {Haykin, Simon},
+  title         = {Neural networks, a comprehensive foundation},
+  year          = {1994},
   __markedentry = {[Christian:6]},
+  publisher     = {Macmilan},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

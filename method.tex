@@ -94,20 +94,20 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
 Die Transformationssoftware reduziert nun mithilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}^\alpha$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
 \subsubsection{Pro Kombination von Gerät und Sensor}
 Seien $P$ die einzelnen Komponenten des Sensors, beispielsweise $P = \{x, y, z\}$.
-\begin{align}
+\begin{align*}
     \text{aros} &\gets \text{Aros}(I[G][S][P[1]], ..., I[G][S][P[|P|]]) \\
     F_I &\gets F_I \cup \{((G, S), \text{aros})\}
-\end{align}
+\end{align*}
 Im Kontext betrachtet liefert \textit{Aros} am Beispiel des Beschleunigungssensors gewissermaßen die durchschnittliche Beschleunigung, die alle Achsen zusammen erfahren haben.
 \subsubsection{Pro Kombination von Gerät, Sensor und Komponente}
 Sei \textit{timeForIdx} hier eine Funktion, die den Zeitstempel des jeweiligen Datums im Intervall zurückgibt. Sei außerdem $k := 10$, sodass 10 Körbe verwendet werden, was sich experimentell als geeignet herausstellte.
-\begin{align}
+\begin{align*}
     F_I &\gets F_I \cup \{((G, S, K), \text{Avg}(I[G][S][K]))\} \\
     F_I &\gets F_I \cup \{((G, S, K), \text{StdDev}(I[G][S][K]))\} \\
     F_I &\gets F_I \cup \{((G, S, K), \text{AvgAbsDiff}(I[G][S][K]))\} \\
     F_I &\gets F_I \cup \{((G, S, K), \text{AverageTimeBetweenPeaks}(I[G][S][K], \text{timeForIdx}, 3))\} \\
     F_I &\gets F_I \cup \{((G, S, K), \text{Bin}(I[G][S][K], i))\} \forall i \in \{1, ..., k\}
-\end{align}
+\end{align*}
 
 \subsection{Beispiel}
 Wir betrachten für die Aktivität \textit{Jogging} den Beispieldatensatz
@@ -162,5 +162,37 @@ Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich de
 
 Die Intervallspalte dient nur der Illustration.
 
-
 \section{Anwendung von ML-Klassifikationsalgorithmen}
+Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte ML-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser ML-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
+\todo{Hyperparameter aktualisieren, falls nötig}
+\subsection{Random Forest}
+\begin{definition}[Entscheidungsbaum]
+Ein Entscheidungsbaum ist ein Baum, dessen innere Knoten, auch \textit{Entscheidungsknoten} genannt, je ein Entscheidungskriterium beinhalten, um eine Menge von Instanzen zu unterteilen und schließlich genau einer Klasse zuordnen zu können. Ein solches Kriterium könnte beispielsweise lauten: $\text{Avg}_\text{Band, Gyroscope, x} > 0$. Ein Blattknoten gibt die Klasse an, die der Entscheidungsbaum einer Instanz zuordnet.
+\end{definition}\label{def:entscheidungsbaum}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=100mm, trim=0 150mm 0 0]{img/entscheidungsbaum}
+\caption{Ein binärer Entscheidungsbaum mit Klassen \textit{Ja} und \textit{Nein}, ob ein Apfelbaum Früchte tragen wird}\todo{cite https://de.wikipedia.org/wiki/Datei:Entscheidungsbaum.svg}
+\end{figure}
+Ein \textit{Random Forest} ist ein Wald von Entscheidungsbäumen, die randomisiert entstanden sind. Soll eine neue Instanz klassifiziert werden, treffen alle Entscheidungsbäume eine Entscheidung und die am häufigsten vorhergesagte Klasse gewinnt. WEKA nutzt eine Implementierung nach \cite{Breiman2001}. Experimentell haben sich die folgenden Hyperparameterwerte als sinnvoll erwiesen: Die Anzahl der Bäume in Wald wurde auf 50, die Anzahl der verwendeten Features pro Baum auf 10, sowie die maximale Tiefe auf 25 festgelegt.
+\subsection{J48-Entscheidungsbaum}
+J48 ist eine Implementierung des \textit{C4.5}-Algorithmus\cite{Quinlan1993}. Der Entscheidungsbaum wird anhand von Trainingsdaten $T$ iterativ durch das Hinzufügen von Entscheidungsknoten erzeugt, die den Informationsgehalt der Teilmengen von $T$ minimieren, die aus dem Split an jenem Entscheidungsknoten hervorgehen. Der Informationsgehalt umso höher, je mehr verschiedene Klassen sich in einer Menge von Instanzen befinden. Ein niedriger Informationsgehalt besagt demnach, dass nach einer Entscheidung an einem Entscheidungsknoten klarer geworden ist, welcher Klasse die Instanzen in den Mengen nach dem Split zuzuordnen sind.
+\subsection{Instance-Based-Learner / IB$k$}
+Der IB$k$-Algorithmus ist ein $k$NN-basierter Klassifikationsalgorithmus. Soll einer neuen Instanz $x \in \mathbb{R}^n$ eine Klasse zugeordnet werden, werden anhand eines Distanzmaßes für den Vektorraum $\mathbb{R}^n$ die $k$ nächsten Nachbarn von $x$ gesucht. $x$ wird danach die Klasse zugeordnet, die unter den $k$ Nachbarn am häufigsten vorkam. Weitere Details sind zu finden in \cite{Aha1991}.
+$k$ ist dabei ein Hyperparameter, der auf 3 eingestellt wurde.
+\subsection{Naive Bayes}
+Naive Bayes ist eine probabilistische Methode zur Klassifikation\cite{John1995}. Mit $x = (x_1, ..., x_n)$ wird die Klasse $C$ gesucht, die $\mathbb{P}(C | x_1, ..., x_n)$ maximiert. $x$ besteht hier aus nominalen Attributen. Der Satz von Bayes besagt, dass $\mathbb{P}(C|x) = \frac{\mathbb{P}(C) \mathbb{P}(x | C)}{\mathbb{P}(x)}$. Da über $C$ optimiert wird, kann der Nenner für diesen Ansatz ignoriert werden. Nimmt man \textit{naiv} an, dass $x_1, ..., x_n$ voneinander unabhängig sind, kann somit statt $\mathbb{P}(C | x)$ auch folgender Term über $C$ maximiert werden: $\mathbb{P}(C) \prod_{i=1}^{n} \mathbb{P}(x_i | C)$. Durch den Trainingsdatensatz sind $\mathbb{P}(C)$ als Prior der Klasse $C$, sowie alle $\mathbb{P}(x_i | C)$ bekannt, sodass der Term durch einfaches Einsetzen aller Klassen maximiert werden kann.
+
+Enthält $x$ numerische Attribute, müssen diese zunächst durch nominale Attribute ersetzt werden. Der Wertebereich aller $x_i$ über den Trainingsdatensatz hinweg kann in eine feste Anzahl von Intervallen aufgeteilt werden. Für jedes Intervall $I$ wird nun eine Indikatorvariable als Feature angelegt, die angibt, ob für eine Instanz $x$ gilt, dass $x_i \in I$.
+\subsection{Multilayer Perceptron}
+\begin{figure}
+\centering
+\includegraphics[width=100mm]{img/neural-network}
+\caption{Ein zweischichtiges neuronales Netzwerk aus \cite{baumann2016}}
+\label{fig:neural-network}
+\end{figure}
+Bei dieser Methode handelt es sich um ein mehrschichtiges Netzwerk von sogenannten \textit{Perzeptren}, auch \textit{(künstliches) neuronales Netzwerk} genannt. Ein Perzeptron erhält $n$ Eingaben $x_1, ..., x_n$ und gewichtet diese mit Parametern $\Theta_1, ..., \Theta_n$, die gelernt werden. Das Perzeptron berechnet $y = g(\sum_{i=1}^{n} \Theta_i x_i)$ als Ausgabewert, wobei $g$ eine Aktivierungsfunktion ist, die den Ausgabewerte beschränkt, beispielsweise die Sigmoidfunktion.
+
+Die Ausgabe eines Perzeptron kann einem Perzeptron der nächsten Schicht als Eingang dienen. Die letzte Schicht fungiert als Ausgabe des Netzwerks, dessen Fehler anhand eines Trainingsdatensatzes bestimmt werden kann. Jedes Perzeptron berechnet, wie die eigenen Parameter $\Theta$ angepasst werden müssen, um den Fehler zu minimieren, wofür der Fehler der Perzeptren der letzten Schicht an die vorherige Schicht weiter propagiert wird (\textit{Backpropagation}). Zur Optimierung der Parameter wird ein stochastischer Gradientenabstieg verwendet. Weitere Informationen sind zu finden in \cite{Haykin1994}. Ein Beispiel ist in Abbildung~\ref{fig:neural-network} zu finden.
+
+Zur Klassifikation können die Ausgangswerte der Perzeptren der letzten Schicht als Indikatorvariablen für die vorhandenen Klassen interpretiert werden.

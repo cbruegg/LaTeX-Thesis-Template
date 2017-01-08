@@ -27,11 +27,36 @@
 }
 
 @TechReport{Ng2011a,
-  author        = {Ng, AY},
-  title         = {Cs229 lecture notes on machine learning},
-  institution   = {Technical report, Stanford University, Department of Computer Science, Stanford, USA, 2011. 39, 116, 140},
-  year          = {2011},
-  __markedentry = {[Christian:]},
+  author      = {Ng, AY},
+  title       = {Cs229 lecture notes on machine learning},
+  institution = {Technical report, Stanford University, Department of Computer Science, Stanford, USA, 2011. 39, 116, 140},
+  year        = {2011},
+}
+
+@book{Quinlan1993,
+  address = {San Mateo, CA},
+  author = {Ross Quinlan},
+  publisher = {Morgan Kaufmann Publishers},
+  title = {C4.5: Programs for Machine Learning},
+  year = {1993}
+}
+@article{Aha1991,
+   author = {D. Aha and D. Kibler},
+   journal = {Machine Learning},
+   pages = {37-66},
+   title = {Instance-based learning algorithms},
+   volume = {6},
+  year = {1991}
+}
+
+@inproceedings{John1995,
+   address = {San Mateo},
+   author = {George H. John and Pat Langley},
+   booktitle = {Eleventh Conference on Uncertainty in Artificial Intelligence},
+   pages = {338-345},
+   publisher = {Morgan Kaufmann},
+   title = {Estimating Continuous Distributions in Bayesian Classifiers},
+   year = {1995}
 }
 
 <div class="small-text" align="right" style="margin-right:10px">
@@ -55,7 +80,7 @@
   number        = {2},
   pages         = {74--82},
   month         = mar,
-  __markedentry = {[Christian:6]},
+  __markedentry = {[Christian:]},
   acmid         = {1964918},
   address       = {New York, NY, USA},
   doi           = {10.1145/1964897.1964918},
@@ -65,6 +90,33 @@
   numpages      = {9},
   publisher     = {ACM},
   url           = {http://doi.acm.org/10.1145/1964897.1964918},
+}
+
+
+ @article{Breiman2001,
+    author = {Leo Breiman},
+    journal = {Machine Learning},
+    number = {1},
+    pages = {5-32},
+    title = {Random Forests},
+    volume = {45},
+    year = {2001}
+ }
+
+@Article{Haykin1994,
+  author        = {Haykin, Simon},
+  title         = {Neural networks, a comprehensive foundation},
+  year          = {1994},
+  __markedentry = {[Christian:6]},
+  publisher     = {Macmilan},
+}
+
+@TechReport{baumann2016,
+  author      = {Michael Baumann},
+  title       = {Neuronale Netze},
+  institution = {AIS-BI},
+  year        = {2016},
+  type        = {Slides},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
