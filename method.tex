@@ -6,11 +6,25 @@
 \begin{definition}
 Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors gruppiert nach Komponente. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
 \end{definition}
+\subsection{Struktur der Aufzeichnungssoftware}
+Die Aufzeichnungssoftware wurde als Anwendung für das Android-Betriebssystem implementiert, da für diese Plattform auch ein \textit{Software Development Kit (SDK)} für das Microsoft Band 2 existiert.
+\begin{figure}[htb]
+\centering
+\includegraphics[width=160mm, clip, trim=1mm 1mm 1mm 1mm]{img/app-structure}
+\caption{Struktur der Aufzeichnungssoftware}
+\label{fig:app-structure}
+\end{figure}
+
+Abbildung~\ref{fig:app-structure} bietet einen Überblick über die Struktur der Aufzeichnungssoftware. Im Zentrum steht die Klasse \textit{CollectionService}, die für die robuste Sammlung der Daten verantwortlich ist und daher als persistenter Android-\textit{Service} implementiert ist, der im Gegensatz zu anderen Komponenten einer Android-App nicht ohne weiteres durch das System zur Schonung der Ressourcen beendet werden kann. Gesteuert wird die Aufnahme über eine grafische Benutzeroberfläche auf dem Smartphone selbst (\textit{AndroidUI}), sowie optional auch über eine Weboberfläche, die über einen einfachen HTTP-Server zur Verfügung steht. In den Benutzeroberflächen kann der Name des Probanden, sowie die ausgeführte Aktivität angegeben werden. Des Weiteren wird hierüber die Aufnahme gestartet und gestoppt.
+
+Der \textit{CollectionService} delegiert die Aufnahme an den \textit{BandDataRecorder} und den \textit{LocalDataRecorder} weiter, die jeweils für das Microsoft Band 2 respektive die Smartphone-lokalen Sensoren verantwortlich sind. Über den \textit{BandConnector} wird die Bluetooth-Verbindung zum Band hergestellt und aufrecht erhalten. \textit{BandDataRecorder} und \textit{LocalDataRecorder} zeichnen Daten in Form von \textit{Readings} auf. Die Methode \textit{getValuesPerComponent()} liefert beispielsweise Daten der Form $\{x \to 1.0, y \to 2.0, z \to 3.0\}$, wenn die Komponenten des jeweiligen Sensors der jeweiligen \textit{Source} $\{x, y, z\}$ sind.
+
+Wird die Aufnahme gestoppt, werden die Readings mitsamt den Metadaten Name des Probanden und Aktivität serialisiert und per SFTP auf einen entfernten Speicher hochgeladen. Anschließend werden die Daten von dort abgerufen und wie im folgenden Abschnitt beschrieben weiterverarbeitet.
 
 \section{Transformation der Daten}
 Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die in unserem Fall bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
 
-Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
+Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
 \subsection{Beschreibung der Aggregatfunktionen}
 Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2011} wie folgt definiert:
