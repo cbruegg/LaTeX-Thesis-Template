@@ -10,8 +10,6 @@ Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reih
 
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Aktuell umfasst das Intervall immer noch mehrere Readings, die aggregiert werden müssen.
 
-\todo{Illustration}
-
 \subsection{Beschreibung der Aggregatfunktionen}
 Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2011} wie folgt definiert:
 \subsubsection{Average}
@@ -27,11 +25,11 @@ Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen
 \text{AvgAbsDiff}(A) := \frac{1}{N} * \sum_{a \in A} |\text{Avg}(A) - a|
 \]
 \subsubsection{$k$-Binned Distribution}
-Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-Vektor anstatt einen Skalar. Seien $i \in {0, ..., k - 1}, S := \frac{\max A - \min A}{k}$.
+Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-Vektor anstatt einen Skalar. Seien $i \in \{0, ..., k - 1\}, S := \frac{\max A - \min A}{k}$.
 \[
 \text{Bin}(A, i) := \#\{a \in A | (\min A) + i * S \leq a < (\min A) + (i + 1) * S\}
 \]
-$\text{Bin}(A, i)$ ist demzufolge die Anzahl der Elemente in Korb $i$, wenn man $A$ der Größe nach sortiert auf $k$ Körbe verteilt.
+$\text{Bin}(A, i)$ ist demzufolge die Anzahl der Elemente in Korb $i$, wenn man $A$ der Größe nach sortiert auf $k$ Körbe verteilt. Der Bin ist hierbei als Multimenge zu verstehen und darf somit Elemente auch mehrfach enthalten.
 \subsubsection{Average Root of Squares}
 Auch diese Aggregatfunktion unterscheidet sich von den bisherigen, da sie mehrere Listen als Parameter erhält:
 \[
@@ -108,5 +106,59 @@ Sei \textit{timeForIdx} hier eine Funktion, die den Zeitstempel des jeweiligen D
     F_I &\gets F_I \cup \{((G, S, K), \text{AverageTimeBetweenPeaks}(I[G][S][K], \text{timeForIdx}, 3))\} \\
     F_I &\gets F_I \cup \{((G, S, K), \text{Bin}(I[G][S][K], i))\} \forall i \in \{1, ..., k\}
 \end{align}
+
+\subsection{Beispiel}
+Wir betrachten für die Aktivität \textit{Jogging} den Beispieldatensatz
+\begin{align*}
+D = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
+&(0, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 1.0}), \\
+&(1000, \text{Band}, \text{Gyroscope}, {x \to 2.0, y \to 2.0}), \\
+&(1000, \text{Band}, \text{Accelerometer}, {x \to 0.0, y \to 1.0}), \\
+&(2000, \text{Band}, \text{Gyroscope}, {x \to 3.0, y \to 0.0}), \\
+&(2000, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 3.0})\}
+\end{align*} 
+
+Zur Vereinfachung wird von 2D-Sensoren ausgegangen, sodass keine $z$-Komponente vorhanden ist. Zur Instanzerzeugung verwenden wir als Aggregatfunktionen den Durchschnitt, die \textit{Binned Distribution} mit zwei \textit{Bins} und den \textit{Average Root of Squares}. Die gewählte Intervallgröße beträgt zwei Sekunden, sodass sich die folgenden Intervalle ergeben:
+\begin{align*}
+I_1 = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
+&(0, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 1.0}), \\
+&(1000, \text{Band}, \text{Gyroscope}, {x \to 2.0, y \to 2.0}), \\
+&(1000, \text{Band}, \text{Accelerometer}, {x \to 0.0, y \to 1.0})\},
+\end{align*}
+\begin{align*}
+I_2 = \{&(2000, \text{Band}, \text{Gyroscope}, {x \to 3.0, y \to 0.0}), \\
+&(2000, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 3.0})\}
+\end{align*}
+Nun werden die Aggregatfunktionen auf $I_1$ angewendet:
+\begin{align*}
+\text{Avg}_\text{Band, Gyroscope, x} &= (1 + 2)/2 = 1.5 \\
+\text{Avg}_\text{Band, Gyroscope, y} &= (0 + 2)/2 = 1 \\
+\text{Avg}_\text{Band, Accelerometer, x} &= (1 + 0)/2 = 0.5 \\
+\text{Avg}_\text{Band, Accelerometer, y} &= (1 + 1)/2 = 1 \\
+\text{Bin}_\text{Band, Gyroscope, x}(0) &= \#\{1\} = 1 \\
+\text{Bin}_\text{Band, Gyroscope, x}(1) &= \#\{2\} = 1 \\
+\text{Bin}_\text{Band, Gyroscope, y}(0) &= \#\{0\} = 1 \\
+\text{Bin}_\text{Band, Gyroscope, y}(1) &= \#\{2\} = 1 \\
+\text{Bin}_\text{Band, Accelerometer, x}(0) &= \#\{0\} = 1 \\
+\text{Bin}_\text{Band, Accelerometer, x}(1) &= \#\{1\} = 1 \\
+\text{Bin}_\text{Band, Accelerometer, y}(0) &= \#\{0\} = 0 \\
+\text{Bin}_\text{Band, Accelerometer, y}(1) &= \#\{1\} = 0 \\
+\text{Aros}_\text{Band, Gyroscope} &= \frac{1}{2} * (\sqrt{1^2 + 2^2} + \sqrt{0^2 + 2^2}) \approx 2.12 \\
+\text{Aros}_\text{Band, Accelerometer} &= \frac{1}{2} * (\sqrt{1^2 + 0^2} + \sqrt{1^2 + 1^2}) \approx 1.2 \\
+\end{align*}
+Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich der folgende Datensatz, der von einem herkömmmlichen Klassifikationsalgorithmus verarbeitet werden kann:\\
+
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+	\hline 
+	Intervall & $\text{Avg}_\text{Band, Gyroscope, x}$ & $\text{Avg}_\text{Band, Gyroscope, y}$  & $...$  & sampleClass  \\ 
+	\hline 
+	$I_1$ & $1.5$ & $1$ & $...$ & Jogging \\ 
+	\hline 
+	$I_2$ & $...$ & $...$ & $...$ & Jogging   \\ 
+	\hline 
+\end{tabular} \\
+
+Die Intervallspalte dient nur der Illustration.
+
 
 \section{Anwendung von ML-Klassifikationsalgorithmen}
