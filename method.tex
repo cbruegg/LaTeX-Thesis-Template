@@ -106,14 +106,14 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
 
 \subsection{Anwendung der Aggregatfunktionen}
 Die Transformationssoftware reduziert nun mithilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}^\alpha$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
-\subsubsection{Pro Kombination von Gerät und Sensor}
+\subsubsection{Pro Kombination von Gerät $G$ und Sensor $S$}
 Seien $P$ die einzelnen Komponenten des Sensors, beispielsweise $P = \{x, y, z\}$.
 \begin{align*}
     \text{aros} &\gets \text{Aros}(I[G][S][P[1]], ..., I[G][S][P[|P|]]) \\
     F_I &\gets F_I \cup \{((G, S), \text{aros})\}
 \end{align*}
 Im Kontext betrachtet liefert \textit{Aros} am Beispiel des Beschleunigungssensors gewissermaßen die durchschnittliche Beschleunigung, die alle Achsen zusammen erfahren haben.
-\subsubsection{Pro Kombination von Gerät, Sensor und Komponente}
+\subsubsection{Pro Kombination von Gerät $G$, Sensor $S$ und Komponente $K$}
 Sei \textit{timeForIdx} hier eine Funktion, die den Zeitstempel des jeweiligen Datums im Intervall zurückgibt. Sei außerdem $k := 10$, sodass 10 Körbe verwendet werden, was sich experimentell als geeignet herausstellte.
 \begin{align*}
     F_I &\gets F_I \cup \{((G, S, K), \text{Avg}(I[G][S][K]))\} \\
