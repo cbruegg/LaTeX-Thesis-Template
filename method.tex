@@ -3,7 +3,9 @@
 
 \section{Implementierung der Aufzeichnungssoftware}
 \subsection{Definition der Messdaten}
-\todo{Def:} Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors gruppiert nach Komponente. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
+\begin{definition}
+Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors gruppiert nach Komponente. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
+\end{definition}
 
 \section{Transformation der Daten}
 Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form von Features und einem Target, d.h. Instanzen erwarten. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
