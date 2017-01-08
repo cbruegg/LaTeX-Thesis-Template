@@ -17,12 +17,13 @@ Je nach aktueller körperlicher Betätigung ändert sich die elektrische Leitfä
 Dieser Sensor ist nur im Band integriert, das daher für diesen die einzige Datenquelle ist.
 
 \subsection{Hauttemperatursensor}
-Der Hauttemperatursensor misst die Temperatur der Haut des Nutzers, die an der Unterseite des Band anliegt. Leider reagierte dieser Sensor in einem Test sogar bereits langsam auf Temperaturveränderungen, wenn das Band abgelegt wurde, sodass auf die Aufzeichnung dieser Daten verzichtet wurde.
+Der Hauttemperatursensor misst die Temperatur der Haut des Nutzers, die an der Unterseite des Band anliegt. Leider reagierte dieser Sensor in einem Test nur langsam auf Temperaturveränderungen: Nachdem der Tracker abgelegt wurde, übermittelte dieser den Temperaturabfall erst mehrere Sekunden später. Aus diesem Grund wurde auf die Aufzeichnung dieser Daten verzichtet.
 
 \section{Grundlagen der Machine Learning-Klassifikation}
 In den folgenden Abschnitten wird von einem grundlegenden Verständnis von Machine Learning-Klassifikation ausgegangen, weshalb wir diese Technik nun kurz erläutern. \\
-\todo{put this in an actual definition}
+\begin{definition}[ML-Klassifikation]
 Gegeben sei ein Datensatz $D \ni (x_1, ..., x_n, y)$ mit $|D| = m$ Instanzen. Dann sind $x = (x_1, ..., x_n)$ die \textit{Input Features} und $y$ ist das \textit{Target}. Im Falle eines Klassifikationsproblems ist $y$ nominal, d.h. ein deskriptiver Wert zur Identifikation. Gesucht ist nun eine \textit{Hypothesenfunktion} $h(x) = \hat{y}$, die zu gegebenen Features den wahrscheinlichsten Wert des Targets bestimmt\cite{Ng2011a}.
+\end{definition}\label{def:ml-classification}
 
 Ein einfaches Beispiel kann wie folgt konstruiert werden: Sei $x = (x_1)$, wobei $x_1$ die Wohnfläche einer Wohnung oder eines Hauses in $m^2$ ist. Des Weiteren sei $D = \{(50, \text{Wohnung}), (75, \text{Wohnung}), (200, \text{Haus}), (300, \text{Haus})\}$. Eine sinnvolle Hypothesenfunktion wäre in diesem Fall beispielsweise gegeben durch:
 

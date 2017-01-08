@@ -8,9 +8,9 @@ Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer 
 \end{definition}
 
 \section{Transformation der Daten}
-Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form von Features und einem Target, d.h. Instanzen erwarten. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
+Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die in unserem Fall bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
 
-Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Aktuell umfasst das Intervall immer noch mehrere Readings, die aggregiert werden müssen.
+Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
 \subsection{Beschreibung der Aggregatfunktionen}
 Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2011} wie folgt definiert:
@@ -133,20 +133,20 @@ I_2 = \{&(2000, \text{Band}, \text{Gyroscope}, {x \to 3.0, y \to 0.0}), \\
 \end{align*}
 Nun werden die Aggregatfunktionen auf $I_1$ angewendet:
 \begin{align*}
-\text{Avg}_\text{Band, Gyroscope, x} &= (1 + 2)/2 = 1.5 \\
-\text{Avg}_\text{Band, Gyroscope, y} &= (0 + 2)/2 = 1 \\
-\text{Avg}_\text{Band, Accelerometer, x} &= (1 + 0)/2 = 0.5 \\
-\text{Avg}_\text{Band, Accelerometer, y} &= (1 + 1)/2 = 1 \\
-\text{Bin}_\text{Band, Gyroscope, x}(0) &= \#\{1\} = 1 \\
-\text{Bin}_\text{Band, Gyroscope, x}(1) &= \#\{2\} = 1 \\
-\text{Bin}_\text{Band, Gyroscope, y}(0) &= \#\{0\} = 1 \\
-\text{Bin}_\text{Band, Gyroscope, y}(1) &= \#\{2\} = 1 \\
-\text{Bin}_\text{Band, Accelerometer, x}(0) &= \#\{0\} = 1 \\
-\text{Bin}_\text{Band, Accelerometer, x}(1) &= \#\{1\} = 1 \\
-\text{Bin}_\text{Band, Accelerometer, y}(0) &= \#\{0\} = 0 \\
-\text{Bin}_\text{Band, Accelerometer, y}(1) &= \#\{1\} = 0 \\
-\text{Aros}_\text{Band, Gyroscope} &= \frac{1}{2} * (\sqrt{1^2 + 2^2} + \sqrt{0^2 + 2^2}) \approx 2.12 \\
-\text{Aros}_\text{Band, Accelerometer} &= \frac{1}{2} * (\sqrt{1^2 + 0^2} + \sqrt{1^2 + 1^2}) \approx 1.2 \\
+&\text{Avg}_\text{Band, Gyroscope, x} = (1 + 2)/2 = 1.5 \\
+&\text{Avg}_\text{Band, Gyroscope, y} = (0 + 2)/2 = 1 \\
+&\text{Avg}_\text{Band, Accelerometer, x} = (1 + 0)/2 = 0.5 \\
+&\text{Avg}_\text{Band, Accelerometer, y} = (1 + 1)/2 = 1 \\
+&\text{Bin}_\text{Band, Gyroscope, x}(0) = \#\{1\} = 1 \\
+&\text{Bin}_\text{Band, Gyroscope, x}(1) = \#\{2\} = 1 \\
+&\text{Bin}_\text{Band, Gyroscope, y}(0) = \#\{0\} = 1 \\
+&\text{Bin}_\text{Band, Gyroscope, y}(1) = \#\{2\} = 1 \\
+&\text{Bin}_\text{Band, Accelerometer, x}(0) = \#\{0\} = 1 \\
+&\text{Bin}_\text{Band, Accelerometer, x}(1) = \#\{1\} = 1 \\
+&\text{Bin}_\text{Band, Accelerometer, y}(0) = \#\{0\} = 0 \\
+&\text{Bin}_\text{Band, Accelerometer, y}(1) = \#\{1\} = 0 \\
+&\text{Aros}_\text{Band, Gyroscope} = \frac{1}{2} * (\sqrt{1^2 + 2^2} + \sqrt{0^2 + 2^2}) \approx 2.12 \\
+&\text{Aros}_\text{Band, Accelerometer} = \frac{1}{2} * (\sqrt{1^2 + 0^2} + \sqrt{1^2 + 1^2}) \approx 1.2 \\
 \end{align*}
 Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich der folgende Datensatz, der von einem herkömmmlichen Klassifikationsalgorithmus verarbeitet werden kann:\\
 
