@@ -1,0 +1,59 @@
+\chapter{Evaluation}
+\label{chap:evaluation}
+
+Dieses Kapitel widmet sich der Auswertung der Ergebnisse anhand verschiedener Metriken. Eingebettet in der Transformationssoftware befindet sich ein Präprozessor, der die aufgenommen Daten vor der Transformation manipulieren kann. Auf diese Weise werden mehrere Trainingsdatensätze erstellt, die in der Evaluation daraufhin analysiert werden, wie genau ein Klassifikator nach dem Training mit ihnen Vorhersagen treffen kann.
+
+Die folgenden Datensätze werden generiert:
+
+\begin{enumerate}
+\item \textit{All}: Alle Daten werden ohne Veränderungen mit in die Transformation einbezogen.
+\item \textit{NoisyBandTimestamps}: Die Zeitstempel der Readings des Bands werden mit gaussschem Rauschen versehen
+\item \textit{OnlyBand}: Alle Daten des Smartphones werden vor der Transformation verworfen.
+\item \textit{OnlyBandAccelerometer}: Nur die Daten des Beschleunigungssensors des Microsoft Band 2 werden mit in die Transformation einbezogen.
+\item \textit{OnlyBandGyroscope}: Nur die Daten des Gyroskops des Microsoft Band 2 werden mit in die Transformation einbezogen.
+\item \textit{OnlyLocal}: Alle Daten des Microsoft Band 2 werden vor der Transformation verworfen.
+\item \textit{OnlyLocalAccelerometer}: Nur die Daten des Beschleunigungssensors des Smartphones werden mit in die Transformation einbezogen.
+\item \textit{OnlyLocalGyroscope}: Nur die Daten des Gyroskops des Smartphones werden mit in die Transformation einbezogen.
+\item \textit{SamplingRate1Hz}: Es werden Readings verworfen, als hätten Band und Smartphone jeweils nur Readings bei einer Rate von 1 Hz geliefert.
+\item \textit{SamplingRate5Hz}: Es werden Readings verworfen, als hätten Band und Smartphone jeweils nur Readings bei einer Rate von 5 Hz geliefert.
+\end{enumerate}
+
+\section{Effektivität der Datenkombination}
+\begin{figure}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	\hline 
+	\textbf{Algo.} & \textbf{Phone accel} & \textbf{Phone gyro} & \textbf{Band accel} & \textbf{Band gyro} & \textbf{Comb.} & \textbf{Band comb.} & \textbf{Phone comb.} \\ 
+	\hline 
+	RF & 88.7 & \textbf{68.2} & \textbf{91.6} & \textbf{80.5} & \textbf{99.4} & \textbf{97.1} & \textbf{90.7} \\ 
+	J48 & \textbf{90.0} & 64.3 & 86.5 & 72.7 & 92.8 & 90.1 & 89.7 \\ 
+	IB3 & 62.2 & 44.8 & 77.0 & 59.4 & 82.3 & 76.9 & 60.1 \\ 
+	NB & 87.6 & 60.4 & 90.9 & 78.8 & 96.2 & 92.2 & 85.5 \\ 
+	MLP & 78.9 & 51.5 & 88.9 & 67.8 & 94.8 & 90.7 & 75.1 \\ 
+	\hline 
+	$\varnothing$ & 81.5 & 57.8 & 87.0 & 71.8 & 93.1 & 89.4 & 80.2 \\ 
+	\hline 
+\end{tabular}
+\caption{Genauigkeit der persönlichen Modelle in Prozent}
+\label{fig:accuracy-personal}
+\end{figure}
+
+\begin{figure}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+	\hline 
+	\textbf{Algo} & \textbf{Phone accel} & \textbf{Phone gyro} & \textbf{Band accel} & \textbf{Band gyro} & \textbf{Comb.} & \textbf{Band comb.} & \textbf{Phone comb.} \\ 
+	\hline 
+	RF & \textbf{39.2} & \textbf{35.1} & \textbf{75.2} & \textbf{61.7} & \textbf{78.5} & \textbf{76.5} & \textbf{41.3} \\ 
+	J48 & 33.0 & 29.1 & 61.6 & 49.2 & 59.7 & 61.3 & 32.6 \\ 
+	IB3 & 24.3 & 22.6 & 60.9 & 45.0 & 52.9 & 58.0 & 26.0 \\ 
+	NB & 32.0 & 30.0 & 67.3 & 56.9 & 60.9 & 62.3 & 35.0 \\ 
+	MLP & 29.0 & 29.3 & 70.3 & 53.5 & 54.9 & 74.3 & 31.5 \\ 
+	\hline 
+	$\varnothing$ & 31.5 & 29.2 & 67.1 & 53.3 & 61.4 & 66.5 & 33.3 \\ 
+	\hline 
+\end{tabular} 
+\caption{Genauigkeit der unpersönlichen Modelle in Prozent}
+\label{fig:accuracy-impersonal}
+\end{figure}
+
+
+% vim: set ft=tex
