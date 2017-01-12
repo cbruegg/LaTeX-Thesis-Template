@@ -111,4 +111,12 @@
   publisher     = {Macmilan},
 }
 
+@TechReport{baumann2016,
+  author      = {Michael Baumann},
+  title       = {Neuronale Netze},
+  institution = {AIS-BI},
+  year        = {2016},
+  type        = {Slides},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
