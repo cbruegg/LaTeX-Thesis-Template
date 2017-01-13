@@ -142,5 +142,30 @@ Die Überlappung von Intervallen \todo{...} \cite{Bao2004}. \todo{überlappung p
 \label{fig:accuracy-overlap}
 \end{figure}
 
+\section{Genauigkeit bei Verschmelzung der Ess- und Trinkaktivitäten}
+\begin{figure}
+\centering
+\begin{tabular}{|c|c|c|}
+	\hline 
+	\textbf{Algo.} & \textbf{Comb. (Unpers.), verschmolzen} & \textbf{Comb. (Unpers.), nicht verschmolzen} \\ 
+	\hline 
+	RF & \textbf{87.1} &  \textbf{78.5} \\ 
+	J48 & 73.7 &  59.7 \\ 
+	IB3 & 63.9 &  52.9  \\ 
+	NB & 72.4 & 60.9  \\ 
+	MLP & 77.6  & 54.9 \\ 
+	\hline 
+	$\varnothing$ & 74.9 & 61.4  \\ 
+	\hline
+\end{tabular} 
+\caption{Genauigkeit der Modelle bei Verschmelzung der Ess- und Trinkaktivitäten in Prozent}
+\label{fig:accuracy-merge-eating}
+\end{figure}
+\todo{Confusion-Matrix all impersonal rf einbinden}
+Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen RF-basierten Modelle, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse häufig \todo{Zahl nennen} im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale das Sitzen sowie das Führen der Hand zum Mund sind.
+
+Abbildung~\ref{fig:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. \todo{Zeige auch neue Konfusionsmatrix.} Bei den RF-Modellen ist eine Verbesserung um $8.6 \%$ zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt.
+
+Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschweren kann.
 
 % vim: set ft=tex
