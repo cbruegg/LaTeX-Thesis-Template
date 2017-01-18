@@ -21,26 +21,19 @@ Der Hauttemperatursensor misst die Temperatur der Haut des Nutzers, die an der U
 
 \todo{Pedometer, Distance}
 
-\section{Grundlagen der Machine Learning-Klassifikation}
-In den folgenden Abschnitten wird von einem grundlegenden Verständnis von Machine Learning-Klassifikation ausgegangen, weshalb wir diese Technik nun kurz erläutern. \\
+\section{Wichtige Begriffe}
+In den folgenden Kapiteln wird von einem grundlegenden Verständnis von Machine Learning-Klassifikation ausgegangen.
+
 \begin{definition}[ML-Klassifikation]
-Gegeben sei ein Datensatz $D \ni (x_1, ..., x_n, y)$ mit $|D| = m$ Instanzen. Dann sind $x = (x_1, ..., x_n)$ die \textit{Input Features} und $y$ ist das \textit{Target}. Im Falle eines Klassifikationsproblems ist $y$ nominal, d.h. ein deskriptiver Wert zur Identifikation. Gesucht ist nun eine \textit{Hypothesenfunktion} $h(x) = \hat{y}$, die zu gegebenen Features den wahrscheinlichsten Wert des Targets bestimmt\cite{Ng2011a}.
-\end{definition}\label{def:ml-classification}
+\label{def:ml-classification}
+Gegeben sei ein Datensatz $D \ni (x_1, ..., x_n, y)$ mit $|D| = m$ Instanzen. Dann sind $x = (x_1, ..., x_n)$ die \textit{Input-Features} und $y$ das \textit{Target}. Im Falle eines Klassifikationsproblems ist $y$ nominal, d.h. ein deskriptiver Wert zur Identifikation. Gesucht ist nun eine \textit{Hypothesenfunktion} $h(x) = \hat{y}$, die zu gegebenen Features den wahrscheinlichsten Wert des Targets bestimmt\cite{Ng2011a}.
+\end{definition}
+Neben Definition~\ref{def:ml-classification} sind für das Verständnis dieser Arbeit die folgenden Begriffe wichtig:
+\begin{enumerate}
+\item (Überwachtes) Lernen, bzw. Training. Definiert in Kapitel 2.1 \cite{Hastie2009}.
+\item Overfitting und Train-Test-Split. Definiert und erläutert in Kapitel 7.2 \cite{Hastie2009}.
+\item Kreuzvalidierung. Definiert und erläutert in Kapitel 7.10 \cite{Hastie2009}.
+\end{enumerate}
 
-Ein einfaches Beispiel kann wie folgt konstruiert werden: Sei $x = (x_1)$, wobei $x_1$ die Wohnfläche einer Wohnung oder eines Hauses in $m^2$ ist. Des Weiteren sei $D = \{(50, \text{Wohnung}), (75, \text{Wohnung}), (200, \text{Haus}), (300, \text{Haus})\}$. Eine sinnvolle Hypothesenfunktion wäre in diesem Fall beispielsweise gegeben durch:
-
-\[
-h(x) = 
-\begin{cases}
-\text{Wohnung}, & \text{wenn } x_1 < 200 \\
-\text{Haus}, & \text{sonst}
-\end{cases}
-\]
-
-Das beschriebene Klassifikationsproblem kann mittels Algorithmen des \textit{Machine Learnings} (im Folgenden \textit{ML}) gelöst werden, indem eine Verlustfunktion definiert wird, die ein solcher Algorithmus zu minimieren versucht. Eine solche Verlustfunktion bestraft die fehlerhafte Klassifikation einer Instanz, indem sie einen höheren Wert annimmt. Die Ausführung des ML-Algorithmus wird auch \textit{Lernen} genannt.
-
-Wenn ein ML-Algorithmus auf einem Datensatz arbeitet, besteht die Gefahr, dass er diesen gewissermaßen "auswendig lernt", d.h. sich diesem zu sehr anpasst und auf unbekannten Daten schlechte Vorhersagen liefert. Dieses Problem wird \textit{Overfitting} genannt und kann erkannt werden, indem der Datensatz $D$ in zwei disjunkte Mengen $D = \text{Train} \uplus \text{Test}$ aufgeteilt wird (\textit{Train-Test-Split}). Der ML-Algorithmus wird nun auf den Trainingsdaten ausgeführt, woraufhin dessen Ergebnis mittels den Testdaten auf Overfitting geprüft wird.
-
-Ein übliches Verfahren ist dabei die $k$-Kreuzvalidierung. Mit $D = D_1 \uplus ... \uplus D_k$ wird der ML-Algorithmus $k$ mal ausgeführt, wobei in Iteration $i$ gilt, dass $\text{Train} = D \setminus D_i$ und $\text{Test} = D_i$. Effektiv bedeutet dies, dass dem Algorithmus in jeder Iteration ein anderer Teil der Daten vorenthalten wird. Das Ergebnis der Kreuzvalidierung ist die Hypothese, die auf den jeweiligen Testdaten das beste Ergebnis liefert.
 
 % vim: set ft=tex
