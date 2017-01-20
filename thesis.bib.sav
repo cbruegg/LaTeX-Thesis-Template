@@ -105,6 +105,7 @@
 @Article{Haykin1994,
   author    = {Haykin, Simon},
   title     = {Neural networks, a comprehensive foundation},
+  journal   = {-},
   year      = {1994},
   publisher = {Macmilan},
 }
@@ -148,13 +149,12 @@
 }
 
 @InProceedings{Bao2004,
-  author        = {Bao, Ling and Intille, Stephen S},
-  title         = {Activity recognition from user-annotated acceleration data},
-  booktitle     = {International Conference on Pervasive Computing},
-  year          = {2004},
-  pages         = {1--17},
-  organization  = {Springer},
-  __markedentry = {[Christian:]},
+  author       = {Bao, Ling and Intille, Stephen S},
+  title        = {Activity recognition from user-annotated acceleration data},
+  booktitle    = {International Conference on Pervasive Computing},
+  year         = {2004},
+  pages        = {1--17},
+  organization = {Springer},
 }
 
 @Book{Hastie2009,
@@ -176,9 +176,30 @@
   author        = {Mills, D and Martin, J and Burbank, J and Kasch, W},
   title         = {RFC5905},
   journal       = {Network Time Protocol Version},
+  year          = {2010},
   volume        = {4},
   pages         = {2010--06},
+  __markedentry = {[Christian:]},
+}
+
+@Misc{FitbitHelpDominant,
+  author       = {Fitbit},
+  title        = {How accurate are Fitbit trackers?},
+  howpublished = {https://help.fitbit.com/articles/en\_US/Help\_article/1136},
+  note         = {Abgerufen am 20.01.2017},
+}
+
+@InProceedings{Krause2005,
+  author        = {A. Krause and M. Ihmig and E. Rankin and D. Leong and Smriti Gupta and D. Siewiorek and A. Smailagic and M. Deisher and U. Sengupta},
+  title         = {Trading off prediction accuracy and power consumption for context-aware wearable computing},
+  booktitle     = {Proc. Ninth IEEE Int. Symp. Wearable Computers (ISWC'05)},
+  year          = {2005},
+  pages         = {20--26},
+  month         = oct,
   __markedentry = {[Christian:6]},
+  doi           = {10.1109/ISWC.2005.52},
+  issn          = {1550-4816},
+  keywords      = {mobile computing, power consumption, sensors, wearable computers, context classifiers, context-aware mobile computing, dual-axis accelerometer data, eWaich sensing, erratic wrist based sensing location, power consumption, prediction accuracy, wearable sensors, Accelerometers, Accuracy, Biomedical monitoring, Computer science, Energy consumption, Frequency estimation, Mobile computing, Sampling methods, Wearable computers, Wearable sensors},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
