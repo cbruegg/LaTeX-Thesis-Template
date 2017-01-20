@@ -166,4 +166,11 @@
   isbn      = {978-0-387-84858-7},
 }
 
+@Book{Bishop2006,
+  title     = {Pattern Recognition and Machine Learning},
+  publisher = {Springer},
+  year      = {2006},
+  author    = {Christopher Bishop},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}

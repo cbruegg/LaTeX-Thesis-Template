@@ -84,7 +84,13 @@ Das schlechteste Ergebnis wird mit $35.1 \%$ bei den unpersönlichen Modellen er
 \end{figure}
 
 \section{Genauigkeit bei ungenauen Zeitstempeln}
-\todo{TODO}
+Die Problemstellung, Daten mehrerer Quellen miteinander zu kombinieren, wirft die Frage auf, inwiefern die Synchronisierung der Daten einen Einfluss auf die Genauigkeit der resultierenden Modelle besitzt. Smartphone und Band besitzen je eine eigene Uhr, sodass die Datenquellen zum selben Zeitpunkt $t$ \textit{Readings} mit Zeitstempeln $t + \epsilon_\text{Smartphone}$, bzw. $t + \epsilon_\text{Band}$ mit $|\epsilon_\text{Smartphone} - \epsilon_\text{Band}| > 0$ liefern könnten. Wird die Differenz zu groß, schadet die Kombination der Quellen möglicherweise mehr als sie nützt.
+
+Ein erster Ansatz, um dieses Problem zu bekämpfen, war daher zunächst, die beiden Uhren via Bluetooth und ein Verfahren wie das \textit{Network Time Protocol (NTP)} \cite{Mills} zu synchronisieren. Leider ermöglicht das Microsoft Band SDK nicht die Ausführung beliebigen Codes auf dem Band, sondern nur das Abonnieren von Events, die Sensordaten ausliefern. Das SDK versieht diese Events lokal auf dem Smartphone mit Zeitstempeln, sodass weder direkt noch indirekt Zugriff auf die Uhr des Band besteht und eine Synchronisierung somit nicht möglich ist.
+
+Um zu prüfen, inwiefern unsere Modelle durch eine mögliche, nicht detektierbare Differenz der Uhren beeinträchtigt werden, generiert die Transformationssoftware zusätzlich zum normalen vollständigen Datensatz auch einen, in dem die Zeitstempel des Bands additiv mit gausschem Rauschen versehen wurden. Die Parameter des gausschen Rauschens wurden auf einen Mittelwert von $0$ und eine Standardabweichung von $500 \text{ms}$ festgelegt. Die Ergebnisse der Auswertung werden in Abbildung~\ref{fig:accuracy-noisy_timestamps} aufgeführt. Betrachtet man die jeweils besten Modelle, so lässt sich sowohl bei den persönlichen, als auch bei den unpersönlichen Modellen eine Verschlechterung um lediglich $0.2 \%$ feststellen. Auch die anderen Modelle sind im Durchschnitt mit Verschlechterungen um $0.3 \%$, bzw. $0.5 \%$ hinreichend resistent gegen das Rauschen.
+
+Um zu prüfen, ob eine Standardabweichung von $500 \text{ms}$ sinnvoll ist, wurde über drei Tage hinweg um jeweils 10, 15 und 18 Uhr geprüft, mit welchem zeitlichen Abstand das Umspringen von der vollen Stunde auf die nächste Minute erfolgte. Eine Verzögerung war in keinem der Fälle mit dem Auge beobachtbar, weshalb davon auszugehen ist, dass die Uhren aufgrund der bereits bestehenden Synchronisierung durch die vom Hersteller gelieferte Band-App für Android in der Regel weniger als $500 \text{ms}$ voneinander abweichen. Dies führt zu der Annahme, dass die Genauigkeit der Zeitstempel im Rahmen dieser Arbeit keinen negativen Einfluss auf die Ergebnisse hat und somit nicht weiter betrachtet werden muss.
 
 \begin{figure}
 \centering
