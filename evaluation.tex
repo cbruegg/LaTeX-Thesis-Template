@@ -23,7 +23,7 @@ Die folgenden Datensätze werden generiert:
 \section{Effektivität der Datenkombination}
 In diesem Abschnitt widmen wir uns der Frage, wie effektiv die Kombination der Daten von Band und Smartphone hinsichtlich der Vorhersagegenauigkeit gegenüber einer einzigen Datenquelle ist. Weiss et al.\cite{Weiss2016} werten in ihrem Papier die Genauigkeit von Modellen aus, die entweder auf Daten des Beschleunigungssensors eines Smartphones, des Beschleunigungssensors einer Smartwatch oder des Gyroskops einer Smartwatch zurückgreifen. Eine Kombination der Daten schlagen die Autoren vor, führen diese allerdings nicht durch.
 
-Abbildung~\ref{fig:accuracy-personal} zeigt die Genauigkeit der persönlichen Modelle und Abbildung~\ref{fig:accuracy-impersonal} die der unpersönlichen Modelle. Ein persönliches Modell basiert auf Daten des jeweiligen Benutzers, während ein unpersönliches Modell noch keine Daten des Nutzers gesehen hat, für den eine Vorhersage getroffen werden soll. Die \textit{Genauigkeit} ist definiert als der Anteil der korrekt klassifizierten Instanzen, die dem Modell zum Test vorgelegt wurden.
+Tabelle~\ref{tab:accuracy-personal} zeigt die Genauigkeit der persönlichen Modelle und Tabelle~\ref{tab:accuracy-impersonal} die der unpersönlichen Modelle. Ein persönliches Modell basiert auf Daten des jeweiligen Benutzers, während ein unpersönliches Modell noch keine Daten des Nutzers gesehen hat, für den eine Vorhersage getroffen werden soll. Die \textit{Genauigkeit} ist definiert als der Anteil der korrekt klassifizierten Instanzen, die dem Modell zum Test vorgelegt wurden.
 
 Die erste Spalte der in diesem Abschnitt referenzierten Tabellen gibt den Algorithmus an, der zur Klassifikation verwendet wurde. Eine Erläuterung der Algorithmen ist in Abschnitt~\ref{section:ml-algos}
 zu finden. Fettgedruckt ist immer der jeweils höchste Wert einer Spalte.
@@ -41,7 +41,7 @@ Für die Evaluierung der unpersönlichen Modelle wird eine Kreuzvalidierung übe
 
 Das schlechteste Ergebnis wird mit $35.1 \%$ bei den unpersönlichen Modellen erzielt, wenn nur das Gyroskop des Smartphones verwendet wird. Nur wenig besser sind die Modelle, die nur den Beschleunigungssensor des Smartphones ($39.2 \%$) oder beide Sensoren des Smartphones ($41.3 \%$) nutzen. Für den praktischen Gebrauch sind diese Modelle aufgrund ihrer Ungenauigkeit untauglich. Schon rund $20 \%$ besser sind die Modelle, die nur das Gyroskop des Bands nutzen, wobei der Wechsel zum Beschleunigungssensor eine weitere Verbesserung um fast $14 \%$ ermöglicht. Offenbar erklären die Daten des Beschleunigungssensors einen Großteil der Daten, die auch durch das Gyroskop und die anderen Sensoren des Band erklärt werden, sodass eine Kombination aller Band-Sensoren lediglich ein Verbesserung um rund $1 \%$ ermöglicht. Selbiges gilt auch für die Hinzunahme der Daten des Smartphones: Es wird eine Verbesserung um $2 \%$ erzielt, was darauf schließen lässt, dass die Armbewegungen unter den Probanden ähnlich sind, die Bewegungen auf Hüfthöhe hingegen weniger. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $75.2 \%$ liefert die Kombination aller Daten eine Verbesserung um $3.3 \%$.
 
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 	\hline 
@@ -57,10 +57,10 @@ Das schlechteste Ergebnis wird mit $35.1 \%$ bei den unpersönlichen Modellen er
 	\hline 
 \end{tabular}
 \caption{Genauigkeit der persönlichen Modelle in Prozent}
-\label{fig:accuracy-personal}
-\end{figure}
+\label{tab:accuracy-personal}
+\end{table}
 
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 	\hline 
@@ -76,19 +76,19 @@ Das schlechteste Ergebnis wird mit $35.1 \%$ bei den unpersönlichen Modellen er
 	\hline 
 \end{tabular} 
 \caption{Genauigkeit der unpersönlichen Modelle in Prozent}
-\label{fig:accuracy-impersonal}
-\end{figure}
+\label{tab:accuracy-impersonal}
+\end{table}
 
 \section{Genauigkeit bei ungenauen Zeitstempeln}
 Die Problemstellung, Daten mehrerer Quellen miteinander zu kombinieren, wirft die Frage auf, inwiefern die Synchronisierung der Daten einen Einfluss auf die Genauigkeit der resultierenden Modelle besitzt. Smartphone und Band besitzen je eine eigene Uhr, sodass die Datenquellen zum selben Zeitpunkt $t$ \textit{Readings} mit Zeitstempeln $t + \epsilon_\text{Smartphone}$, bzw. $t + \epsilon_\text{Band}$ mit $|\epsilon_\text{Smartphone} - \epsilon_\text{Band}| > 0$ liefern könnten. Wird die Differenz zu groß, schadet die Kombination der Quellen möglicherweise mehr als sie nützt.
 
 Ein erster Ansatz, um dieses Problem zu bekämpfen, war daher zunächst, die beiden Uhren via Bluetooth und ein Verfahren wie das \textit{Network Time Protocol (NTP)} \cite{Mills} zu synchronisieren. Leider ermöglicht das Microsoft Band SDK nicht die Ausführung beliebigen Codes auf dem Band, sondern nur das Abonnieren von Events, die Sensordaten ausliefern. Das SDK versieht diese Events lokal auf dem Smartphone mit Zeitstempeln, sodass weder direkt noch indirekt Zugriff auf die Uhr des Band besteht und eine Synchronisierung somit unmöglich ist.
 
-Um zu prüfen, inwiefern unsere Modelle durch eine mögliche, nicht detektierbare Differenz der Uhren beeinträchtigt werden, generiert die Transformationssoftware zusätzlich zum normalen vollständigen Datensatz auch einen, in dem die Zeitstempel des Bands additiv mit gausschem Rauschen versehen wurden. Die Parameter des gausschen Rauschens wurden auf einen Mittelwert von $0$ und eine Standardabweichung von $500 \text{ms}$ festgelegt. Die Ergebnisse der Auswertung werden in Abbildung~\ref{fig:accuracy-noisy_timestamps} aufgeführt. Betrachtet man die jeweils besten Modelle, so lässt sich sowohl bei den persönlichen, als auch bei den unpersönlichen Modellen eine Verschlechterung um lediglich $0.2 \%$ feststellen. Auch die anderen Modelle sind im Durchschnitt mit Verschlechterungen um $0.3 \%$, bzw. $0.5 \%$ hinreichend resistent gegen das Rauschen.
+Um zu prüfen, inwiefern unsere Modelle durch eine mögliche, nicht detektierbare Differenz der Uhren beeinträchtigt werden, generiert die Transformationssoftware zusätzlich zum normalen vollständigen Datensatz auch einen, in dem die Zeitstempel des Bands additiv mit gausschem Rauschen versehen wurden. Die Parameter des gausschen Rauschens wurden auf einen Mittelwert von $0$ und eine Standardabweichung von $500 \text{ms}$ festgelegt. Die Ergebnisse der Auswertung werden in Tabelle~\ref{tab:accuracy-noisy_timestamps} aufgeführt. Betrachtet man die jeweils besten Modelle, so lässt sich sowohl bei den persönlichen, als auch bei den unpersönlichen Modellen eine Verschlechterung um lediglich $0.2 \%$ feststellen. Auch die anderen Modelle sind im Durchschnitt mit Verschlechterungen um $0.3 \%$, bzw. $0.5 \%$ hinreichend resistent gegen das Rauschen.
 
 Um zu prüfen, ob eine Standardabweichung von $500 \text{ms}$ sinnvoll ist, wurde über drei Tage hinweg um jeweils 10, 15 und 18 Uhr geprüft, mit welchem zeitlichen Abstand das Umspringen von der vollen Stunde auf die nächste Minute erfolgte. Eine Verzögerung war in keinem der Fälle mit dem Auge beobachtbar, weshalb davon auszugehen ist, dass die Uhren aufgrund der bereits bestehenden Synchronisierung durch die vom Hersteller gelieferte Band-App für Android in der Regel weniger als $500 \text{ms}$ voneinander abweichen. Dies führt zu der Annahme, dass die Genauigkeit der Zeitstempel im Rahmen dieser Arbeit keinen negativen Einfluss auf die Ergebnisse hat und somit nicht weiter betrachtet werden muss.
 
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|c|c|c||c|c|}
 	\hline 
@@ -104,17 +104,17 @@ Um zu prüfen, ob eine Standardabweichung von $500 \text{ms}$ sinnvoll ist, wurd
 	\hline
 \end{tabular} 
 \caption{Genauigkeit der Modelle mit verrauschten Band-Zeitstempeln in Prozent}
-\label{fig:accuracy-noisy_timestamps}
-\end{figure}
+\label{tab:accuracy-noisy_timestamps}
+\end{table}
 
 \section{Genauigkeit bei einer niedrigen Sampling-Rate}
 Da beide verwendete Geräte primär akkubetrieben sind, muss bei einer marktreifen Umsetzung einer Aufnahmesoftware auch bedacht werden, dass das Sammeln der Daten hinsichtlich der Energieressourcen nicht kostenlos ist. Eine Rolle beim Energieverbrauch spielt auch die Sampling-Rate (Abtastrate): Ist sie hoch eingestellt, können die entsprechenden Sensoren nicht in einen Energiesparmodus wechseln und außerdem müssen von der anfordernden Anwendung mehr Daten verarbeitet werden, wodurch wiederum Anforderungen an den Prozessor gestellt werden \cite{Krause2005}. Beim Band kommt hinzu, dass eine höhere Bluetooth-Datenrate in Kauf genommen werden muss, die insbesondere auf den bauartbedingt kleinen Akku des Fitness-Trackers einen negativen Einfluss hat. Aus diesem Grund untersuchen wir, inwiefern die Sampling-Rate einen Einfluss auf die Genauigkeit unserer Modelle besitzt, um möglicherweise Energie sparen zu können.
 
-Die Sampling-Raten, mit denen die Aufnahmesoftware Daten aufgezeichnet hat, befinden sich in Abbildung~\ref{fig:sampling-rates}. Um Sampling-Raten miteinander zu vergleichen, wurden dieselben Rohdaten verwendet wie im normalen, vollständigen Modell. Um eine Sampling-Rate von $k$ Hz zu simulieren, wurden nach einem behaltenen Reading $(t_0\,\text{secs}, \text{sensor}, \text{source}, ...)$ alle weiteren Readings $(t\,\text{secs}, \text{sensor}, \text{source}, ...)$ mit $t \in [t_0, t_0 + 1/k]$ gelöscht.
+Die Sampling-Raten, mit denen die Aufnahmesoftware Daten aufgezeichnet hat, befinden sich in Tabelle~\ref{tab:sampling-rates}. Um Sampling-Raten miteinander zu vergleichen, wurden dieselben Rohdaten verwendet wie im normalen, vollständigen Modell. Um eine Sampling-Rate von $k$ Hz zu simulieren, wurden nach einem behaltenen Reading $(t_0\,\text{secs}, \text{sensor}, \text{source}, ...)$ alle weiteren Readings $(t\,\text{secs}, \text{sensor}, \text{source}, ...)$ mit $t \in [t_0, t_0 + 1/k]$ gelöscht.
 
 Wir vergleichen nun die besten Modelle miteinander und rufen uns in Erinnerung, dass \textit{Comb. (Pers.)} eine Genauigkeit von $99.4 \%$ und \textit{Comb. (Unpers.)} eine Genauigkeit von $78.5 \%$ erzielte. Reduziert man die Sampling-Rate des persönlichen Modells auf 5 Hz, so reduziert sich die Genauigkeit um $0.8 \%$. Eine dramatischere Verschlechterung wird durch die Reduzierung auf 1 Hz verursacht, durch die sich die Genauigkeit um $4.1 \%$ verschlechtert. Noch stärker beeinträchtigt werden durch die Reduzierung der Sampling-Rate die unpersönlichen Modelle. Beschränkt man diese auf 5 Hz, so ergibt sich gegenüber \textit{Comb. (Unpers.)} eine Verschlechterung um $8.4 \%$. Bei einer Beschränkung auf 1 Hz beträgt die Verschlechterung sogar $16.4 \%$, sodass zu einer Reduzierung der Sampling-Rate nur bei den ohnehin bereits genauen persönlichen Modellen zu raten ist.
 
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|c|c|c|}
 	\hline 
@@ -134,10 +134,10 @@ Wir vergleichen nun die besten Modelle miteinander und rufen uns in Erinnerung, 
 	\hline 
 \end{tabular}
 \caption{Sampling-Raten der Sensoren}
-\label{fig:sampling-rates}
-\end{figure}
+\label{tab:sampling-rates}
+\end{table}
 
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|c|c|c||c|c|}
 	\hline 
@@ -153,22 +153,22 @@ Wir vergleichen nun die besten Modelle miteinander und rufen uns in Erinnerung, 
 	\hline
 \end{tabular} 
 \caption{Genauigkeit der Modelle mit reduzierter Sampling-Rate in Prozent}
-\label{fig:accuracy-sampling_rate}
-\end{figure}
+\label{tab:accuracy-sampling_rate}
+\end{table}
 
 \section{Genauigkeit bei Überlappung der Intervalle}
-\begin{figure}[htb]
+\begin{table}[htb]
 \centering
 \includegraphics[clip=true, trim=5mm 5mm 5mm 5mm]{img/interval_overlap}
 \caption{Intervallüberlappung}
-\label{fig:interval-overlap}
-\end{figure}
+\label{tab:interval-overlap}
+\end{table}
 
-Bao et al. nutzten 2004 auf der Basis bereits bestehender Werke für die Transformation eine Intervallüberlappung von $50 \%$ \cite{Bao2004}. Weiss et al. probierten dies laut ihrem Paper nicht aus \cite{Weiss2016}. Um zu prüfen, ob dies eine weitere Verbesserung der Genauigkeiten erzielen könnte, wurden für die Intervalle $(t_0, t_0 + 10), ((t_0 + 10) - 10 * 0.5, (t_0 + 10) - 10 * 0.5 + 10), ...$ Features generiert und wie zuvor evaluiert. Eine Illustration der Überlappung befindet sich in Abbildung~\ref{fig:interval-overlap}.
+Bao et al. nutzten 2004 auf der Basis bereits bestehender Werke für die Transformation eine Intervallüberlappung von $50 \%$ \cite{Bao2004}. Weiss et al. probierten dies laut ihrem Paper nicht aus \cite{Weiss2016}. Um zu prüfen, ob dies eine weitere Verbesserung der Genauigkeiten erzielen könnte, wurden für die Intervalle $(t_0, t_0 + 10), ((t_0 + 10) - 10 * 0.5, (t_0 + 10) - 10 * 0.5 + 10), ...$ Features generiert und wie zuvor evaluiert. Eine Illustration der Überlappung befindet sich in Tabelle~\ref{tab:interval-overlap}.
 
-Anders als erhofft verschlechterten sich die persönlichen RF-Modelle wie in Abbildung~\ref{fig:accuracy-overlap} ersichtlich durch die Überlappung um $0.2 \%$, während sich die unpersönlichen Modelle sogar um $5.1 \%$ verschlechterten.
+Anders als erhofft verschlechterten sich die persönlichen RF-Modelle wie in Tabelle~\ref{tab:accuracy-overlap} ersichtlich durch die Überlappung um $0.2 \%$, während sich die unpersönlichen Modelle sogar um $5.1 \%$ verschlechterten.
 
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|c|c|c||c|c|}
 	\hline 
@@ -184,11 +184,11 @@ Anders als erhofft verschlechterten sich die persönlichen RF-Modelle wie in Abb
 	\hline
 \end{tabular} 
 \caption{Genauigkeit der Modelle mit Intervallüberlappung in Prozent}
-\label{fig:accuracy-overlap}
-\end{figure}
+\label{tab:accuracy-overlap}
+\end{table}
 
 \section{Genauigkeit bei Verschmelzung der Ess- und Trinkaktivitäten}
-\begin{figure}
+\begin{table}
 \centering
 \begin{tabular}{|c|c|c|}
 	\hline 
@@ -204,12 +204,12 @@ Anders als erhofft verschlechterten sich die persönlichen RF-Modelle wie in Abb
 	\hline
 \end{tabular} 
 \caption{Genauigkeit der Modelle bei Verschmelzung der Ess- und Trinkaktivitäten in Prozent}
-\label{fig:accuracy-merge-eating}
-\end{figure}
+\label{tab:accuracy-merge-eating}
+\end{table}
 \todo{Confusion-Matrix all impersonal rf einbinden}
 Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen RF-basierten Modelle, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse häufig \todo{Zahl nennen} im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale das Sitzen sowie das Führen der Hand zum Mund sind.
 
-Abbildung~\ref{fig:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. \todo{Zeige auch neue Konfusionsmatrix.} Bei den RF-Modellen ist eine Verbesserung um $8.6 \%$ zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt.
+Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. \todo{Zeige auch neue Konfusionsmatrix.} Bei den RF-Modellen ist eine Verbesserung um $8.6 \%$ zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt.
 
 Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschweren kann.
 
