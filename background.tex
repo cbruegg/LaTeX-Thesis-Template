@@ -2,14 +2,26 @@
 \label{chap:background}
 \section{Erläuterung der verwendeten Sensoren}
 \todo{Grafiken zur Erläuterung}
-Während in der Einleitung nur generisch von "Sensordaten" die Rede war, werden diese nun konkretisiert. Zur Aufnahme werden das Smartphone OnePlus 3 sowie der Fitness-Tracker Microsoft Band 2 verwendet. Beide Geräte besitzen einen Beschleunigungssensor sowie ein Gyroskop. Des Weiteren besitzt das Band unter anderem einen Sensor, der den elektrischen Widerstand der Haut des Trägers misst, sowie einen Hauttemperatursensor.
+Während in der Einleitung nur generisch von "Sensordaten" die Rede war, werden diese nun konkretisiert. Zur Aufnahme werden das Smartphone OnePlus 3 sowie der Fitness-Tracker Microsoft Band 2 verwendet, der mit dem Smartphone via Bluetooth verbunden ist. Beide Geräte besitzen einen Beschleunigungssensor sowie ein Gyroskop. Des Weiteren besitzt das Band unter anderem einen Sensor, der den elektrischen Widerstand der Haut des Trägers misst, sowie einen Hauttemperatursensor.
 
 \subsection{Beschleunigungssensor}
-Ein Beschleunigungssensor, auch \textit{Accelerometer} genannt, misst die echte Beschleunigung eines Objektes im Raum je physikalischer Achse ($x$, $y$ und $z$). Dies beinhaltet auch die Beschleunigung, die von der Erdgravitation ausgeht: Liegt das Objekt beispielsweise auf dem Boden, erfährt es auf der im rechten Winkel zum Boden stehenden Achse eine Beschleunigung von $g \approx 9.81$ $m/s^2$\cite{SensorsOverview}\cite{nistsi}. Über diesen Sensor kann demnach die Orientierung des Objektes im Raum bestimmt werden. \\
+\begin{figure}
+\centering
+\includegraphics[clip=true,trim=0mm 100mm 100mm 30mm, width=0.7\textwidth]{img/accelerometer}
+\caption{Illustration des Beschleunigungssensors}
+\label{fig:accelerometer}
+\end{figure}
+Ein Beschleunigungssensor, auch \textit{Accelerometer} genannt, misst die echte Beschleunigung eines Objektes im Raum je physikalischer Achse ($x$, $y$ und $z$). Dies beinhaltet auch die Beschleunigung, die von der Erdgravitation ausgeht: Liegt das Objekt beispielsweise auf dem Boden, erfährt es auf der im rechten Winkel zum Boden stehenden Achse eine Beschleunigung von $g \approx 9.81$ $m/s^2$\cite{SensorsOverview}\cite{nistsi}. Über diesen Sensor kann demnach die Orientierung des Objektes im Raum bestimmt werden. Abbildung~\ref{fig:accelerometer} illustriert die Sensordaten eines unbewegten Smartphones, dessen Bildschirm parallel zum Boden gehalten wird. \\
 Die Daten dieses Sensors werden von beiden Geräten aufgezeichnet.
 
 \subsection{Gyroskop}
-Ein Gyroskop misst die Rotationsgeschwindigkeit je physikalischer Achse\cite{SensorsOverview}. Demnach bedeutet der Messwert $(x=0, y=0, z=0)$, dass das Objekt relativ zur Erde nicht bewegt wird, während $(x=1, y=0, z=0)$ bedeutet, dass das Objekt um die $x$-Achse gedreht wird. \\
+\begin{figure}
+\centering
+\includegraphics[clip=true,trim=0mm 0mm 0mm 0mm, width=0.7\textwidth]{img/gyroscope}
+\caption[Illustration des Gyroskops]{Illustration des Gyroskops. Die Achsenbeschriftungen geben die Rotationsgeschwindigkeit um die jeweilige Achse an.}
+\label{fig:gyroscope}
+\end{figure}
+Ein Gyroskop, normalerweise Gyrometer genannt, misst die Rotationsgeschwindigkeit je physikalischer Achse\cite{SensorsOverview}. Demnach bedeutet der Messwert $(x=0, y=0, z=0)$, dass das Objekt relativ zur Erde nicht bewegt wird, während $(x=0, y=10, z=0)$ bedeutet, dass das Objekt um die $y$-Achse gedreht wird, wie es beispielhaft in Abbildung~\ref{fig:gyroscope} von links nach rechts gezeigt wird. \\
 Die Daten dieses Sensors werden von beiden Geräten aufgezeichnet.
 
 \subsection{Hautwiderstandssensor}
