@@ -206,8 +206,54 @@ Anders als erhofft verschlechterten sich die persönlichen RF-Modelle wie in Tab
 \caption{Genauigkeit der Modelle bei Verschmelzung der Ess- und Trinkaktivitäten in Prozent}
 \label{tab:accuracy-merge-eating}
 \end{table}
-\todo{Confusion-Matrix all impersonal rf einbinden}
-Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen RF-basierten Modelle, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse häufig \todo{Zahl nennen} im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale das Sitzen sowie das Führen der Hand zum Mund sind.
+\begin{sidewaystable}
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
+\hline 
+\textbf{a} &  \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e} & \textbf{f} & \textbf{g} & \textbf{h} & \textbf{i} & \textbf{j} & \textbf{k} & \textbf{l} & \textbf{m} & \textbf{n} & \textbf{o} & \textbf{p} & \textbf{q} & \textbf{r} & \textbf{$<$ klassifiziert als $\vee$} \\
+\hline 
+\hline 
+149 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 & 8 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & \textbf{a = Brushing Teeth} \\
+\hline 
+0 & 153 & 0 & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & \textbf{b = Clapping} \\
+\hline 
+0 & 0 & 126 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &17 & 0 & 0 & 0 & 0 & 26 & \textbf{c = Climbing Stairs} \\
+\hline 
+0 & 11 & 0 & 147 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 5 & 0 & 0 & 0 & 0 & \textbf{d = Basketball} \\
+\hline 
+0 & 0 & 0 & 0 & \cellcolor{lightgray} 133 & \cellcolor{lightgray} 6 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} 9 & \cellcolor{lightgray}  0 & 0 & 0 & 0 & 0 & 0 & 12 & 0 & 3 & 0 & \textbf{e = Drinking} \\
+\hline 
+1 & 0 & 0 & 0 & \cellcolor{lightgray} 5 & \cellcolor{lightgray} 135 & \cellcolor{lightgray} 3 & \cellcolor{lightgray} 15 & \cellcolor{lightgray} 4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & \textbf{f = Eating Chips} \\
+\hline 
+3 & 0 & 0 & 0 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} \cellcolor{lightgray} 11 & \cellcolor{lightgray} 106 & \cellcolor{lightgray} 3 & \cellcolor{lightgray} 24 & 0 & 3 & 0 & 0 & 0 & 2 & 0 & 9 & 0 & \textbf{g = Eating Pasta} \\
+\hline 
+3 & 0 & 0 & 0 & \cellcolor{lightgray} 14 & \cellcolor{lightgray} 26 & \cellcolor{lightgray} 15 & \cellcolor{lightgray} 75 & \cellcolor{lightgray} 27 & 0 & 6 & 0 & 0 & 0 & 7 & 1 & 3 & 0 & \textbf{h = Eating Sandwich} \\
+\hline 
+7 & 0 & 0 & 0 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} 13 & \cellcolor{lightgray} 39 & \cellcolor{lightgray} 44 & \cellcolor{lightgray} 84 & 0 & 0 & 0 & 0 & 0 & 3 & 0 & 2 & 0 & \textbf{i = Eating Soup} \\
+\hline 
+6 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 148 & 0 & 0 & 3 & 2 & 0 & 0 & 0 & 0 & \textbf{j = Folding Clothes} \\
+\hline 
+0 & 0 & 0 & 0 & 0 & 5 & 7 & 6 & 2 & 0 & 139 & 0 & 0 & 0 & 0 & 0 & 4 & 0 & \textbf{k = Handwriting} \\
+\hline 
+0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 166 & 0 & 0 & 0 & 0 & 0 & 0 & \textbf{l = Jogging} \\
+\hline 
+0 & 0 &13 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 150 & 0 & 0 & 0 & 0 & 2 & \textbf{m = Soccer Ball} \\
+\hline 
+0 & 0 & 0 & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 145 & 0 & 0 & 0 & 0 & \textbf{n = Playing Catch} \\
+\hline 
+4 & 0 & 0 & 0 & 1 & 2 & 2 & 1 & 1 & 0 & 4 & 0 & 0 & 0 & 136 & 8 & 5 & 0 & \textbf{o = Sitting} \\
+\hline 
+1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 &15 & 142 & 0 & 0 & \textbf{p = Standing} \\
+\hline 
+2 & 0 & 0 & 0 & 1 & 1 & 4 & 1 & 0 & 0 & 27 & 0 & 0 & 0 & 0 & 0 & 125 & 0 & \textbf{q = Typing} \\
+\hline 
+0 & 0 &66 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 19 & 0 & 0 & 0 & 0 & 84 & \textbf{r = Walking} \\
+\hline 
+\end{tabular}
+\caption{Konfusionsmatrix der unpersönlichen RF-Modelle}
+\label{tab:confusion-impersonal-rf}
+\end{sidewaystable}
+Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen RF-basierten Modelle in Tabelle~\ref{tab:confusion-impersonal-rf}, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse häufig \todo{Zahl nennen} im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale bei all diesen Klassen das Sitzen sowie das Führen der Hand zum Mund sind.
 
 Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. \todo{Zeige auch neue Konfusionsmatrix.} Bei den RF-Modellen ist eine Verbesserung um $8.6 \%$ zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt.
 
