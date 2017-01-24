@@ -157,14 +157,14 @@ Wir vergleichen nun die besten Modelle miteinander und rufen uns in Erinnerung, 
 \end{table}
 
 \section{Genauigkeit bei Überlappung der Intervalle}
-\begin{table}[htb]
+\begin{figure}[htb]
 \centering
 \includegraphics[clip=true, trim=5mm 5mm 5mm 5mm]{img/interval_overlap}
 \caption{Intervallüberlappung}
-\label{tab:interval-overlap}
-\end{table}
+\label{fig:interval-overlap}
+\end{figure}
 
-Bao et al. nutzten 2004 auf der Basis bereits bestehender Werke für die Transformation eine Intervallüberlappung von $50 \%$ \cite{Bao2004}. Weiss et al. probierten dies laut ihrem Paper nicht aus \cite{Weiss2016}. Um zu prüfen, ob dies eine weitere Verbesserung der Genauigkeiten erzielen könnte, wurden für die Intervalle $(t_0, t_0 + 10), ((t_0 + 10) - 10 * 0.5, (t_0 + 10) - 10 * 0.5 + 10), ...$ Features generiert und wie zuvor evaluiert. Eine Illustration der Überlappung befindet sich in Tabelle~\ref{tab:interval-overlap}.
+Bao et al. nutzten 2004 auf der Basis bereits bestehender Werke für die Transformation eine Intervallüberlappung von $50 \%$ \cite{Bao2004}. Weiss et al. probierten dies laut ihrem Paper nicht aus \cite{Weiss2016}. Um zu prüfen, ob dies eine weitere Verbesserung der Genauigkeiten erzielen könnte, wurden für die Intervalle $(t_0, t_0 + 10), ((t_0 + 10) - 10 * 0.5, (t_0 + 10) - 10 * 0.5 + 10), ...$ Features generiert und wie zuvor evaluiert. Eine Illustration der Überlappung befindet sich in Abbildung~\ref{fig:interval-overlap}.
 
 Anders als erhofft verschlechterten sich die persönlichen RF-Modelle wie in Tabelle~\ref{tab:accuracy-overlap} ersichtlich durch die Überlappung um $0.2 \%$, während sich die unpersönlichen Modelle sogar um $5.1 \%$ verschlechterten.
 
