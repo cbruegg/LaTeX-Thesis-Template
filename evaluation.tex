@@ -299,4 +299,37 @@ Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpe
 
 Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschweren kann.
 
+\section{Genauigkeit in Abhängigkeit von der Teilnehmeranzahl}
+Während die persönlichen Modelle lediglich auf die Bewegungsdaten einer einzelnen Person zurückgreifen, sind für die unpersönlichen Modelle Daten anderer Personen erforderlich. Daraus ergibt sich die Frage, wie die Genauigkeit der unpersönlichen Modelle von der Anzahl der Personen, auf denen dieses basiert, abhängig it. Um dies zu ermitteln, wurden aus dem aus 10 Personen bestehenden vollständigen Datensatz $D$ für $i \in \{2, ..., 10\}$ je $N_i := \min(10, \binom{10}{i})$ verschiedene, zufällig gezogene Datensätze $D_{i,j}$ mit $j \in \{1, ..., N_i\}$ generiert. Ein Datensatz $D_{i,j}$ enthält Daten von $i \geq 2$ verschiedenen Personen, um die Aufteilung in Train- und Testsets zu ermöglichen, da ein Testset für die unpersönlichen Modelle genau eine Person enthalten soll und die Mengen disjunkt sein müssen. Die Genauigkeit in Abhängigkeit von der Anzahl der Personen $i$ ist dann definiert durch $G(i) := \sum_{j=1}^{N_i} \frac{\text{Genauigkeit mit } D_{i,j}}{N_i}$.
+\todo{Visuelle Illustration des Ziehens von Datensätzen}
+Abbildung~\ref{fig:accuracy-convergence} zeigt den Plot der Funktion $G$. Es ist zu erkennen, dass die Genauigkeit langsam konvergiert, wobei für $i > 10$ noch etwas höhere Genauigkeiten zu erwarten sind. Die Verifikation dieser Hypothese durch weitere Aufnahmen war im Rahmen der zeitlichen Beschränkungen einer Bachelorarbeit nicht möglich.
+
+\begin{figure}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+ymin=0,
+ymax=100,
+xmin=1,
+xlabel=$i \text{ = Anzahl der Personen}$,
+ylabel=$G(i) \text{ = Genauigkeit der Modelle}$]
+\addplot[color=black,mark=x] coordinates {
+	(2, 52.52308602)
+	(3, 64.3778887)
+	(4, 67.2191227465409)
+	(5, 72.94877937)
+	(6, 73.61805308)
+	(7, 74.9440529)
+	(8, 76.93207282)
+	(9, 76.83383234)
+	(10, 79.919409)
+};
+\end{axis}
+\end{tikzpicture}
+\caption{Genauigkeit in Abhängigkeit von der Personenanzahl}
+\label{fig:accuracy-convergence}
+\end{figure}
+\todo{Check if this figure is in the right place}
+
+
 % vim: set ft=tex
