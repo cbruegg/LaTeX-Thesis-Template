@@ -179,7 +179,7 @@ Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich de
 
 Die Intervallspalte dient nur der Illustration.
 
-\subsection{Nachbearbeitung der Daten}
+\section{Nachbearbeitung der Daten}
 Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass ML-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatish hohen Einfluss zuschreiben, werden alle numerischen Spalten mithilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt dann an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.  
 
 \section{Anwendung von ML-Klassifikationsalgorithmen}
