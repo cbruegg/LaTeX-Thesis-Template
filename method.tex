@@ -25,7 +25,7 @@ Wird die Aufnahme gestoppt, werden die Readings mitsamt den Metadaten Name des P
 
 \section{Transformation der Daten}
 \label{sec:transformation}
-Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die in unserem Fall bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
+Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die in Rahmen dieser Arbeit bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
 
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
@@ -59,7 +59,7 @@ Diese Aggregatfunktion gibt die durchschnittliche Zeit zwischen Höhepunkten in 
 
 Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes. Zunächst wird mittels Algorithmus~\ref{algo:indicesOfPeaks} bestimmt, an welchen Indizes in der Liste Werte stehen, die deutlich größer als ihre Nachfolger sind. Dadurch wird definiert, was eine Spitze in dieser spezifischen Liste ausmacht. Anschließend werden Spitzen gesucht, die maximal um den Faktor \textit{threshold} kleiner sind als die größte Spitze, die der Algorithmus gefunden hast. Diese Grenze wird solange gesenkt, bis genügend Spitzen gefunden wurden oder die Grenze so niedrig liegt, dass es sich nicht mehr um Spitzen handelt. Als letztes berechnet der Algorithmus die durchschnittliche Zeit zwischen den Spitzen mithilfe der Funktion \textit{timeForIndex}.
 
-Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den von uns gesammelten Daten als hinreichend. Für andere Datensätze kann eine Anpassung erforderlich sein.
+Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den gesammelten Daten als gut geeignet. Für andere Datensätze kann eine Anpassung erforderlich sein.
 
 \begin{algorithm}
     \caption{IndicesOfPeaks($A$, $t$), $t \in [0,1]$}
@@ -137,7 +137,7 @@ D = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
 &(2000, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 3.0})\}
 \end{align*} 
 
-Zur Vereinfachung wird von 2D-Sensoren ausgegangen, sodass keine $z$-Komponente vorhanden ist. Zur Instanzerzeugung verwenden wir als Aggregatfunktionen den Durchschnitt, die \textit{Binned Distribution} mit zwei \textit{Bins} und den \textit{Average Root of Squares}. Die gewählte Intervallgröße beträgt zwei Sekunden, sodass sich die folgenden Intervalle ergeben:
+Zur Vereinfachung wird von 2D-Sensoren ausgegangen, sodass keine $z$-Komponente vorhanden ist. Zur werden als Aggregatfunktionen der Durchschnitt, die \textit{Binned Distribution} mit zwei \textit{Bins} und der \textit{Average Root of Squares} verwendet. Die gewählte Intervallgröße beträgt zwei Sekunden, sodass sich die folgenden Intervalle ergeben:
 \begin{align*}
 I_1 = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
 &(0, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 1.0}), \\
