@@ -36,22 +36,23 @@ Nutzt man nur je ein Gyroskop, ist die Qualität der persönlichen Modelle am sc
 
 Vergleicht man die beste Datenquelle (Band accel) mit den Kombinationsmöglichkeiten, so lässt sich feststellen, dass die Hinzunahme der anderen Sensoren des Band eine Genauigkeit von $97.1 \%$ erzielt, wohingegen die Kombination der beiden Smartphone-Sensoren lediglich eine Verbesserung von $0.7 \%$ gegenüber \textit{Phone accel} und gegenüber \textit{Band accel} sogar eine Verschlechterung erwirkt. Hebt man jedoch die künstlichen Einschränkungen auf, so wird eine Genauigkeit von $99.4 \%$ erreicht, sodass Benutzer nach dreiminütiger Aufnahme einer Aktivität davon ausgehen könnten, dass diese in Zukunft in aller Regel automatisch erkannt wird. Insgesamt konnte gegenüber \textit{Phone Accel} damit eine Verbesserung um $7.8 \%$ erreicht werden, obwohl die Verbesserung einer bereits hohen Genauigkeit herausfordernd ist.\todo{Kann man das belegen?} Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $75.2 \%$ liefert die Kombination aller Daten eine Verbesserung um $7.8 \%$.
 
-\todo{Describe the following two figs,also put combined values there,put second fig in appropriate section}
+\todo{Describe the following two figs,put second fig in appropriate section}
 \begin{figure}
 \centering
 \begin{tikzpicture}
 \begin{axis}[
+width=360pt,
 xtick=data,
 ymin=0,
 ymax=100,
 ylabel=Genauigkeit,
-symbolic x coords={Phone accel,Watch accel,Watch gyro},
+symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb.,Watch comb.,Phone comb.},
 legend style={at={(0.5,-0.15)},
 	anchor=north,legend columns=-1},
 ybar,
 ]
 \addplot 
-coordinates {(Phone accel,90) (Watch accel,91.6) (Watch gyro,80.5)};
+coordinates {(Phone accel,90) (Watch accel,91.6) (Watch gyro,80.5) (Comb.,99.4) (Watch comb.,97.1) (Phone comb.,90.7)};
 
 \addplot 
 coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
@@ -67,17 +68,18 @@ coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
 \centering
 \begin{tikzpicture}
 \begin{axis}[
+width=360pt,
 xtick=data,
 ymin=0,
 ymax=100,
 ylabel=Genauigkeit,
-symbolic x coords={Phone accel,Watch accel,Watch gyro},
+symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb.,Watch comb.,Phone comb.},
 legend style={at={(0.5,-0.15)},
 	anchor=north,legend columns=-1},
 ybar,
 ]
 \addplot 
-coordinates {(Phone accel,39.2) (Watch accel,67.1) (Watch gyro,53.5)};
+coordinates {(Phone accel,39.2) (Watch accel,67.1) (Watch gyro,53.5) (Comb.,78.5) (Watch comb.,76.5) (Phone comb.,41.3)};
 
 \addplot 
 coordinates {(Phone accel,35.1) (Watch accel,70.3) (Watch gyro,57.5)};
