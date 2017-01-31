@@ -388,5 +388,49 @@ ylabel=$G(i) \text{ = Genauigkeit der Modelle}$]
 \end{figure}
 \todo{Check if this figure is in the right place}
 
+\section{Optimierung der Hyperparameter}
+Um die unpersönlichen Modelle weiter zu verbessern, wurden die Hyperparameter des RF-Modells optimiert, da dieses Verfahren bis dato das beste Ergebnis geliefert hat. Als Baseline dient das RF1-Modell, das dieselben Hyperparameter besitzt wie das RF-Modell in Abbildung~\ref{tab:accuracy-impersonal}. Zu bemerken ist, dass die folgenden Genauigkeiten je nach Seed für den Zufallsgenerator um $\pm 1.5 \%$ schwanken, weshalb die Genauigkeit des RF1-Modells im hier gezeigten Durchlauf des Tests rund $1.45 \%$ über der des RF-Modells in Abbildung~\ref{tab:accuracy-impersonal} liegt.
+
+Die variierten Hyperparameter sind die folgenden:
+
+\begin{itemize}
+	\item \textit{numIterations} gibt die Anzahl der Entscheidungsbäume im Wald an. Ein zu niedriger Wert sorgt dafür, dass die zufällig generierten Bäume den Datensatz zusammen nicht gut genug abdecken können.
+	\item \textit{numFeatures} gibt die Anzahl der Features an, die jeder Entscheidungsbaum bei einem Split betrachtet. Wird ein zu hoher Wert verwendet, ist die Entwicklung des Baums weniger vom Zufall getrieben. Ist der Wert zu niedrig, so sinkt die Wahrscheinlichkeit, dass ein Split an einem Feature durchgeführt wird, sodass der Information Gain groß ist.
+	\item \textit{maxDepth} bestimmt die maximale Tiefe der Entscheidungsbäume im Wald. Ein niedriger Wert sorgt dafür, dass der Baum sich den Trainingsdaten nicht zu sehr anpasst und overfittet. Dabei muss beachtet werden, dass ein zu niedriger Wert wiederum dafür sorgen kann, dass zu wenige Features betrachtet werden können, um eine genaue Klassifizierung zu ermöglichen.
+\end{itemize}
+
+Tabelle~\ref{tab:hyperparam-opt} zeigt die Genauigkeiten in Abhängigkeit von den Hyperparametern. In einigen Fällen wurde für \textit{numFeatures} der WEKA-Standardwert $f = \lfloor log_2(n - 1) + 1 \rfloor = \lfloor log_2(208) + 1 \rfloor = 8$ verwendet wird, wobei $n$ die Anzahl der Features einer Instanz ist.
+
+Gegenüber der Baseline ist das RF8-Modell das beste, allerdings nur weniger als $1.3 \%$ besser, sodass die Differenz unter den Veränderungen durch Schwankungen liegt. Es ist jedoch festzustellen, dass der automatisch gewählte Wert $f$ für \textit{numFeatures} die besten Ergebnisse erzielt. Eine Erhöhung der maximalen Tiefe auf 50 oder gar 75 erzielt keine nennenswert besseren Ergebnisse als die oben gewählte Tiefe von 25. Auch für die Anzahl der Bäume gilt, dass bereits 50 annähernd so gut sind wie 100 oder mehr. Positiv zu vermerken ist somit, dass in diesem Anwendungsfall von Random Forests auch kleine Werte eine gute Genauigkeit liefern, wobei der Leistungsbedarf entsprechend niedriger ist.
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|c|c||c|}
+	\hline 
+	& \textbf{numIterations} & \textbf{numFeatures} & \textbf{maxDepth} & \textbf{Genauigkeit} \\ 
+	\hline 
+	\textbf{RF8} & 75 & $f$ & 50 & 81.229 \\ 
+	\hline 
+	\textbf{RF7} & 100 & $f$ & 75 & 80.7925 \\ 
+	\hline 
+	\textbf{RF4} & 100 & $f$ & 50 & 80.6917 \\ 
+	\hline 
+	\textbf{RF6} & 150 & $f$ & 50 & 80.1545 \\ 
+	\hline 
+	\textbf{RF9} & 100 & $f$ & 30 & 80.0537 \\ 
+	\hline 
+	\textbf{RF1} & 50 & 10 & 25 & 79.953 \\ 
+	\hline 
+	\textbf{RF2} & 200 & $\infty$ & $\infty$ & 73.5729 \\ 
+	\hline 
+	\textbf{RF5} & 200 & $\infty$ & 50 & 73.2371 \\ 
+	\hline 
+	\textbf{RF3} & 200 & $\infty$ & 50 & 72.6998 \\ 
+	\hline
+\end{tabular}
+\caption{Hyperparameteroptimierung}
+\label{tab:hyperparam-opt}
+\end{table}
+
 
 % vim: set ft=tex
