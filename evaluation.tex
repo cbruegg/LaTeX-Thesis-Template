@@ -432,5 +432,38 @@ Gegenüber der Baseline ist das RF8-Modell das beste, allerdings nur weniger als
 \label{tab:hyperparam-opt}
 \end{table}
 
+\section{Einfluss von Feature-Selection}
+Betrachtet man die \textit{Comb.}-Spalte in Tabelle~\ref{tab:accuracy-impersonal}, so fällt auf, dass die Genauigkeiten der übrigen Modelle dem RF-Modell deutlich unterlegen sind. Da dies bei den persönlichen Modellen nicht der Fall ist, ist es untersuchenswert, ob die anderen Algorithmen nicht durch eine Vorauswahl der Features (\textit{Feature Selection}) höhere Genauigkeiten liefern können, da eine solche Auswahl prinzipiell auch durch den Zufall im Random Forest erfolgt.
+
+Zur Feature Selection wurde das Verfahren \textit{CfsSubsetEval}\cite{Hall1998} verwendet, das laut WEKA-Dokumentation wie folgt arbeitet:
+
+\begin{quote}
+	"[CfsSubsetEval] ermittelt den Wert einer Untermenge der Features, indem die individuelle Vorhersagefähigkeit eines jeden Features mitsamt dem Grad der Redundanz zwischen ihnen betrachtet wird. Feature-Untermengen, die stark mit der Klasse korrelieren und dabei eine niedrige Interkorrelation haben, werden bevorzugt."
+	
+	\textit{-- aus \cite{WekaCfsSubsetEval} übersetzt.}
+\end{quote}
+
+Begonnen wurde mit der leeren Menge, der nach und nach Features hinzugefügt worden sind, bis die Bewertung durch \textit{CfsSubsetEval} sank.
+
+Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{tab:accuracy-feature-selection}. Gegenüber Tabelle~\ref{tab:accuracy-impersonal} sind die Genauigkeiten der IB3-, NB- und MLP-Modelle wesentlich besser, wodurch auch der Durchschnittswert angehoben wird, jedoch schlägt weiterhin kein Algorithmus den RF-Algorithmus. Diesen hat die Feature Selection des Weiteren nicht verbessert, sodass sich die Feature Selection in diesem Anwendungsszenario als nicht sinnvoll erwiesen hat.
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|}
+	\hline 
+	\textbf{Algo.} & \textbf{Comb. (Unpers.)} \\ 
+	\hline 
+	RF & 78.2 \\ 
+	J48 & 60.0 \\ 
+	IB3 & 59.6 \\ 
+	NB & 67.8 \\ 
+	MLP & 68.3 \\ 
+	\hline 
+	$\varnothing$ & 66.8 \\ 
+	\hline 
+\end{tabular}
+\caption{Genauigkeit mit Feature Selection}
+\label{tab:accuracy-feature-selection}
+\end{table}
 
 % vim: set ft=tex
