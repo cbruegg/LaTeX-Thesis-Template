@@ -36,7 +36,12 @@ Vergleicht man \textit{Band accel} als die beste Datenquelle mit den Kombination
 
 Hebt man jedoch diese künstlichen Einschränkungen auf, so wird eine Genauigkeit von $99.4 \%$ erreicht, sodass Benutzer nach dreiminütiger Aufnahme einer Aktivität davon ausgehen könnten, dass diese in Zukunft bis auf wenige Ausreißer automatisch erkannt wird. Insgesamt konnte gegenüber \textit{Phone Accel} damit eine Verbesserung um $9.4 \%$ erreicht werden. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $91.6 \%$ liefert die Kombination aller Daten eine Verbesserung um $7.8 \%$.
 
-\todo{Describe the following two figs,put second fig in appropriate section}
+\subsubsection{Vergleich mit Weiss et al.}
+Da diese Bachelorarbeit auf der Arbeit von Weiss et al. \cite{Weiss2016} aufbaut, ist ein Vergleich der Ergebnisse sinnvoll. Abbildung~\ref{fig:accuracy-personal-vs-weiss} zeigt die Genauigkeiten der besten Modelle in Abhängigkeit von den Datenquellen. Sowohl die Quellen \textit{Watch accel} als auch \textit{Watch gyro} liefern sehr ähnliche Ergebnisse wie bei Weiss et al., nur das \textit{Phone accel}-Modell in dieser Arbeit liefert im direkten Vergleich eine deutlich bessere Genauigkeit. Eine mögliche Erklärung wäre die im Vergleich mit Weiss et al. 10-fach höhere Sampling-Rate des Sensoren des Smartphones gewesen, jedoch lieferte ein Test mit einem RF-Modell und auf 20 Hz beschränkten Smartphone-Daten immerhin noch eine Genauigkeit von $88.2 \%$. Da dies dennoch $12.7 \%$ über dem \textit{Phone Accel}-Modell von Weiss et al. liegt, lässt sich diese Erklärung ausschließen. Eine weitere Erklärungsmöglichkeit wäre, dass die Genauigkeit des Sensors im OnePlus 3 über der des Sensors im Samsung Galaxy S4 liegt, das von Weiss et al. zur Aufnahme genutzt wird, jedoch kann diese Hypothese mangels eines solchen Gerätes nicht verifiziert werden.
+
+Erwartungsgemäß ist die Genauigkeit mit den vollständig kombinierten Datenquellen arbeitsübergreifend am höchsten, jedoch ist dies sogar der Fall, wenn man die Daten des Smartphones entfernt. Nutzt man hingegen nur die Daten des Smartphones, ist die Genauigkeit vergleichbar mit den beiden \textit{Watch accel}-Ergebnisse.
+
+
 \begin{figure}
 \centering
 \begin{tikzpicture}
@@ -64,38 +69,41 @@ coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
 \label{fig:accuracy-personal-vs-weiss}
 \end{figure}
 
-\begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-width=360pt,
-xtick=data,
-ymin=0,
-ymax=100,
-ylabel=Genauigkeit,
-symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb.,Watch comb.,Phone comb.},
-legend style={at={(0.5,-0.15)},
-	anchor=north,legend columns=-1},
-ybar,
-]
-\addplot 
-coordinates {(Phone accel,39.2) (Watch accel,67.1) (Watch gyro,53.5) (Comb.,78.5) (Watch comb.,76.5) (Phone comb.,41.3)};
-
-\addplot 
-coordinates {(Phone accel,35.1) (Watch accel,70.3) (Watch gyro,57.5)};
-
-\legend{Eigenes Modell,Weiss et al.}
-\end{axis}
-\end{tikzpicture}
-\caption[Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al.\cite{Weiss2016}]{Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al.\cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
-\label{fig:accuracy-impersonal-vs-weiss}
-\end{figure}
-
 \subsection{Unpersönliche Modelle}
 \label{subsec:eval-impersonal-models}
 Für die Evaluierung der unpersönlichen Modelle wird eine Kreuzvalidierung über die Nutzer durchgeführt, das heißt der Datensatz $D$ wird für alle Benutzer $b$ aufgeteilt in $D = \text{Train} \uplus \text{Test}$ mit $\text{Train} = \{\text{Intervall ist nicht von } b\}, \text{Test} = D \backslash \text{Train}$.
 
 Das schlechteste Ergebnis wird mit $35.1 \%$ bei den unpersönlichen Modellen erzielt, wenn nur das Gyroskop des Smartphones verwendet wird. Nur wenig besser sind die Modelle, die nur den Beschleunigungssensor des Smartphones ($39.2 \%$) oder beide Sensoren des Smartphones ($41.3 \%$) nutzen. Für den praktischen Gebrauch sind diese Modelle aufgrund ihrer Ungenauigkeit untauglich. Schon rund $20 \%$ besser sind die Modelle, die nur das Gyroskop des Bands nutzen, wobei der Wechsel zum Beschleunigungssensor eine weitere Verbesserung um fast $14 \%$ ermöglicht. Offenbar erklären die Daten des Beschleunigungssensors einen Großteil der Daten, die auch durch das Gyroskop und die anderen Sensoren des Band erklärt werden, sodass eine Kombination aller Band-Sensoren lediglich ein Verbesserung um rund $1 \%$ ermöglicht. Selbiges gilt auch für die Hinzunahme der Daten des Smartphones: Es wird eine Verbesserung um $2 \%$ erzielt, was darauf schließen lässt, dass die Armbewegungen unter den Probanden ähnlich sind, die Bewegungen auf Hüfthöhe hingegen weniger. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $75.2 \%$ liefert die Kombination aller Daten eine Verbesserung um $3.3 \%$.
+
+\subsubsection{Vergleich mit Weiss et al.}
+Im Gegensatz zu den persönlichen Modellen unterscheiden sich die unpersönlichen Modelle allesamt um weniger als 5 Prozent von denen von Weiss et al. Auffällig ist, dass die Kombination der Sensoren des Smartphones auch im Vergleich mit Weiss et al. keine nennenswerte Verbesserung liefert, dafür jedoch das Einbeziehen der Sensoren des Bands für signifikant bessere Ergebnisse sorgt. Die vollständige Kombination liefert beispielsweise eine um $8.3 \%$ höhere Genauigkeit als das mit $70.3 \%$ bei Weiss et al. im Vergleich mit dem eigenen Modell leicht bessere \textit{Watch accel}-Modell.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=360pt,
+	xtick=data,
+	ymin=0,
+	ymax=100,
+	ylabel=Genauigkeit,
+	symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb.,Watch comb.,Phone comb.},
+	legend style={at={(0.5,-0.15)},
+		anchor=north,legend columns=-1},
+	ybar,
+	]
+	\addplot 
+	coordinates {(Phone accel,39.2) (Watch accel,67.1) (Watch gyro,53.5) (Comb.,78.5) (Watch comb.,76.5) (Phone comb.,41.3)};
+	
+	\addplot 
+	coordinates {(Phone accel,35.1) (Watch accel,70.3) (Watch gyro,57.5)};
+	
+	\legend{Eigenes Modell,Weiss et al.}
+	\end{axis}
+	\end{tikzpicture}
+	\caption[Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al.\cite{Weiss2016}]{Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al.\cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
+	\label{fig:accuracy-impersonal-vs-weiss}
+\end{figure}
 
 \begin{table}
 \centering

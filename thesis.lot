@@ -5,17 +5,17 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {6.1}{\ignorespaces Genauigkeit der pers\IeC {\"o}nlichen Modelle in Prozent\relax }}{27}{table.caption.38}
-\contentsline {table}{\numberline {6.2}{\ignorespaces Genauigkeit der unpers\IeC {\"o}nlichen Modelle in Prozent\relax }}{27}{table.caption.39}
-\contentsline {table}{\numberline {6.3}{\ignorespaces Genauigkeit der Modelle mit verrauschten Band-Zeitstempeln in Prozent\relax }}{28}{table.caption.40}
-\contentsline {table}{\numberline {6.4}{\ignorespaces Sampling-Raten der Sensoren\relax }}{29}{table.caption.41}
-\contentsline {table}{\numberline {6.5}{\ignorespaces Genauigkeit der Modelle mit reduzierter Sampling-Rate in Prozent\relax }}{29}{table.caption.42}
-\contentsline {table}{\numberline {6.6}{\ignorespaces Genauigkeit der Modelle mit Intervall\IeC {\"u}berlappung in Prozent\relax }}{30}{table.caption.44}
-\contentsline {table}{\numberline {6.7}{\ignorespaces Genauigkeit der Modelle bei Verschmelzung der Ess- und Trinkaktivit\IeC {\"a}ten in Prozent\relax }}{30}{table.caption.45}
-\contentsline {table}{\numberline {6.8}{\ignorespaces Konfusionsmatrix der unpers\IeC {\"o}nlichen RF-Modelle\relax }}{31}{table.caption.46}
-\contentsline {table}{\numberline {6.9}{\ignorespaces Konfusionsmatrix der unpers\IeC {\"o}nlichen, verschmolzenen RF-Modelle\relax }}{33}{table.caption.47}
-\contentsline {table}{\numberline {6.10}{\ignorespaces Hyperparameteroptimierung\relax }}{35}{table.caption.49}
-\contentsline {table}{\numberline {6.11}{\ignorespaces Genauigkeit mit Feature Selection\relax }}{36}{table.caption.50}
+\contentsline {table}{\numberline {6.1}{\ignorespaces Genauigkeit der pers\IeC {\"o}nlichen Modelle in Prozent\relax }}{28}{table.caption.40}
+\contentsline {table}{\numberline {6.2}{\ignorespaces Genauigkeit der unpers\IeC {\"o}nlichen Modelle in Prozent\relax }}{28}{table.caption.41}
+\contentsline {table}{\numberline {6.3}{\ignorespaces Genauigkeit der Modelle mit verrauschten Band-Zeitstempeln in Prozent\relax }}{29}{table.caption.42}
+\contentsline {table}{\numberline {6.4}{\ignorespaces Sampling-Raten der Sensoren\relax }}{29}{table.caption.43}
+\contentsline {table}{\numberline {6.5}{\ignorespaces Genauigkeit der Modelle mit reduzierter Sampling-Rate in Prozent\relax }}{30}{table.caption.44}
+\contentsline {table}{\numberline {6.6}{\ignorespaces Genauigkeit der Modelle mit Intervall\IeC {\"u}berlappung in Prozent\relax }}{30}{table.caption.46}
+\contentsline {table}{\numberline {6.7}{\ignorespaces Genauigkeit der Modelle bei Verschmelzung der Ess- und Trinkaktivit\IeC {\"a}ten in Prozent\relax }}{31}{table.caption.47}
+\contentsline {table}{\numberline {6.8}{\ignorespaces Konfusionsmatrix der unpers\IeC {\"o}nlichen RF-Modelle\relax }}{32}{table.caption.48}
+\contentsline {table}{\numberline {6.9}{\ignorespaces Konfusionsmatrix der unpers\IeC {\"o}nlichen, verschmolzenen RF-Modelle\relax }}{33}{table.caption.49}
+\contentsline {table}{\numberline {6.10}{\ignorespaces Hyperparameteroptimierung\relax }}{35}{table.caption.51}
+\contentsline {table}{\numberline {6.11}{\ignorespaces Genauigkeit mit Feature Selection\relax }}{36}{table.caption.52}
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
