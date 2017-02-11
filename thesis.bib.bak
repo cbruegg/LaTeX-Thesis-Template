@@ -211,7 +211,7 @@
 }
 
 @Misc{WekaCfsSubsetEval,
-  title = {WEKA JavaDoc: CfsSubsetEval},
+  title = {{WEKA} {J}avaDoc: {C}fs{S}ubset{E}val},
   month = {02},
   year  = {2017},
   url   = {http://weka.sourceforge.net/doc.stable/weka/attributeSelection/CfsSubsetEval.html},

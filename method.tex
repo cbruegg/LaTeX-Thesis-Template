@@ -4,6 +4,7 @@ Dieses Kapitel erläutert die Art und Weise, mit der aus den im Experiment gewon
 
 \section{Implementierung der Aufzeichnungssoftware}
 \label{sec:android-app}
+\todo{TODO}
 \subsection{Definition der Messdaten}
 \begin{definition}
 Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors gruppiert nach Komponente. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
@@ -30,7 +31,7 @@ Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reih
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
 \subsection{Beschreibung der Aggregatfunktionen}
-Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2011} wie folgt definiert:
+Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2011} wie folgt definiert:\todo{Wahlen begründen}
 \subsubsection{Average}
 \[
 \text{Avg}(A) := \frac{1}{N} * \sum_{a \in A} a
