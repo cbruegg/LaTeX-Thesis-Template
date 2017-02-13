@@ -146,43 +146,43 @@ Im Gegensatz zu den persönlichen Modellen unterscheiden sich die unpersönliche
 \label{tab:accuracy-impersonal}
 \end{table}
 
-\subsection{Anmerkung zu hybriden Modellen}
-Weiss und Lockhart untersuchten 2012 den Einfluss der Modell-Personalisierung auf die Genauigkeit \cite{Weiss2012}. Neben persönlichen und unpersönlichen Modellen analysierten sie auch sogenannte \textit{hybride} Modelle, die für einen Benutzer $b$ sowohl auf Daten von $b$, als auch auf Daten anderer Benutzer zurückgreifen. Dabei stellten sie jedoch fest, dass die Qualität der hybriden Modelle unter der Qualität der persönlichen Modelle lag, weshalb sie keinen Nutzen in diesen Modellen sahen. Ausgenommen haben sie dabei lediglich den Fall, in dem zu einem Benutzer nur sehr wenige Daten bekannt sind. Aufgrund der schlechten Erfolgsaussichten zur Verbesserung der Genauigkeit durch solche Modelle wurde in dieser Arbeit auf eine Untersuchung dieser verzichtet.
-
-\subsection{Variation zwischen Teilnehmern}
+\subsubsection{Variation zwischen Teilnehmern}
 \todo{Auch für persönliche Modelle?}
 Motiviert durch Weiss et al. (2012) \cite{Weiss2012} wurde auch die Genauigkeitsverteilung der unpersönlichen Modelle untersucht. Es ist von Interesse, wie die Genauigkeit unter den Teilnehmern variiert, da allein die Durchschnittsgenauigkeit von $78.5 \%$ (RF comb.) nicht zeigt, wie praxistauglich die Modelle tatsächlich sind. Ist die Genauigkeit für einige Teilnehmer sehr schlecht, für andere Teilnehmer hingegen sehr gut und damit insgesamt instabil, schränkt dies die Verwendbarkeit der Methode ein, da die Zuverlässigkeit gering ist.
 
 Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die tatsächliche Genauigkeitsverteilung, die aus dem Experiment hervorging. Kein unpersönliches Modell für einen Teilnehmer war ungenauer als $65 \%$, während über $80 \%$ der Teilnehmer sogar Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. In der Untersuchung von Weiss et al. (2012), in der Daten des Beschleunigungssensors eines Smartphones ähnlich aufgenommen und transformiert wurden, lag die untere Schranke bei nur $25 \%$ und auch vollständig betrachtet zeigt die Genauigkeitsverteilung in Abbildung~\ref{fig:accuracy-impersonal-per-user-weiss2012} eine deutlich größere Instabilität als in dieser Arbeit \cite{Weiss2012}. Bemerkenswert ist der Umfang des Experiments, an dem 2012 59 Personen teilgenommen haben. Möglicherweise hätte sich in dieser Arbeit mit mehr Teilnehmern ein anderes Bild ergeben, jedoch wurde auch hier darauf geachtet, dass die Teilnehmer sich voneinander unterscheiden. \todo{Das im Teil Experiment beschreiben und darauf verweisen.}
 \begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-width=250pt,
-xtick=data,
-ytick={0, 1, 2, 3, 4},
-ylabel=Anzahl der Teilnehmer,
-symbolic x coords={65-70,70-75,75-80,80-85,85-90,90-95,95-100},
-legend style={at={(0.5,-0.15)},
-	anchor=north,legend columns=-1},
-ybar,
-]
-\addplot 
-coordinates {(65-70,1) (70-75,1) (75-80,4) (80-85,2) (85-90,1) (90-95,1) (95-100,0)};
-
-\legend{Genauigkeit in Prozent}
-\end{axis}
-\end{tikzpicture}
-\caption{Genauigkeitsverteilung der unpersönlichen Modelle (RF, comb.)}
-\label{fig:accuracy-impersonal-per-user}
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	width=250pt,
+	xtick=data,
+	ytick={0, 1, 2, 3, 4},
+	ylabel=Anzahl der Teilnehmer,
+	symbolic x coords={65-70,70-75,75-80,80-85,85-90,90-95,95-100},
+	legend style={at={(0.5,-0.15)},
+		anchor=north,legend columns=-1},
+	ybar,
+	]
+	\addplot 
+	coordinates {(65-70,1) (70-75,1) (75-80,4) (80-85,2) (85-90,1) (90-95,1) (95-100,0)};
+	
+	\legend{Genauigkeit in Prozent}
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Genauigkeitsverteilung der unpersönlichen Modelle (RF, comb.)}
+	\label{fig:accuracy-impersonal-per-user}
 \end{figure}
 
 \begin{figure}
-\centering
-\includegraphics[clip,trim=110mm 186mm 10mm 55mm, page=6, scale=1]{img/Weiss2012}
-\caption{Genauigkeitsverteilung der unpersönlichen Modelle, Weiss et al. (2012) \cite{Weiss2012}}
-\label{fig:accuracy-impersonal-per-user-weiss2012}
+	\centering
+	\includegraphics[clip,trim=110mm 186mm 10mm 55mm, page=6, scale=1]{img/Weiss2012}
+	\caption{Genauigkeitsverteilung der unpersönlichen Modelle, Weiss et al. (2012) \cite{Weiss2012}}
+	\label{fig:accuracy-impersonal-per-user-weiss2012}
 \end{figure}
+
+\subsection{Anmerkung zu hybriden Modellen}
+Weiss und Lockhart untersuchten 2012 den Einfluss der Modell-Personalisierung auf die Genauigkeit \cite{Weiss2012}. Neben persönlichen und unpersönlichen Modellen analysierten sie auch sogenannte \textit{hybride} Modelle, die für einen Benutzer $b$ sowohl auf Daten von $b$, als auch auf Daten anderer Benutzer zurückgreifen. Dabei stellten sie jedoch fest, dass die Qualität der hybriden Modelle unter der Qualität der persönlichen Modelle lag, weshalb sie keinen Nutzen in diesen Modellen sahen. Ausgenommen haben sie dabei lediglich den Fall, in dem zu einem Benutzer nur sehr wenige Daten bekannt sind. Aufgrund der schlechten Erfolgsaussichten zur Verbesserung der Genauigkeit durch solche Modelle wurde in dieser Arbeit auf eine Untersuchung dieser verzichtet.
 
 
 \section{Genauigkeit bei ungenauen Zeitstempeln}
