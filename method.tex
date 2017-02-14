@@ -138,7 +138,7 @@ D = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
 &(2000, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 3.0})\}
 \end{align*} 
 
-Zur Vereinfachung wird von 2D-Sensoren ausgegangen, sodass keine $z$-Komponente vorhanden ist. Zur werden als Aggregatfunktionen der Durchschnitt, die \textit{Binned Distribution} mit zwei \textit{Bins} und der \textit{Average Root of Squares} verwendet. Die gewählte Intervallgröße beträgt zwei Sekunden, sodass sich die folgenden Intervalle ergeben:
+Zur Vereinfachung wird von 2D-Sensoren ausgegangen, sodass keine $z$-Komponente vorhanden ist. Als Aggregatfunktionen werden der Durchschnitt, die \textit{Binned Distribution} mit zwei \textit{Bins} und der \textit{Average Root of Squares} verwendet. Die gewählte Intervallgröße beträgt zwei Sekunden, sodass sich die folgenden Intervalle ergeben:
 \begin{align*}
 I_1 = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
 &(0, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 1.0}), \\
@@ -176,9 +176,8 @@ Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich de
 	\hline 
 	$I_2$ & $...$ & $...$ & $...$ & Jogging   \\ 
 	\hline 
-\end{tabular} \\
-
-Die Intervallspalte dient nur der Illustration.
+\end{tabular} \\\\
+Die Intervallspalte dient nur der Illustration und wird dem ML-Algorithmus nicht gezeigt.
 
 \section{Nachbearbeitung der Daten}
 Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass ML-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatish hohen Einfluss zuschreiben, werden alle numerischen Spalten mithilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt danach an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.

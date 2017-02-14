@@ -11,7 +11,7 @@ Die folgenden Datensätze werden generiert:
 \item \textit{Band combined}: Alle Daten des Smartphones werden vor der Transformation verworfen, sodass nur noch die Daten des Band verbleiben..
 \item \textit{Band accel}: Nur die Daten des Beschleunigungssensors des Microsoft Band 2 werden mit in die Transformation einbezogen.
 \item \textit{Band gyro}: Nur die Daten des Gyroskops des Microsoft Band 2 werden mit in die Transformation einbezogen.
-\item \textit{Phone comb.}: Alle Daten des Microsoft Band 2 werden vor der Transformation verworfen, sodass nur noch die Daten des Smartphones verbleiben.
+\item \textit{Phone comb}: Alle Daten des Microsoft Band 2 werden vor der Transformation verworfen, sodass nur noch die Daten des Smartphones verbleiben.
 \item \textit{Phone accel}: Nur die Daten des Beschleunigungssensors des Smartphones werden mit in die Transformation einbezogen.
 \item \textit{Phone gyro}: Nur die Daten des Gyroskops des Smartphones werden mit in die Transformation einbezogen.
 \item \textit{SamplingRate1Hz}: Es werden Readings verworfen, als hätten Band und Smartphone jeweils nur Readings bei einer Rate von 1 Hz geliefert.
@@ -52,13 +52,13 @@ xtick=data,
 ymin=0,
 ymax=100,
 ylabel=Genauigkeit,
-symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb.,Phone comb.},
+symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb,Phone comb},
 legend style={at={(0.5,-0.15)},
 	anchor=north,legend columns=-1},
 ybar,
 ]
 \addplot 
-coordinates {(Phone accel,90) (Watch accel,91.6) (Watch gyro,80.5) (Comb,99.4) (Watch comb.,97.1) (Phone comb.,90.7)};
+coordinates {(Phone accel,90) (Watch accel,91.6) (Watch gyro,80.5) (Comb,99.4) (Watch comb,97.1) (Phone comb,90.7)};
 
 \addplot 
 coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
@@ -90,13 +90,13 @@ Im Gegensatz zu den persönlichen Modellen unterscheiden sich die unpersönliche
 	ymin=0,
 	ymax=100,
 	ylabel=Genauigkeit,
-	symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb.,Phone comb.},
+	symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb,Phone comb},
 	legend style={at={(0.5,-0.15)},
 		anchor=north,legend columns=-1},
 	ybar,
 	]
 	\addplot 
-	coordinates {(Phone accel,39.2) (Watch accel,67.1) (Watch gyro,53.5) (Comb,78.5) (Watch comb.,76.5) (Phone comb.,41.3)};
+	coordinates {(Phone accel,39.2) (Watch accel,67.1) (Watch gyro,53.5) (Comb,78.5) (Watch comb,76.5) (Phone comb,41.3)};
 	
 	\addplot 
 	coordinates {(Phone accel,35.1) (Watch accel,70.3) (Watch gyro,57.5)};
@@ -150,7 +150,7 @@ Im Gegensatz zu den persönlichen Modellen unterscheiden sich die unpersönliche
 
 \subsubsection{Variation zwischen Teilnehmern}
 \todo{Auch für persönliche Modelle?}
-Motiviert durch Weiss et al. (2012) \cite{Weiss2012} wurde auch die Genauigkeitsverteilung der unpersönlichen Modelle untersucht. Es ist von Interesse, wie die Genauigkeit unter den Teilnehmern variiert, da allein die Durchschnittsgenauigkeit von $78.5 \%$ (RF comb.) nicht zeigt, wie praxistauglich die Modelle tatsächlich sind. Ist die Genauigkeit für einige Teilnehmer sehr schlecht, für andere Teilnehmer hingegen sehr gut und damit insgesamt instabil, schränkt dies die Verwendbarkeit der Methode ein, da die Zuverlässigkeit gering ist.
+Motiviert durch Weiss et al. (2012) \cite{Weiss2012} wurde auch die Genauigkeitsverteilung der unpersönlichen Modelle untersucht. Es ist von Interesse, wie die Genauigkeit unter den Teilnehmern variiert, da allein die Durchschnittsgenauigkeit von $78.5 \%$ (RF comb) nicht zeigt, wie praxistauglich die Modelle tatsächlich sind. Ist die Genauigkeit für einige Teilnehmer sehr schlecht, für andere Teilnehmer hingegen sehr gut und damit insgesamt instabil, schränkt dies die Verwendbarkeit der Methode ein, da die Zuverlässigkeit gering ist.
 
 Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die tatsächliche Genauigkeitsverteilung, die aus dem Experiment hervorging. Kein unpersönliches Modell für einen Teilnehmer war ungenauer als $65 \%$, während über $80 \%$ der Teilnehmer sogar Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. In der Untersuchung von Weiss et al. (2012), in der Daten des Beschleunigungssensors eines Smartphones ähnlich aufgenommen und transformiert wurden, lag die untere Schranke bei nur $25 \%$ und auch vollständig betrachtet zeigt die Genauigkeitsverteilung in Abbildung~\ref{fig:accuracy-impersonal-per-user-weiss2012} eine deutlich größere Instabilität als in dieser Arbeit \cite{Weiss2012}. Bemerkenswert ist der Umfang des Experiments, an dem 2012 59 Personen teilgenommen haben. Möglicherweise hätte sich in dieser Arbeit mit mehr Teilnehmern ein anderes Bild ergeben, jedoch wurde auch hier, wie in Abschnitt~\ref{sec:users} beschrieben, darauf geachtet, dass sich die Teilnehmer voneinander unterscheiden.
 \begin{figure}
@@ -172,7 +172,7 @@ Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die tatsächliche Genauig
 	\legend{Genauigkeit in Prozent}
 	\end{axis}
 	\end{tikzpicture}
-	\caption{Genauigkeitsverteilung der unpersönlichen Modelle (RF, comb.)}
+	\caption{Genauigkeitsverteilung der unpersönlichen Modelle (RF, comb)}
 	\label{fig:accuracy-impersonal-per-user}
 \end{figure}
 
