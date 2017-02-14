@@ -1,6 +1,22 @@
-\chapter{Überblick über verwandte Arbeiten}
+\chapter{Verwandte Arbeiten}
 \label{chap:relatedwork}
 \todo{Review, grouped by idea not author}
+
+Dieses Kapitel behandelt verwandte Arbeiten, die mindestens bis in das Jahr 1998 zurückreichen. Im November 1998 veröffentlichten Schmidt et al. im Rahmen des \textit{Technology for Enabling Awareness (TEA)}-Projektes ein Paper über \textit{Context Awareness in Ultra-Mobile Computing}, in dem sie darauf hinwiesen, dass Kontext mehr beinhaltet als den Ort des Geschehens, auf den sich vorige Werke konzentrierten \cite{Schmidt1999}. In diesem Paper schlugen sie neben der Verwendung expliziter Regeln zur Erkennung diverser Aktivitäten zusätzlich auch die Verwendung von Methoden künstlicher Intelligenz vor.
+
+Parallel dazu erkannte Ashbrook 1999 ebenfalls die Bedeutung der Kontexterkennung als wichtige Komponente tragbarer Computeranwendungen \cite{Ashbrook1999}. Ein damals kommerziell verfügbares Produkt namens \textit{Twiddler}, eine mit nur einer Hand bedienbare Tastatur, integrierte zwei Sensoren, welche die Ausrichtung des Gerätes feststellen konnten. Mit der Motivation, automatisch eine To-Do-Liste zu öffnen, wenn der Nutzer des Gerätes sich zu seinem nächsten Termin bewegt, untersuchte Ashbrook die Möglichkeit, eben diese Tätigkeit mithilfe der genannten Sensoren automatisch erkennen zu lassen. Er schlug mehrere solche Methoden vor, die allerdings allesamt keinen Gebrauch von Machine Learning machten und nur schwer auf andere Aktivitäten übertragbar waren.
+
+Ebenfalls im Jahr 1999 äußerten Farringdon et al. Kritik an Mobilgeräten wie Handys und PDAs, die ihre Besitzer auch in unangemessenen Situationen visuell und akustisch über eingehende Nachrichten benachrichtigen \cite{Farringdon1999}. Um dieses Problem anzugehen entwickelten sie ein an der Hüfte tragbares Gerät, das zwei 1D-Accelerometer integrierte, sowie eine Jacke, die den Streckfaktor des Materials messen konnte. Auch hier wurde Machine Learning nicht eingesetzt. Stattdessen wurde für die Erkennung der Aktivitäten Sitzen, Stehen, Liegen, Gehen und Laufen ein Algorithmus entwickelt, der Aspekte wie die Durchschnittswerte der Sensoren betrachtet und mit Schwellwerten vergleicht.
+
+\begin{figure}
+\centering
+\includegraphics[clip,trim=25mm 90mm 110mm 115mm, page=6, scale=1]{img/VanLaerhoven2000}
+\caption{Der Aufnahmeprozess von Van Learhoven und Cakmakci \cite{VanLaerhoven2000}}
+\label{fig:van-laerhoven-experiment}
+\end{figure}
+
+Das TEA-Projekt wurde über mehrere Jahre fortgeführt. Nach den Publikationen von Ashbrook und Farringdon et al. wurde im Rahmen dieses Projektes 2000 ein Paper von Van Learhoven und Cakmakci veröfentlicht, das unter anderem die Arbeit von Ashbrook anerkannte, jedoch darauf hinwies, dass Kontexterkennung adaptiv sein muss und sich dafür Methoden des maschinellen Lernens anbieten \cite{VanLaerhoven2000}. Als mindestens eines der ersten Werke zu diesem Thema setzen die Autoren mehrere Sensortypen ein und verwenden neben Beschleunigungssensoren auch Infrarot-, Temperatur-, Kohlenstoffmonoxid-, Berührungs- Druck- und Lichtsensoren, sowie Mikrofone, die in einem am Oberschenkel tragbaren Gerät integriert wurden. 
+Diese Fülle von Daten verursachte zu diesem Zeitpunkt noch Probleme hinsichtlich des Rechenaufwands, weshalb die Autoren diverse Vorverarbeitungstechniken wie beispielsweise eine Fouriertransformation einsetzten, um die Datenmenge zu reduzieren. Anschließend verwendeten sie eine \textit{Kohonne Self-Organizing Map (KSOM)} als neuronenbasiertes Clusteringverfahren, in dem verschiedene Eingabewerte nach dem Trainingsprozess verschiedene Neuronenareale aktivieren. Dies ermöglichte eine Visualisierung des Clusterings und ließ die Autoren darauf schließen, dass eine Erkennung von Aktivitäten mithilfe von Machine Learning grundsätzlich möglich ist. Auf Basis des KSOM arbeitete anschließend ein $k$NN-Verfahren: Für einen Teil der Neuronen war bekannt, welche Aktivität sie aktiviert, sodass für die aktivierten Neuronen für eine Eingabe die $k$ nächsten Nachbarn dieser Neuronen für eine Abstimmung über die Aktivität betrachtet werden konnten. Dieses Verfahren, das auf einem Notebook in Echtzeit arbeitete, lieferte für die Aktivitäten Sitzen, Stehen, Gehen, Laufen und Fahrradfahren gute Ergebnisse, nur das Treppensteigen sorgte für Probleme. Abbildung~\ref{fig:van-laerhoven-experiment} zeigt die Einschränkungen des Experiments durch die eingeschränkte Rechenleistung und Speicherkapazität der zum Zeitpunkt der Arbeit verfügbaren mobilen Technologie.
 
 
 % vim: set ft=tex
