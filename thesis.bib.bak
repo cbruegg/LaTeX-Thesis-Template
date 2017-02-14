@@ -71,19 +71,19 @@
 
 <PRE id="1964918">
 
-@Article{Kwapisz2011,
+@Article{Kwapisz2012,
   author     = {Kwapisz, Jennifer R. and Weiss, Gary M. and Moore, Samuel A.},
   title      = {Activity Recognition Using Cell Phone Accelerometers},
-  journal    = {SIGKDD Explor. Newsl.},
-  year       = {2011},
+  journal    = {AAAI Technical Report},
+  year       = {2012},
   volume     = {12},
   number     = {2},
   pages      = {74--82},
   month      = mar,
+  issn       = {1931-0145},
   acmid      = {1964918},
   address    = {New York, NY, USA},
   doi        = {10.1145/1964897.1964918},
-  issn       = {1931-0145},
   issue_date = {December 2010},
   keywords   = {accelerometer, activity recognition, cell phone, induction, sensor mining, sensors},
   numpages   = {9},
@@ -312,18 +312,6 @@
   publisher = {Molecular Diversity Preservation International},
 }
 
-@Article{Kwapisz2011a,
-  author        = {Kwapisz, Jennifer R and Weiss, Gary M and Moore, Samuel A},
-  title         = {Activity recognition using cell phone accelerometers},
-  journal       = {ACM SigKDD Explorations Newsletter},
-  year          = {2011},
-  volume        = {12},
-  number        = {2},
-  pages         = {74--82},
-  __markedentry = {[Christian:]},
-  publisher     = {ACM},
-}
-
 @InProceedings{Lockhart2014,
   author        = {Lockhart, Jeffrey W and Weiss, Gary M},
   title         = {The benefits of personalized smartphone-based activity recognition models},
@@ -331,7 +319,20 @@
   year          = {2014},
   pages         = {614--622},
   organization  = {SIAM},
+  __markedentry = {[Christian:]},
+}
+
+@Article{Schmidt1999,
+  author        = {Schmidt, Albrecht and Beigl, Michael and Gellersen, Hans-W},
+  title         = {There is more to context than location},
+  journal       = {Computers \& Graphics},
+  year          = {1999},
+  volume        = {23},
+  number        = {6},
+  pages         = {893--901},
+  note          = {Ursprünglich erschienen im Nov. 1998},
   __markedentry = {[Christian:6]},
+  publisher     = {Elsevier},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
