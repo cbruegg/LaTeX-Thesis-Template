@@ -47,6 +47,8 @@ Erwartungsgemäß ist die Genauigkeit mit den vollständig kombinierten Datenque
 \centering
 \begin{tikzpicture}
 \begin{axis}[
+grid=major, % Display a grid
+grid style={dashed,gray!30}, % 
 width=360pt,
 xtick=data,
 ymin=0,
@@ -85,6 +87,8 @@ Im Gegensatz zu den persönlichen Modellen unterscheiden sich die unpersönliche
 	\centering
 	\begin{tikzpicture}
 	\begin{axis}[
+	grid=major, % Display a grid
+	grid style={dashed,gray!30}, % 
 	width=360pt,
 	xtick=data,
 	ymin=0,
@@ -154,26 +158,28 @@ Motiviert durch Weiss et al. (2012) \cite{Weiss2012} wurde auch die Genauigkeits
 
 Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die tatsächliche Genauigkeitsverteilung, die aus dem Experiment hervorging. Kein unpersönliches Modell für einen Teilnehmer war ungenauer als $65 \%$, während über $80 \%$ der Teilnehmer sogar Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. In der Untersuchung von Weiss et al. (2012), in der Daten des Beschleunigungssensors eines Smartphones ähnlich aufgenommen und transformiert wurden, lag die untere Schranke bei nur $25 \%$ und auch vollständig betrachtet zeigt die Genauigkeitsverteilung in Abbildung~\ref{fig:accuracy-impersonal-per-user-weiss2012} eine deutlich größere Instabilität als in dieser Arbeit \cite{Weiss2012}. Bemerkenswert ist der Umfang des Experiments, an dem 2012 59 Personen teilgenommen haben. Möglicherweise hätte sich in dieser Arbeit mit mehr Teilnehmern ein anderes Bild ergeben, jedoch wurde auch hier, wie in Abschnitt~\ref{sec:users} beschrieben, darauf geachtet, dass sich die Teilnehmer voneinander unterscheiden.
 \begin{figure}
-	\centering
-	\begin{tikzpicture}
-	\begin{axis}[
-	width=250pt,
-	xtick=data,
-	ytick={0, 1, 2, 3, 4},
-	ylabel=Anzahl der Teilnehmer,
-	symbolic x coords={65-70,70-75,75-80,80-85,85-90,90-95,95-100},
-	legend style={at={(0.5,-0.15)},
-		anchor=north,legend columns=-1},
-	ybar,
-	]
-	\addplot 
-	coordinates {(65-70,1) (70-75,1) (75-80,4) (80-85,2) (85-90,1) (90-95,1) (95-100,0)};
-	
-	\legend{Genauigkeit in Prozent}
-	\end{axis}
-	\end{tikzpicture}
-	\caption{Genauigkeitsverteilung der unpersönlichen Modelle (RF, comb)}
-	\label{fig:accuracy-impersonal-per-user}
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+grid=major, % Display a grid
+grid style={dashed,gray!30}, % 
+width=250pt,
+xtick=data,
+ytick={0, 1, 2, 3, 4},
+ylabel=Anzahl der Teilnehmer,
+symbolic x coords={65-70,70-75,75-80,80-85,85-90,90-95,95-100},
+legend style={at={(0.5,-0.15)},
+	anchor=north,legend columns=-1},
+ybar,
+]
+\addplot 
+coordinates {(65-70,1) (70-75,1) (75-80,4) (80-85,2) (85-90,1) (90-95,1) (95-100,0)};
+
+\legend{Genauigkeit in Prozent}
+\end{axis}
+\end{tikzpicture}
+\caption{Genauigkeitsverteilung der unpersönlichen Modelle (RF, comb)}
+\label{fig:accuracy-impersonal-per-user}
 \end{figure}
 
 \begin{figure}
@@ -418,6 +424,8 @@ Abbildung~\ref{fig:accuracy-convergence} zeigt den Plot der Funktion $G$. Es ist
 \centering
 \begin{tikzpicture}
 \begin{axis}[
+grid=major, % Display a grid
+grid style={dashed,gray!30}, % 
 ymin=0,
 ymax=100,
 xmin=1,
