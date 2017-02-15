@@ -41,7 +41,7 @@ Anzumerken ist jedoch, dass die Genauigkeit von $97.1 \%$, die durch die Kombina
 \subsubsection{Vergleich mit Weiss et al.}
 Da diese Bachelorarbeit auf der Arbeit von Weiss et al. \cite{Weiss2016} aufbaut, ist ein Vergleich der Ergebnisse sinnvoll. Abbildung~\ref{fig:accuracy-personal-vs-weiss} zeigt die Genauigkeiten der besten Modelle in Abhängigkeit von den Datenquellen. Sowohl die Quellen \textit{Watch accel} als auch \textit{Watch gyro} liefern sehr ähnliche Ergebnisse wie bei Weiss et al., nur das \textit{Phone accel}-Modell in dieser Arbeit liefert im direkten Vergleich eine deutlich bessere Genauigkeit. Eine mögliche Erklärung wäre die im Vergleich mit Weiss et al. 10-fach höhere Sampling-Rate des Sensoren des Smartphones gewesen, jedoch lieferte ein Test mit einem RF-Modell und auf 20 Hz beschränkten Smartphone-Daten immerhin noch eine Genauigkeit von $88.2 \%$. Da dies dennoch $12.7 \%$ über dem \textit{Phone Accel}-Modell von Weiss et al. liegt, lässt sich diese Erklärung ausschließen. Eine weitere Erklärungsmöglichkeit wäre, dass die Genauigkeit des Sensors im OnePlus 3 über der des Sensors im Samsung Galaxy S4 liegt, das von Weiss et al. zur Aufnahme genutzt wird, jedoch kann diese Hypothese mangels eines solchen Gerätes nicht verifiziert werden. Die Methodik zur Reduktion der Sampling-Rate wird in Abschnitt~\ref{sec:lower-sampling-rate} erklärt, der sich weiteren solchen Analysen widmet.
 
-Erwartungsgemäß ist die Genauigkeit mit den vollständig kombinierten Datenquellen arbeitsübergreifend am höchsten, jedoch ist dies sogar der Fall, wenn man die Daten des Smartphones entfernt. Nutzt man hingegen nur die Daten des Smartphones, ist die Genauigkeit vergleichbar mit den beiden \textit{Watch accel}-Ergebnisse.
+Erwartungsgemäß ist die Genauigkeit mit den vollständig kombinierten Datenquellen arbeitsübergreifend am höchsten, jedoch ist dies sogar der Fall, wenn man die Daten des Smartphones entfernt. Nutzt man hingegen nur die Daten des Smartphones, ist die Genauigkeit vergleichbar mit den beiden \textit{Watch accel}-Ergebnissen.
 
 \begin{figure}
 \centering
@@ -55,7 +55,7 @@ ymin=0,
 ymax=100,
 ylabel=Genauigkeit,
 symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb,Phone comb},
-legend style={at={(0.5,-0.15)},
+legend style={at={(0.5,-0.1)},
 	anchor=north,legend columns=-1},
 ybar,
 ]
@@ -95,7 +95,7 @@ Im Gegensatz zu den persönlichen Modellen unterscheiden sich die unpersönliche
 	ymax=100,
 	ylabel=Genauigkeit,
 	symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb,Phone comb},
-	legend style={at={(0.5,-0.15)},
+	legend style={at={(0.5,-0.1)},
 		anchor=north,legend columns=-1},
 	ybar,
 	]

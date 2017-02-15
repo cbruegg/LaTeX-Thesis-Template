@@ -13,7 +13,7 @@ Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer 
 Die Aufzeichnungssoftware wurde als Anwendung für das Android-Betriebssystem implementiert, da für diese Plattform auch ein \textit{Software Development Kit (SDK)} für das Microsoft Band 2 existiert.
 \begin{figure}[htb]
 \centering
-\includegraphics[width=160mm, clip, trim=1mm 1mm 1mm 1mm]{img/app-structure}
+\includegraphics[width=\textwidth, clip, trim=6mm 6mm 9mm 6mm]{img/app-structure}
 \caption{Struktur der Aufzeichnungssoftware}
 \label{fig:app-structure}
 \end{figure}
@@ -31,7 +31,7 @@ Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reih
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
 \subsection{Beschreibung der Aggregatfunktionen}
-Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2011} wie folgt definiert:\todo{Wahlen begründen}
+Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2012} wie folgt definiert:\todo{Wahlen begründen}
 \subsubsection{Average}
 \[
 \text{Avg}(A) := \frac{1}{N} * \sum_{a \in A} a
@@ -63,9 +63,8 @@ Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes.
 Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den gesammelten Daten als gut geeignet. Für andere Datensätze kann eine Anpassung erforderlich sein.
 
 \begin{algorithm}
-    \caption{IndicesOfPeaks($A$, $t$), $t \in [0,1]$}
+    \caption{IndicesOfPeaks($A$, $t$), $t \in [0,1]$. Returns a list of indices $i$ where $A[i] * t \geq A[i+1]$}
     \label{algo:indicesOfPeaks}
-    \Comment{Returns a list of indices $i$ where $A[i] * t \geq A[i+1]$}
     \begin{algorithmic}
         \State $\text{indices} \gets \emptyset$
         \For{$i \in \{1, ..., |A| - 1\}$}
@@ -137,15 +136,12 @@ D = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
 &(2000, \text{Band}, \text{Gyroscope}, {x \to 3.0, y \to 0.0}), \\
 &(2000, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 3.0})\}
 \end{align*} 
-
 Zur Vereinfachung wird von 2D-Sensoren ausgegangen, sodass keine $z$-Komponente vorhanden ist. Als Aggregatfunktionen werden der Durchschnitt, die \textit{Binned Distribution} mit zwei \textit{Bins} und der \textit{Average Root of Squares} verwendet. Die gewählte Intervallgröße beträgt zwei Sekunden, sodass sich die folgenden Intervalle ergeben:
 \begin{align*}
 I_1 = \{&(0, \text{Band}, \text{Gyroscope}, {x \to 1.0, y \to 0.0}), \\
 &(0, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 1.0}), \\
 &(1000, \text{Band}, \text{Gyroscope}, {x \to 2.0, y \to 2.0}), \\
-&(1000, \text{Band}, \text{Accelerometer}, {x \to 0.0, y \to 1.0})\},
-\end{align*}
-\begin{align*}
+&(1000, \text{Band}, \text{Accelerometer}, {x \to 0.0, y \to 1.0})\}, \\
 I_2 = \{&(2000, \text{Band}, \text{Gyroscope}, {x \to 3.0, y \to 0.0}), \\
 &(2000, \text{Band}, \text{Accelerometer}, {x \to 1.0, y \to 3.0})\}
 \end{align*}
