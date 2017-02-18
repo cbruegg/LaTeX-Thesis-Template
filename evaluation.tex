@@ -420,6 +420,8 @@ Während die persönlichen Modelle lediglich auf die Bewegungsdaten einer einzel
 \todo{Visuelle Illustration des Ziehens von Datensätzen}
 Abbildung~\ref{fig:accuracy-convergence} zeigt den Plot der Funktion $G$. Es ist zu erkennen, dass die Genauigkeit langsam konvergiert, wobei für $i > 10$ noch etwas höhere Genauigkeiten zu erwarten sind. Die Verifikation dieser Hypothese durch weitere Aufnahmen war im Rahmen der zeitlichen Beschränkungen einer Bachelorarbeit nicht möglich.
 
+Zum Vergleich befindet sich in Abbildung~\ref{fig:accuracy-convergence-lockhart} eine Grafik aus \cite{Lockhart2014}, die zeigt, wie sich die Genauigkeit unpersönlicher RF-Modelle, die nur aus Daten eines Smartphone-Accelerometers gewonnen wurden, in dieser Arbeit in Abhängigkeit von der Personenanzahl verhält. Der große HASC-Datensatz konvergiert gegen eine Genauigkeit von etwa $85 \%$, die laut Extrapolation der Autoren auch mit einem größeren eigenen Datensatz hätten erreicht werden können. Es fällt auf, dass auch der Plot in Abbildung~\ref{fig:accuracy-convergence} gegen einen ähnlichen Grenzwert konvergieren könnte, wobei zu beachten ist, dass die beiden externen Datensätze weniger verschiedene Aktivitäten beinhalten, die zudem hinsichtlich ihrer Erkennbarkeit durch ML-Klassifikation variieren könnten. Zusätzlich ist festzustellen, dass die Genauigkeit in Abbildung~\ref{fig:accuracy-convergence} bei 10 Personen bereits etwa $80 \%$ beträgt, während es in Abbildung~\ref{fig:accuracy-convergence-lockhart} nur etwa $63 \%$, respektive $70 \%$ sind. Dies deutet darauf hin, dass mehr Sensoren die Notwendigkeit vieler Personen im Datensatz verringern.
+
 \begin{figure}
 \centering
 \begin{tikzpicture}
@@ -448,6 +450,13 @@ ylabel=$G(i) \text{ = Genauigkeit der Modelle}$]
 \label{fig:accuracy-convergence}
 \end{figure}
 \todo{Check if this figure is in the right place}
+
+\begin{figure}
+\centering
+\includegraphics[clip, trim=22mm 197mm 22mm 27mm, page=8, width=\textwidth]{img/Lockhart2014}
+\caption{Genauigkeit in Abhängigkeit von der Personenzahl (Lockhart \& Weiss \cite{Lockhart2014})}
+\label{fig:accuracy-convergence-lockhart}
+\end{figure}
 
 \section{Optimierung der Hyperparameter}
 Um die unpersönlichen Modelle weiter zu verbessern, wurden die Hyperparameter des RF-Modells optimiert, da dieses Verfahren bis dato das beste Ergebnis geliefert hat. Als Baseline dient das RF1-Modell, das dieselben Hyperparameter besitzt wie das RF-Modell in Abbildung~\ref{tab:accuracy-impersonal}. Zu bemerken ist, dass die folgenden Genauigkeiten je nach Seed für den Zufallsgenerator um $\pm 1.5 \%$ schwanken, weshalb die Genauigkeit des RF1-Modells im hier gezeigten Durchlauf des Tests rund $1.45 \%$ über der des RF-Modells in Abbildung~\ref{tab:accuracy-impersonal} liegt.
