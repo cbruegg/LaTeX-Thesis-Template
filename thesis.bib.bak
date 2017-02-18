@@ -313,13 +313,12 @@
 }
 
 @InProceedings{Lockhart2014,
-  author        = {Lockhart, Jeffrey W and Weiss, Gary M},
-  title         = {The benefits of personalized smartphone-based activity recognition models},
-  booktitle     = {Proceedings of the 2014 SIAM International Conference on Data Mining},
-  year          = {2014},
-  pages         = {614--622},
-  organization  = {SIAM},
-  __markedentry = {[Christian:]},
+  author       = {Lockhart, Jeffrey W and Weiss, Gary M},
+  title        = {The benefits of personalized smartphone-based activity recognition models},
+  booktitle    = {Proceedings of the 2014 SIAM International Conference on Data Mining},
+  year         = {2014},
+  pages        = {614--622},
+  organization = {SIAM},
 }
 
 @Article{Schmidt1999,
@@ -331,8 +330,18 @@
   number        = {6},
   pages         = {893--901},
   note          = {Ursprünglich erschienen im Nov. 1998},
-  __markedentry = {[Christian:6]},
+  __markedentry = {[Christian:]},
   publisher     = {Elsevier},
+}
+
+@InProceedings{Dernbach2012,
+  author        = {Dernbach, Stefan and Das, Barnan and Krishnan, Narayanan C and Thomas, Brian L and Cook, Diane J},
+  title         = {Simple and complex activity recognition through smart phones},
+  booktitle     = {Intelligent Environments (IE), 2012 8th International Conference on},
+  year          = {2012},
+  pages         = {214--221},
+  organization  = {IEEE},
+  __markedentry = {[Christian:6]},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}
