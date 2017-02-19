@@ -227,7 +227,7 @@ Da beide verwendete Geräte primär akkubetrieben sind, muss bei einer marktreif
 
 Die Sampling-Raten, mit denen die Aufnahmesoftware Daten aufgezeichnet hat, befinden sich in Tabelle~\ref{tab:sampling-rates}. Um Sampling-Raten miteinander zu vergleichen, wurden dieselben Rohdaten verwendet wie im normalen, vollständigen Modell. Um eine Sampling-Rate von $k$ Hz zu simulieren, wurden nach einem behaltenen Reading $(t_0\,\text{secs}, \text{sensor}, \text{source}, ...)$ alle weiteren Readings $(t\,\text{secs}, \text{sensor}, \text{source}, ...)$ mit $t \in [t_0, t_0 + 1/k]$ gelöscht.
 
-Nun werden die besten Modelle miteinander verglichen. Zur Erinnerung: \textit{Comb, Pers.} erzielte eine Genauigkeit von $99.4 \%$ und \textit{Comb, Unpers.} eine Genauigkeit von $78.5 \%$. Reduziert man die Sampling-Rate des persönlichen Modells auf 5 Hz, so reduziert sich die Genauigkeit um $0.8 \%$. Eine dramatischere Verschlechterung wird durch die Reduzierung auf 1 Hz verursacht, durch die sich die Genauigkeit um $4.1 \%$ verschlechtert. Noch stärker beeinträchtigt werden durch die Reduzierung der Sampling-Rate die unpersönlichen Modelle. Beschränkt man diese auf 5 Hz, so ergibt sich gegenüber \textit{Comb, Unpers.} eine Verschlechterung um $8.4 \%$. Bei einer Beschränkung auf 1 Hz beträgt die Verschlechterung sogar $16.4 \%$, sodass zu einer Reduzierung der Sampling-Rate nur bei den ohnehin bereits genauen persönlichen Modellen zu raten ist.
+Nun werden die besten Modelle miteinander verglichen. Zur Erinnerung: \textit{Comb, Pers.} erzielte eine Genauigkeit von $99.4 \%$ und \textit{Comb, Unpers.} eine Genauigkeit von $78.5 \%$. Reduziert man die Sampling-Rate des persönlichen Modells auf 5 Hz, so reduziert sich die Genauigkeit um \todo{Fix} $0.8 \%$. Eine dramatischere Verschlechterung wird durch die Reduzierung auf 1 Hz verursacht, durch die sich die Genauigkeit um \todo{Fix} $4.1 \%$ verschlechtert. Noch stärker beeinträchtigt werden durch die Reduzierung der Sampling-Rate die unpersönlichen Modelle. Beschränkt man diese auf 5 Hz, so ergibt sich gegenüber \textit{Comb, Unpers.} eine Verschlechterung um \todo{Fix} $8.4 \%$. Bei einer Beschränkung auf 1 Hz beträgt die Verschlechterung sogar \todo{Fix} $16.4 \%$, sodass zu einer Reduzierung der Sampling-Rate nur bei den ohnehin bereits genauen persönlichen Modellen zu raten ist.
 
 \begin{table}
 \centering
@@ -252,6 +252,7 @@ Nun werden die besten Modelle miteinander verglichen. Zur Erinnerung: \textit{Co
 \label{tab:sampling-rates}
 \end{table}
 
+\todo{Fix following table}
 \begin{table}
 \centering
 \begin{tabular}{|c|c|c||c|c|}
