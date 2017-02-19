@@ -11,9 +11,11 @@ bibtotocnumbered%
 
 %%% Sprach-Konfiguration
 \usepackage[utf8]{inputenc}
-\usepackage[ngerman]{babel}
+\usepackage[ngerman,math=normal]{babel}
 \hyphenation{whe-ther}
 \usepackage{microtype}% verbesserter Randausgleich
+\usepackage{csquotes}
+\MakeOuterQuote{"}
 
 %%% Grafik-Konfiguration
 \usepackage{graphicx}
@@ -116,8 +118,6 @@ bibtotocnumbered%
 %\lstlistoflistings % Uncomment if you use listings
 
 \mainmatter
-
-\shorthandoff{"}
 
 \include{introduction}
 \include{background}
