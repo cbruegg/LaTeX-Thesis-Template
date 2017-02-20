@@ -4,7 +4,8 @@ Dieses Kapitel erläutert die Art und Weise, mit der aus den im Experiment gewon
 
 \section{Implementierung der Aufzeichnungssoftware}
 \label{sec:android-app}
-\todo{TODO}
+Die Aufzeichnung der Daten erforderte die Entwicklung einer neuen Software. Mit dem \textit{Actitracker} besteht zwar bereits eine Software von Lockhart et al. \cite{Lockhart2014}, jedoch unterstützt diese die synchronisierte Aufnahme mehrerer Sensoren, sowie das Microsoft Band 2 generell nicht. Wichtige Anforderungen an die Aufzeichnungssoftware waren in dieser Arbeit eine hohe Zuverlässigkeit, Fernsteuerbarkeit und das automatische Hochladen der Daten auf einen Datenspeicher im Anschluss an die Aufnahme. Teilnehmer des Experimentes sollten mit der Anwendung möglichst wenig in Berührung kommen.
+
 \subsection{Definition der Messdaten}
 \begin{definition}
 Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors gruppiert nach Komponente. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
@@ -26,12 +27,12 @@ Wird die Aufnahme gestoppt, werden die Readings mitsamt den Metadaten Name des P
 
 \section{Transformation der Daten}
 \label{sec:transformation}
-Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML-Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die in Rahmen dieser Arbeit bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
+Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML\hyph Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die in Rahmen dieser Arbeit bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
 
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
 \subsection{Beschreibung der Aggregatfunktionen}
-Sei $A[1..N]$ eine Liste von Zahlen. Dann seien die folgenden Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2012} wie folgt definiert:\todo{Wahlen begründen}
+Um aus den sequentiellen Daten des Intervalls eine feste Anzahl von Features zu gewinnen, die dieses Intervall beschreiben, werden Aggregatfunktionen benötigt, die eine Liste von Zahlen $A[1..N]$ auf eine feste Anzahl von Werten reduziert, welche die sequentiellen Daten in Kombination möglichst gut beschreiben. Es seien die folgenden, auch von Weiss et al. verwendeten \cite{Weiss2016} Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2012} wie folgt definiert:
 \subsubsection{Average}
 \[
 \text{Avg}(A) := \frac{1}{N} * \sum_{a \in A} a
