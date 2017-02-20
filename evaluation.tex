@@ -171,15 +171,12 @@ width=250pt,
 xtick=data,
 ytick={0, 1, 2, 3, 4},
 ylabel=Anzahl der Teilnehmer,
+xlabel=Genauigkeit in Prozent,
 symbolic x coords={65-70,70-75,75-80,80-85,85-90,90-95,95-100},
-legend style={at={(0.5,-0.15)},
-	anchor=north,legend columns=-1},
 ybar,
 ]
 \addplot 
 coordinates {(65-70,1) (70-75,1) (75-80,4) (80-85,2) (85-90,1) (90-95,1) (95-100,0)};
-
-\legend{Genauigkeit in Prozent}
 \end{axis}
 \end{tikzpicture}
 \caption{Genauigkeitsverteilung der unpersönlichen Modelle (RF, comb)}
