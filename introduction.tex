@@ -1,9 +1,9 @@
 \chapter{Einleitung}
 \label{chap:introduction}
 \section{Motivation}
-Smartphones haben im letzten Jahrzehnt an großer Bedeutung gewonnen. \todo{Cite} Daneben existieren mittlerweile ergänzend dazu sogenannte \textit{Smartwatches} und \textit{Fitness-Tracker}. Smartwatches sind Armbanduhren, die in der Regel drahtlos mit einem Smartphone verbunden sind und Informationen wie beispielsweise Benachrichtigungen am Handgelenk zugänglich machen. Fitness-Tracker besitzen ähnliche Funktionen, zielen allerdings primär darauf ab, die Fitness und Gesundheit des Nutzers zu fördern, indem Statistiken wie beispielsweise die Schrittanzahl des Nutzers pro Tag gesammelt und grafisch aufbereitet werden. In beiden Geräteformen werden üblicherweise Sensoren verbaut, mit denen sich die Bewegungen des Trägers nachvollziehen lassen.
+Smartphones haben im letzten Jahrzehnt an großer Bedeutung gewonnen. Daneben existieren mittlerweile ergänzend dazu sogenannte \textit{Smartwatches} und \textit{Fitness-Tracker}. Smartwatches sind Armbanduhren, die in der Regel drahtlos mit einem Smartphone verbunden sind und Informationen wie beispielsweise Benachrichtigungen am Handgelenk zugänglich machen. Fitness-Tracker besitzen ähnliche Funktionen, zielen allerdings primär darauf ab, die Fitness und Gesundheit des Nutzers zu fördern, indem Statistiken wie beispielsweise die Schrittanzahl des Nutzers pro Tag gesammelt und grafisch aufbereitet werden. In beiden Geräteformen werden üblicherweise Sensoren verbaut, mit denen sich die Bewegungen des Trägers nachvollziehen lassen.
 
-Mit einigen Fitness-Trackern des Unternehmens \textit{Fitbit} existieren bereits kommerzielle Produkte, die über die reine Sammlung und grafische Aufbereitung von Statistiken hinausgehen: Die Funktion \textit{SmartTrack} erkennt kontinuierliche Aktivitäten mit hoher Bewegung teilweise automatisch, ohne dass der Anwender vorher manuell einstellen muss, welcher Aktivität er in den nächsten Minuten nachgehen wird \cite{FitbitSmartTrack}. Dies hat den Vorteil, dass der Nutzer sich nicht daran erinnern muss, im Fitness-Tracker die richtige Aktivität einzustellen, um kategorisierte Statistiken zu erhalten.
+Mit einigen Fitness-Trackern des Unternehmens \textit{Fitbit} existieren bereits kommerzielle Produkte, die über die reine Sammlung und grafische Aufbereitung von Statistiken hinausgehen: Die Funktion \textit{SmartTrack} erkennt kontinuierliche Aktivitäten mit hoher Bewegung mithilfe von Sensordaten des Trackers teilweise automatisch, ohne dass der Anwender vorher manuell einstellen muss, welcher Aktivität er in den nächsten Minuten nachgehen wird \cite{FitbitSmartTrack}. Dies hat den Vorteil, dass der Nutzer sich nicht daran erinnern muss, im Fitness-Tracker die richtige Aktivität einzustellen, um kategorisierte Statistiken zu erhalten.
 
 SmartTrack unterstützt die folgenden Aktivitäten: Gehen, Laufen, Fahrradfahren, Crosstrainer-Training und Schwimmen, sowie zwei allgemeine Kategorien "Sport" (Fußball, Basketball, Tennis, etc.) und "aerobes Training" (Zumba, Tanzen).
 
@@ -12,24 +12,23 @@ Es existieren weitere mögliche Anwendungsgebiete der automatisierten Aktivität
 In der Literatur ist \cite{Weiss2016} hervorzuheben. Die Autoren vergleichen in ihrem Paper die Genauigkeit der Aktivitätenerkennung eines Smartphones mit der einer Smartwatch und kommen zu dem Schluss, dass die Güte der jeweiligen Erkennung insbesondere von der Aktivität selbst abhängig ist. Es liegt auf der Hand, dass nur mithilfe eines Smartphones beispielsweise eine Unterscheidung zwischen "Zähneputzen" und "Stehen" schwer möglich ist, während analog dazu nur mithilfe einer Smartwatch die Unterscheidung zwischen "Gehen" und "Fußball schießen" ebenfalls herausfordernd ist. Naheliegend ist daher, eine Kombination beider Datenquellen einzusetzen, um die durchschnittliche Erkennungsrate zu verbessern, ohne eine Beschränkung der erkennbaren Aktivitäten einzuführen.
 
 \section{Ziele der Arbeit} % Problemdefinition
-Evaluiert werden soll ein zu entwickelndes Verfahren, das auf Basis von \textit{maschinellem Lernen} (siehe Definition~\ref{def:ml-classification}) und eben jenen gesammelten Daten feststellt, welcher Aktivität der Träger der Geräte in bestimmten Zeitintervallen nachgegangen ist. Hierzu wird zunächst eine Software benötigt, welche die synchrone Aufzeichnung von Sensordaten eines Fitness-Trackers oder einer Smartwatch und eines Smartphones ermöglicht.
+Evaluiert werden soll ein zu entwickelndes Verfahren, das mit Methoden des \textit{maschinellen Lernens} (siehe Definition~\ref{def:ml-classification}) und eben jenen gesammelten Daten feststellt, welcher Aktivität der Träger der Geräte in bestimmten Zeitintervallen nachgegangen ist. Hierzu wird zunächst eine Software benötigt, welche die synchrone Aufzeichnung von Sensordaten eines Fitness-Trackers oder einer Smartwatch und eines Smartphones ermöglicht.
 
 Es ergibt sich insbesondere die Frage, inwiefern sowohl personalisierte, das heißt nutzerspezifische, als auch unpersonalisierte Modelle durch die Hinzunahme einer weiteren Datenquelle genauer werden.
 
-Um eine Evaluation zu ermöglichen, wird ein Beispieldatensatz benötigt, der durch ein Experiment mit 10 Probanden aufgebaut wird. Orientiert ist diese Zahl an der Anzahl der Probanden in \cite{Weiss2016}, an dessen Experiment 17 Probanden teilgenommen haben. Im Experiment sollen diese voneinander unabhängig mehreren definierten Aktivitäten nachgehen, während parallel dazu Sensordaten mithilfe der entwickelten Software aufgezeichnet werden. Um die Vergleichbarkeit mit den Ergebnissen aus \cite{Weiss2016} zu gewährleisten, werden die Probanden in diesem Experiment denselben Aktivitäten nachgehen.
+Um eine Evaluation zu ermöglichen, wird ein Beispieldatensatz benötigt, der durch ein Experiment mit 10 Probanden aufgebaut wird. Orientiert ist diese Zahl an der Anzahl der Probanden in \cite{Weiss2016}, an dessen Experiment 17 Personen teilgenommen haben. Im Experiment sollen diese voneinander unabhängig mehreren definierten Aktivitäten nachgehen, während parallel dazu Sensordaten mithilfe der entwickelten Software aufgezeichnet werden. Um die Vergleichbarkeit mit den Ergebnissen aus \cite{Weiss2016} zu gewährleisten, werden die Probanden in diesem Experiment denselben Aktivitäten nachgehen.
 
 Im Folgenden beschränken wir uns auf den uns zugänglichen Fitness-Tracker \textit{Microsoft Band 2}, da dieser im Vergleich zur ebenfalls vorhandenen Smartwatch \textit{Pebble Time} mehr Sensoren besitzt und letztere während der Durchführung des Experimentes nach einem erzwungenen Software-Update falsche Zeitstempel für Sensordaten lieferte. 
 
-\section{Verwendete Methoden}
-\todo{TODO}
-
 \section{Wichtige Ergebnisse}
-\todo{TODO}
+Hervorzuheben sind die Erkenntnisse, dass die Genauigkeit persönlicher Modelle mithilfe der Kombination diverser Sensoren auf $99.4 \%$ gesteigert werden konnte. Im Vergleich zu Modellen, die nur auf Daten des Beschleunigungssensors eines Fitness-Trackers basieren, beträgt die Steigerung damit $7.8 \%$. Unpersönliche Modelle hingegen konnten durch diese Technik um $3.3 \%$ auf $78.5 \%$ verbessert werden, wobei gleichzeitig Stabilität insofern gesteigert wurde, dass die schlechteste Genauigkeit für einen Teilnehmer des Experiments mit einem unpersönlichen Modell nicht unter $64 \%$ lag.
+
+Des Weiteren konnte festgestellt werden, dass auch niedrige, einstellige Sensorabtastraten bei einem niedrigeren Energieverbrauch noch gute Ergebnisse liefern können.
 
 \section{Kurzfazit}
-\todo{TODO}
+\todo{TODO nach finalem Fazit schreiben}
 
 \section{Struktur dieser Arbeit}
-\todo{TODO}
+Kapitel~\ref{chap:background} erläutert die verwendeten Sensoren, sowie wichtige Begriffe des maschinellen Lernens als Grundlagen dieser Arbeit. Im darauffolgenden Kapitel~\ref{chap:relatedwork} werden verwandte Arbeiten aufgezählt und historisch eingeordnet, da insbesondere die Entwicklung mobiler Technologie diverse Fortschritte im Bereich der Aktivitätenerkennung erst ermöglicht hat. Anschließend daran wird in Kapitel~\ref{chap:experiment} der Aufbau des Experiments beschrieben, das im Rahmen dieser Bachelorarbeit durchgeführt wurde, um die benötigten Daten zu sammeln. Die Verarbeitung der gewonnenen Daten wird in Kapitel~\ref{chap:method} erläutert. Die aus der Anwendung der Methode resultierenden Modelle werden in Kapitel~\ref{chap:evaluation} evaluiert, wobei unter anderem diverse Eigenschaften des aufgenommenen Datensatzes variiert werden, um Erkenntnisse über den Wert der Sensoren für die Aktivitätenerkennung zu erhalten. Ein abschließendes Fazit der Arbeit erfolgt in Kapitel~\ref{chap:conclusions}.
 
 % vim: set ft=tex
