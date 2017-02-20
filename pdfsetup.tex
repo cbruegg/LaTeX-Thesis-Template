@@ -12,9 +12,9 @@
             pdfpagemode=UseOutlines,    % Bookmark beim Oeffnenanzeigen? (UseOutlines / none)
             bookmarksopenlevel=3,       % bis zu welcher Ebenen geoeffnet
             bookmarksnumbered,          % Kapitelnummern in Bookmarks
-            pdftitle={see pdfsetup.tex on how to set a title here (and other pdf magic)},
+            pdftitle={Erkennung körperlicher Aktivitäten mittels Smartphone- und Smartwatch-Sensoren und Machine Learning},
             pdfsubject={Bachelorarbeit},
-            pdfkeywords={input, some, keywords, here},
+            pdfkeywords={Smartphone, Smartwatch, Bachelorarbeit, Machine Learning, Aktivitätenerkennung},
             pdfauthor={Christian Brüggemann}
             ]{hyperref}
 \fi
@@ -23,9 +23,10 @@
 %%
 \ifx\pdftexversion\undefined
 \else
+\pdfminorversion=6
 \pdfoutput=1        % PDF-Ausgabe anschalten.
 \pdfimageresolution=600
-\pdfcompresslevel=9 % 0 keine kompression, 9 staerkste kompression
+\pdfcompresslevel=5 % 0 keine kompression, 9 staerkste kompression
 \fi
 
 % vim: set ft=tex

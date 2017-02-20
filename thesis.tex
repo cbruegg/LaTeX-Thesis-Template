@@ -9,6 +9,9 @@ headsepline,%
 bibtotocnumbered%
 ]{scrbook}
 
+%%% Set up PDF-Stuff
+\input{pdfsetup}  % Customize pdfsetup.tex
+
 %%% Sprach-Konfiguration
 \usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
@@ -79,9 +82,6 @@ bibtotocnumbered%
 %breaklines=true,%
 %breakatwhitespace=true,%
 %}
-
-%%% Set up PDF-Stuff
-\input{pdfsetup}  % Customize pdfsetup.tex
 
 %%% Set up the Title
 \input{titlesetup} % Customize titlesetup.tex for a nice title
