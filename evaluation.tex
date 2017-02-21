@@ -519,7 +519,7 @@ Gegenüber der Baseline ist das RF8-Modell das beste, allerdings nur weniger als
 \end{table}
 
 \section{Einfluss von Feature-Selection}
-Betrachtet man die \textit{Comb}-Spalte in Tabelle~\ref{tab:accuracy-impersonal}, so fällt auf, dass die Genauigkeiten der übrigen Modelle dem RF-Modell deutlich unterlegen sind. Da dies bei den persönlichen Modellen nicht der Fall ist, ist es untersuchenswert, ob die anderen Algorithmen nicht durch eine Vorauswahl der Features (\textit{Feature Selection}) höhere Genauigkeiten liefern können, da eine solche Auswahl prinzipiell auch durch den Zufall im Random Forest erfolgt.
+Betrachtet man die \textit{Comb}-Spalte in Tabelle~\ref{tab:accuracy-impersonal}, so fällt auf, dass die Genauigkeiten der übrigen Modelle dem RF-Modell deutlich unterlegen sind. Da dies bei den persönlichen Modellen nicht der Fall ist, und es somit kein inhärentes Problem mit der Art der Daten zu geben scheint, ist es untersuchenswert, ob die anderen Algorithmen nicht durch eine Vorauswahl der Features (\textit{Feature Selection}) höhere Genauigkeiten liefern können, da eine solche Auswahl prinzipiell auch durch den Zufall im Random Forest erfolgt.
 
 Zur Feature Selection wurde das Verfahren \textit{CfsSubsetEval}\cite{Hall1998} verwendet, das laut WEKA-Dokumentation wie folgt arbeitet:
 
