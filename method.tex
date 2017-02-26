@@ -32,32 +32,33 @@ Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reih
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
 \subsection{Beschreibung der Aggregatfunktionen}
-Um aus den sequentiellen Daten des Intervalls eine feste Anzahl von Features zu gewinnen, die dieses Intervall beschreiben, werden Aggregatfunktionen benötigt, die eine Liste von Zahlen $A[1..N]$ auf eine feste Anzahl von Werten reduziert, welche die sequentiellen Daten in Kombination möglichst gut beschreiben. Es seien die folgenden, auch von Weiss et al. verwendeten \cite{Weiss2016} Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2012} wie folgt definiert:
-\subsubsection{Average}
-\[
-\text{Avg}(A) := \frac{1}{N} * \sum_{a \in A} a
-\]
-\subsubsection{Standard Deviation}
-\[
-\text{StdDev}(A) := \sqrt{\frac{1}{N} * \sum_{a \in A} (a - \text{Avg}(A))^2}
-\]
+Um aus den sequentiellen Daten des Intervalls eine feste Anzahl von Features zu gewinnen, die dieses Intervall beschreiben, werden Aggregatfunktionen benötigt, die eine Liste von Zahlen $A[1..N]$ auf eine feste Anzahl von Werten reduziert, welche die sequentiellen Daten in Kombination möglichst gut beschreiben. In den folgenden Abschnitten werden die auch von Weiss et al. verwendeten \cite{Weiss2016} Aggregatfunktionen in Anlehnung an Kwapisz et al.\cite{Kwapisz2012} begründet und definiert.
+\subsubsection{Average \& Standard Deviation}
+Der Durchschnittswert einer Reihe von Zahlen ist im Kontext der Aktivitätenerkennung relevant, da er zusammen mit der ebenfalls nachfolgend definierten Standardabweichung auf einfache Art und Weise angibt, in welchen Bereichen sich die Sensordaten bewegen.
+\begin{align*}
+\text{Avg}(A) &:= \frac{1}{N} * \sum_{a \in A} a \\
+\text{StdDev}(A) &:= \sqrt{\frac{1}{N} * \sum_{a \in A} (a - \text{Avg}(A))^2}
+\end{align*}
 \subsubsection{Average Absolute Difference}
+Diese Funktion gibt ähnlich wie \textit{StdDev} Veränderungen in den Datenreihen wieder, ist dabei jedoch nicht quadratisch und somit für ML-Algorithmen möglicherweise leichter zu handhaben.
 \[
-\text{AvgAbsDiff}(A) := \frac{1}{N} * \sum_{a \in A} |\text{Avg}(A) - a|
+\text{AvgAbsDiff}(A) := \frac{1}{N} * \sum_{a \in A} |a - \text{Avg}(A)|
 \]
 \subsubsection{$k$-Binned Distribution}
-Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-Vektor anstatt einen Skalar. Seien $i \in \{0, ..., k - 1\}, S := \frac{\max A - \min A}{k}$.
+Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-Vektor anstatt einen Skalar. Wie \textit{Avg} und \textit{StdDev} erklärt diese Funktion den Wertebereich der Datenreihen, deckt diesen allerdings vollständig ab. Da die Interpretation der Ergebnisse dieser Funktion dafür komplexer ist, handelt es sich um eine sinnvolle Ergänzung zu den genannten Funktionen.
+\\\\
+Seien $i \in \{0, ..., k - 1\}, S := \frac{\max A - \min A}{k}$. Dann ist die \textit{Binned Distribution} wie folgt definiert:
 \[
 \text{Bin}(A, i) := \#\{a \in A | (\min A) + i * S \leq a < (\min A) + (i + 1) * S\}
 \]
 $\text{Bin}(A, i)$ ist demzufolge die Anzahl der Elemente in Korb $i$, wenn man $A$ der Größe nach sortiert auf $k$ Körbe verteilt. Der Bin ist hierbei als Multimenge zu verstehen und darf somit Elemente auch mehrfach enthalten.
 \subsubsection{Average Root of Squares}
-Auch diese Aggregatfunktion unterscheidet sich von den bisherigen, da sie mehrere Listen als Parameter erhält:
+Auch diese Aggregatfunktion unterscheidet sich von den bisherigen, da sie mehrere Listen als Parameter erhält und somit Zusammenhänge zwischen diesen erklärt:
 \[
 \text{Aros}(A_1, ..., A_M) = \frac{1}{M} * \sum_{i = 1}^{M} \sqrt{\sum_{a \in A_i} a^2}
 \]
 \subsubsection{Average Time between Peaks}
-Diese Aggregatfunktion gibt die durchschnittliche Zeit zwischen Höhepunkten in $A$ zurück, wofür zusätzlich eine Funktion $\text{timeForIndex}: \mathbb{N} \to \mathbb{N}$ benötigt wird. Die Wahl der Höhepunkte erfolgt durch eine Heuristik. 
+Diese Aggregatfunktion gibt die durchschnittliche Zeit zwischen Höhepunkten in $A$ zurück, die ein signifikantes Merkmal körperlicher Aktivitäten sein können, wofür zusätzlich eine Funktion $\text{timeForIndex}: \mathbb{N} \to \mathbb{N}$ benötigt wird. Die Wahl der Höhepunkte erfolgt durch eine Heuristik. 
 
 Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes. Zunächst wird mittels Algorithmus~\ref{algo:indicesOfPeaks} bestimmt, an welchen Indizes in der Liste Werte stehen, die deutlich größer als ihre Nachfolger sind. Dadurch wird definiert, was eine Spitze in dieser spezifischen Liste ausmacht. Anschließend werden Spitzen gesucht, die maximal um den Faktor \textit{threshold} kleiner sind als die größte Spitze, die der Algorithmus gefunden hast. Diese Grenze wird solange gesenkt, bis genügend Spitzen gefunden wurden oder die Grenze so niedrig liegt, dass es sich nicht mehr um Spitzen handelt. Als letztes berechnet der Algorithmus die durchschnittliche Zeit zwischen den Spitzen mithilfe der Funktion \textit{timeForIndex}.
 
