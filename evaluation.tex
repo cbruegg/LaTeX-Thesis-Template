@@ -20,7 +20,7 @@ Die folgenden Datensätze werden generiert:
 
 \section{Effektivität der Datenkombination}
 \label{sec:combination-effect}
-Dieser Abschnitt widmet sich der Frage, wie effektiv die Kombination der Daten von Band und Smartphone hinsichtlich der Vorhersagegenauigkeit gegenüber einer einzigen Datenquelle ist. Weiss et al.\cite{Weiss2016} werten in ihrem Papier die Genauigkeit von Modellen aus, die entweder auf Daten des Beschleunigungssensors eines Smartphones, des Beschleunigungssensors einer Smartwatch oder des Gyroskops einer Smartwatch zurückgreifen. Eine Kombination der Daten schlagen die Autoren vor, führen diese allerdings nicht durch.
+Dieser Abschnitt widmet sich der Frage, wie effektiv die Kombination der Daten von Band und Smartphone hinsichtlich der Vorhersagegenauigkeit gegenüber einer einzigen Datenquelle ist. Weiss et al. werten in ihrem Papier die Genauigkeit von Modellen aus, die entweder auf Daten des Beschleunigungssensors eines Smartphones, des Beschleunigungssensors einer Smartwatch oder des Gyroskops einer Smartwatch zurückgreifen \cite{Weiss2016}. Eine Kombination der Daten schlagen die Autoren vor, führen diese allerdings nicht durch.
 
 Tabelle~\ref{tab:accuracy-personal} zeigt die Genauigkeit der persönlichen Modelle und Tabelle~\ref{tab:accuracy-impersonal} die der unpersönlichen Modelle. Ein persönliches Modell basiert auf Daten des jeweiligen Benutzers, während ein unpersönliches Modell noch keine Daten des Nutzers gesehen hat, für den eine Vorhersage getroffen werden soll. Die \textit{Genauigkeit} ist definiert als der Anteil der korrekt klassifizierten Instanzen, die dem Modell zum Test vorgelegt wurden.
 
@@ -70,7 +70,7 @@ coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
 \legend{Eigenes Modell,Weiss et al.}
 \end{axis}
 \end{tikzpicture}
-\caption[Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al.\cite{Weiss2016}]{Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al.\cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
+\caption[Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}]{Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
 \label{fig:accuracy-personal-vs-weiss}
 \end{figure}
 
@@ -120,7 +120,7 @@ Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollst�
 	\legend{Eigenes Modell,Weiss et al.}
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al.\cite{Weiss2016}]{Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al.\cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
+	\caption[Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al. \cite{Weiss2016}]{Vergleich der Genauigkeiten der unpersönlichen Modelle mit Weiss et al. \cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
 	\label{fig:accuracy-impersonal-vs-weiss}
 \end{figure}
 
@@ -532,7 +532,7 @@ Gegenüber der Baseline ist das RF8-Modell das beste, allerdings nur weniger als
 \section{Einfluss von Feature-Selection}
 Betrachtet man die \textit{Comb}-Spalte in Tabelle~\ref{tab:accuracy-impersonal}, so fällt auf, dass die Genauigkeiten der übrigen Modelle dem RF-Modell deutlich unterlegen sind. Da dies bei den persönlichen Modellen nicht der Fall ist, und es somit kein inhärentes Problem mit der Art der Daten zu geben scheint, ist es untersuchenswert, ob die anderen Algorithmen nicht durch eine Vorauswahl der Features (\textit{Feature Selection}) höhere Genauigkeiten liefern können, da eine solche Auswahl prinzipiell auch durch den Zufall im Random Forest erfolgt.
 
-Zur Feature Selection wurde das Verfahren \textit{CfsSubsetEval}\cite{Hall1998} verwendet, das laut WEKA-Dokumentation wie folgt arbeitet:
+Zur Feature Selection wurde das Verfahren \textit{CfsSubsetEval} \cite{Hall1998} verwendet, das laut WEKA-Dokumentation wie folgt arbeitet:
 
 \begin{quote}
 	"[CfsSubsetEval] ermittelt den Wert einer Untermenge der Features, indem die individuelle Vorhersagefähigkeit eines jeden Features mitsamt dem Grad der Redundanz zwischen ihnen betrachtet wird. Feature-Untermengen, die stark mit der Klasse korrelieren und dabei eine niedrige Interkorrelation haben, werden bevorzugt."
