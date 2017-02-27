@@ -34,9 +34,10 @@ Da es sich bei WEKA um eine Java-basierte Software handelt, könnten sowohl das 
 
 Nach der Einreichung dieser Bachelorarbeit wird der aufgenommene Datensatz anonymisiert und auf meiner Webseite (\url{https://cbruegg.com}) zur Verfügung gestellt werden.
 
-
 \section{Reflexion}
-\todo{}
+Für die Aufzeichnung der \textit{Readings} wurde der Einfachheit wegen JSON-Serialisierung verwendet, die sich jedoch im Laufe der Arbeit als ineffizient herausstellte. Aufgrund der Menge der Messdaten mussten diese zusätzlich mit GZIP komprimiert werden, um in kurzer Zeit vom Smartphone auf den Datenspeicher hochgeladen werden zu können. Die Deserialisierung des gesamten Datensatzes, der komprimiert noch eine Größe von 231 MiB hat, dauerte innerhalb der Transformationssoftware bis zu einer Minute und sorgte somit bei Tests dieser Software für Verzögerungen. Stattdessen empfehlenswert wäre im Nachhinein die Verwendung eines binären Dateiformats gewesen.
+
+Als eine gute Entscheidung hingegen hat sich erwiesen, alle Rohdaten unbearbeitet zu speichern und durch eine separate Software zu transformieren, anstatt dies in einem Schritt in der Aufzeichnungssoftware zu tun. So war es möglich, viele Parameter auch nachträglich anzupassen.
 
 
 % vim: set ft=tex
