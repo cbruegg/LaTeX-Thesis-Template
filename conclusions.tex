@@ -1,8 +1,5 @@
 \chapter{Fazit}
 \label{chap:conclusions}
-\todo{Diese nicht so fein unterteilen, wenn nicht >= 3 Absätze}
-\todo{Check template for suggestions on how to write all of this}
-\todo{Irgendwo unterbringen: Intervalle: Man könnte mehrere Intervallgrößen ausprobieren, aber dadurch könnte sich Overfitting ergeben. Intelligente Wahl arbeit für sich.}
 
 \section{Zusammenfassung}
 Die in Abschnitt~\ref{sec:goals} aufgeführten Ziele wurden erreicht. Auf Basis von maschinellem Lernen wurde ein Verfahren entwickelt und implementiert, das mithilfe von Sensordaten eines Fitness-Trackers und eines Smartphones körperliche Aktivitäten erkennt und dabei nicht auf eine feste Ausrichtung der Geräte angewiesen ist. Zur Evaluation wurde ein Experiment mit 10 Teilnehmern durchgeführt.
@@ -24,23 +21,22 @@ Da der von der Transformationssoftware ausgebene Datensatz hochdimensional ist, 
 Zusätzlich zu den eigentlichen Zielen dieser Arbeit konnte außerdem herausgefunden werden, dass auch Personen- statt Aktivitätenerkennung hinsichtlich der Erkennungsrate von der Kombination diverser Sensoren profitieren kann.
 
 \section{Beurteilung der Ergebnisse}
-\todo{TODO}
+Diese Arbeit zeigt, dass die Kombination mehrerer Sensoren zur Gewinnung von ML-Modellen konsistent bessere Ergebnisse liefert als die Verwendung einzelner Sensoren. Insbesondere persönliche Modelle profitieren hiervon, da eine fast perfekte Erkennungsrate erreicht wird. Die in dieser Arbeit verwendete Transformationsmethode, die Features aus den \textit{Readings} extrahiert, ist gegenüber der Desynchronisierung der Zeitstempel und unterschiedlichen Ausrichtungen der Geräte resistent, weshalb Anwendern diesbezüglich keine praxisuntauglichen Einschränkungen auferlegt werden müssen. Werden unpersönliche Modelle verwendet, sollte darauf geachtet werden, dass sich die definierten Aktivitäten hinreichend voneinander unterscheiden, da beispielsweise das Auseinanderhalten von Essaktivitäten schwierig ist.
 
-\section{Zusammenhang zum Kontext}
-\todo{TODO}
+Um die Schwäche unpersönlicher Modelle auszugleichen, könnte eine Anwendung in der Praxis für einen neuen Benutzer zunächst auf ein rein-unpersönliches Modell setzen, das dessen Aktivitäten klassifiziert. Die Anwendung kann den Nutzer um Rückmeldungen bitten, ob die vorhergesagte Klasse korrekt war und mit diesen Daten ein hybrides Modell bauen, das sowohl persönliche als auch unpersönliche Daten verwendet. Laut Weiss et al. wird ein persönliches Modell durch die Rückmeldungen des Benutzers nach einiger Zeit genauer als das hybride Modell, sodass auf dieses umgestiegen werden kann \cite{Weiss2012}, sofern alle klassifizierbaren Aktivitäten des unpersönlichen Modells auch durch das persönliche Modell abgedeckt werden.
 
 \section{Ausblick}
-\todo{TODO}
-\todo{Mehrere Sensoren durch Korrelationsfeatures (z.B. Max. Autocorrelation Value) noch besser miteinander kombinieren. }
-\todo{Features wie Zero-Cross (Dernbach 2012), Richtungsänderungen im Graphen}
-\todo{Anschließend Relevanz der Features prüfen}
-\todo{Veröffentlichung des Datensatzes folgt auf eigener Webseite.}
-\todo{Inkrementeller Aufbau hybrider Modelle durch Frage an User: Wurde korrekt klassifiziert?. Irgendwann wird laut Weiss hybrides Modell schlechter als persönliches, dann umsteigen, sofern alle Aktivitäten aufgezeichnet wurden. [Ist das Reinforcement Learning?]}
-\todo{Features mehrerer aufeinanderfolgender Intervalle, um Sequentialität zu modellieren. Curse of Dimensionality}
+In Zukunft sind insbesondere hinsichtlich der Transformation der Daten Weiterentwicklungen denkbar. Einerseits könnten die Aufnahmen verschiedener Sensoren noch intensiver genutzt werden, indem beispielsweise Korrelationsfeatures zwischen den Komponenten der Sensoren hinzugefügt werden und andererseits könnten die Features für mehrere aufeinanderfolgende Intervalle berechnet und als eine Instanz verwendet werden, um die Sequentialität der Signale besser in den Trainingsdaten wiederzugeben. Aufgrund der höheren Dimensionalität des daraus resultierenden Datensatzes müssten dafür allerdings gegebenenfalls mehr Daten aufgenommen werden.
+
+Des Weiteren könnten verschiedene Intervallgrößen ausprobiert werden, anstatt diese auf 10 Sekunden festzulegen. Auch intelligentere Intervallbildungsmethoden, die Aspekte wie Periodizität in den aufgenommenen Daten erkennen, sind denkbar.
+
+Da es sich bei WEKA um eine Java-basierte Software handelt, könnten sowohl das Training als auch die Klassifizierung mittels eines fertigen Modells auf dem Android-Gerät selbst realisiert werden, da Anwendungen für dieses Betriebssystem ebenfalls in Java geschrieben werden. Im Test an einem stationären Computer war das Training eines RF-Modells in der Regel innerhalb weniger Sekunden abgeschlossen, sodass auch mobile Prozessoren in der Lage dazu wären, das Training in kurzer Zeit auszuführen. Dies trifft auch auf die Klassifizierung selbst zu, da diese neben der auch für das Training erforderlichen Transformation der Intervalle lediglich das Durchlaufen einer festen Anzahl von Entscheidungsbäumen erfordert.
+
+Nach der Einreichung dieser Bachelorarbeit wird der aufgenommene Datensatz anonymisiert und auf meiner Webseite (\url{https://cbruegg.com}) zur Verfügung gestellt werden.
+
 
 \section{Reflexion}
-\todo{TODO}
-\todo{Daten des Accelerometers/Gyroskops? hinsichtlich Orientierung normalisieren, wobei ein guter ML-Algorithmus dies vielleicht auch selbst schaffen kann. Magnetometer war am Anfang irrelevant, dafür wäre es aber nützlich gewesen.}
+\todo{}
 
 
 % vim: set ft=tex
