@@ -1,6 +1,5 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
-\todo{Diese nicht so fein unterteilen, wenn nicht >= 3 Absätze}
 
 Dieses Kapitel widmet sich der Auswertung der Ergebnisse anhand verschiedener Metriken. Eingebettet in der Transformationssoftware befindet sich ein Präprozessor, der die aufgenommen Daten vor der Transformation manipulieren kann. Auf diese Weise werden mehrere Trainingsdatensätze erstellt, die in der Evaluation daraufhin analysiert werden, wie genau ein Klassifikator nach dem Training mit ihnen Vorhersagen treffen kann.
 \\\\
@@ -20,6 +19,7 @@ Die folgenden Datensätze werden generiert:
 \end{enumerate}
 
 \section{Effektivität der Datenkombination}
+\label{sec:combination-effect}
 Dieser Abschnitt widmet sich der Frage, wie effektiv die Kombination der Daten von Band und Smartphone hinsichtlich der Vorhersagegenauigkeit gegenüber einer einzigen Datenquelle ist. Weiss et al.\cite{Weiss2016} werten in ihrem Papier die Genauigkeit von Modellen aus, die entweder auf Daten des Beschleunigungssensors eines Smartphones, des Beschleunigungssensors einer Smartwatch oder des Gyroskops einer Smartwatch zurückgreifen. Eine Kombination der Daten schlagen die Autoren vor, führen diese allerdings nicht durch.
 
 Tabelle~\ref{tab:accuracy-personal} zeigt die Genauigkeit der persönlichen Modelle und Tabelle~\ref{tab:accuracy-impersonal} die der unpersönlichen Modelle. Ein persönliches Modell basiert auf Daten des jeweiligen Benutzers, während ein unpersönliches Modell noch keine Daten des Nutzers gesehen hat, für den eine Vorhersage getroffen werden soll. Die \textit{Genauigkeit} ist definiert als der Anteil der korrekt klassifizierten Instanzen, die dem Modell zum Test vorgelegt wurden.
@@ -37,7 +37,7 @@ Vergleicht man \textit{Band accel} als die beste einzelne Datenquelle mit den Ko
 
 Hebt man jedoch diese künstlichen Einschränkungen auf, so wird eine Genauigkeit von $99.4 \%$ erreicht, sodass Benutzer nach dreiminütiger Aufnahme einer Aktivität davon ausgehen könnten, dass diese in Zukunft bis auf wenige Ausreißer automatisch erkannt wird. Insgesamt konnte gegenüber \textit{Phone Accel} damit eine Verbesserung um $9.4 \%$ erreicht werden. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $91.6 \%$ liefert die Kombination aller Daten eine Verbesserung um $7.8 \%$.
 
-Anzumerken ist jedoch, dass die Genauigkeit von $97.1 \%$, die durch die Kombination der Band-Sensoren erzielt wird, je nach Anwendungszweck bereits ausreichend sein kann und die Hinzunahme von Smartphone-Sensoren daher nicht unbedingt erforderlich ist. Dennoch folgt aus diesen Ergebnissen die wertvolle Erkenntnis, dass zumindest die Kombination der verschiedenen Sensoren des Bands eine nennenswerte Verbesserung der Genauigkeit erzielt.
+Anzumerken ist, dass die Genauigkeit von $97.1 \%$, die durch die Kombination der Band-Sensoren erzielt wird, je nach Anwendungszweck bereits ausreichend sein kann und die Hinzunahme von Smartphone-Sensoren daher nicht unbedingt erforderlich ist. Dennoch folgt aus diesen Ergebnissen die wertvolle Erkenntnis, dass zumindest die Kombination der verschiedenen Sensoren des Bands eine nennenswerte Verbesserung der Genauigkeit erzielt.
 
 \subsubsection{Vergleich mit Weiss et al.}
 Da diese Bachelorarbeit auf der Arbeit von Weiss et al. \cite{Weiss2016} aufbaut, ist ein Vergleich der Ergebnisse sinnvoll. Abbildung~\ref{fig:accuracy-personal-vs-weiss} zeigt die Genauigkeiten der besten Modelle in Abhängigkeit von den Datenquellen. Sowohl die Quellen \textit{Watch accel} als auch \textit{Watch gyro} liefern sehr ähnliche Ergebnisse wie bei Weiss et al., nur das \textit{Phone accel}-Modell in dieser Arbeit liefert im direkten Vergleich eine deutlich bessere Genauigkeit. Eine mögliche Erklärung wäre die im Vergleich mit Weiss et al. 10-fach höhere Sampling-Rate des Sensoren des Smartphones gewesen, jedoch lieferte ein Test mit einem RF-Modell und auf 20 Hz beschränkten Smartphone-Daten immerhin noch eine Genauigkeit von $88.2 \%$. Da dies dennoch $12.7 \%$ über dem \textit{Phone Accel}-Modell von Weiss et al. liegt, lässt sich diese Erklärung ausschließen. Eine weitere Erklärungsmöglichkeit wäre, dass die Genauigkeit des Sensors im OnePlus 3 über der des Sensors im Samsung Galaxy S4 liegt, das von Weiss et al. zur Aufnahme genutzt wird, jedoch kann diese Hypothese mangels eines solchen Gerätes nicht verifiziert werden. Die Methodik zur Reduktion der Sampling-Rate wird in Abschnitt~\ref{sec:lower-sampling-rate} erklärt, der sich weiteren solchen Analysen widmet.
@@ -436,6 +436,7 @@ Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpe
 Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschweren kann.
 
 \section{Genauigkeit in Abhängigkeit von der Teilnehmeranzahl}
+\label{sec:accuracy-usercount}
 \begin{figure}
 \centering
 \includegraphics[clip, trim=7mm 7mm 7mm 6mm, width=\textwidth]{img/random-set-draw}

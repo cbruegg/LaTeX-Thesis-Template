@@ -12,6 +12,7 @@ Es existieren weitere mögliche Anwendungsgebiete der automatisierten Aktivität
 In der Literatur ist \cite{Weiss2016} hervorzuheben. Die Autoren vergleichen in ihrem Paper die Genauigkeit der Aktivitätenerkennung eines Smartphones mit der einer Smartwatch und kommen zu dem Schluss, dass die Güte der jeweiligen Erkennung insbesondere von der Aktivität selbst abhängig ist. Es liegt auf der Hand, dass nur mithilfe eines Smartphones beispielsweise eine Unterscheidung zwischen "Zähneputzen" und "Stehen" schwer möglich ist, während analog dazu nur mithilfe einer Smartwatch die Unterscheidung zwischen "Gehen" und "Fußball schießen" ebenfalls herausfordernd ist. Naheliegend ist daher, eine Kombination beider Datenquellen einzusetzen, um die durchschnittliche Erkennungsrate zu verbessern, ohne eine Beschränkung der erkennbaren Aktivitäten einzuführen.
 
 \section{Ziele der Arbeit} % Problemdefinition
+\label{sec:goals}
 Evaluiert werden soll ein zu entwickelndes Verfahren, das mit Methoden des \textit{maschinellen Lernens} (siehe Definition~\ref{def:ml-classification}) und eben jenen gesammelten Daten feststellt, welcher Aktivität der Träger der Geräte in bestimmten Zeitintervallen nachgegangen ist. Hierzu wird zunächst eine Software benötigt, welche die synchrone Aufzeichnung von Sensordaten eines Fitness-Trackers oder einer Smartwatch und eines Smartphones ermöglicht.
 
 Es ergibt sich insbesondere die Frage, inwiefern sowohl personalisierte, das heißt nutzerspezifische, als auch unpersonalisierte Modelle durch die Hinzunahme einer weiteren Datenquelle genauer werden.
@@ -23,7 +24,7 @@ Im Folgenden beschränken wir uns auf den uns zugänglichen Fitness-Tracker \tex
 \section{Wichtige Ergebnisse}
 Hervorzuheben sind die Erkenntnisse, dass die Genauigkeit persönlicher Modelle mithilfe der Kombination diverser Sensoren auf $99.4 \%$ gesteigert werden konnte. Im Vergleich zu Modellen, die nur auf Daten des Beschleunigungssensors eines Fitness-Trackers basieren, beträgt die Steigerung damit $7.8 \%$. Unpersönliche Modelle hingegen konnten durch diese Technik um $3.3 \%$ auf $78.5 \%$ verbessert werden, wobei gleichzeitig die Stabilität insofern gesteigert wurde, dass die schlechteste Genauigkeit für einen Teilnehmer des Experiments mit einem unpersönlichen Modell nicht unter $64 \%$ lag.
 
-Des Weiteren konnte festgestellt werden, dass auch niedrige, einstellige Sensorabtastraten bei einem niedrigeren Energieverbrauch noch gute Ergebnisse liefern können.
+Des Weiteren konnte festgestellt werden, dass auch niedrige, einstellige Sensorabtastraten bei einem niedrigeren Energieverbrauch noch gute Ergebnisse liefern können und die Variation hinsichtlich der Ausrichtung der Geräte nur einen geringen Einfluss auf die Genauigkeiten der Modelle hat. \todo{Noch Verschmelzung erwähnen?}
 
 \section{Kurzfazit}
 \todo{TODO nach finalem Fazit schreiben}

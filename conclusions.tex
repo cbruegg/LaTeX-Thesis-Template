@@ -1,10 +1,27 @@
 \chapter{Fazit}
 \label{chap:conclusions}
+\todo{Diese nicht so fein unterteilen, wenn nicht >= 3 Absätze}
 \todo{Check template for suggestions on how to write all of this}
-\todo{Irgendwo unterbringen: Intervalle: Man könnte mehrere Intervallgrößen ausprobieren, aber dadurch könnte sich Overfitting ergeben}
+\todo{Irgendwo unterbringen: Intervalle: Man könnte mehrere Intervallgrößen ausprobieren, aber dadurch könnte sich Overfitting ergeben. Intelligente Wahl arbeit für sich.}
 
 \section{Zusammenfassung}
-\todo{TODO}
+Die in Abschnitt~\ref{sec:goals} aufgeführten Ziele wurden erreicht. Auf Basis von maschinellem Lernen wurde ein Verfahren entwickelt und implementiert, das mithilfe von Sensordaten eines Fitness-Trackers und eines Smartphones körperliche Aktivitäten erkennt und dabei nicht auf eine feste Ausrichtung der Geräte angewiesen ist. Zur Evaluation wurde ein Experiment mit 10 Teilnehmern durchgeführt.
+
+Der erste Teil der Entwicklung widmete sich der Implementierung einer robusten Aufzeichnungssoftware für das Android-Betriebssystem, die Rohdaten simultan von mehreren Sensoren anfordert und in einem definierten Dateiformat in Form von \textit{Readings} aufzeichnet. Eine weitere entwickelte Software transformiert die \textit{Readings} in mithilfe von Unterteilung in Intervalle Instanzen, die als Trainings- und Testdaten für konventionelle ML-Algorithmen dienen, die anschließend eingesetzt werden.
+
+Evaluiert wurden die Genauigkeiten von Modellen, die auf Basis verschiedener ML-Algorithmen und mithilfe von Datensätzen verschiedener Sensoren entstanden sind. Die wichtigste Fragestellung dieser Arbeit war, ob die Kombination der Daten eines Smartphones und eines Fitness-Trackers die Genauigkeit der Modelle steigern kann. Insbesondere Abschnitt~\ref{sec:combination-effect} beantwortet diese Frage: Persönliche Modelle, die für jeden Teilnehmer exklusiv mit dessen Daten gebildet wurden, erreichen durch die Kombination der Sensoren eine Genauigkeit von $99.4 \%$ und sind damit $7.8 \%$ besser als persönliche Modelle, die lediglich die Daten des Beschleunigungssensors des Fitness-Trackers genutzt haben. Selbst wenn nur die diversen Sensoren des Fitness-Trackers kombiniert werden, kann noch eine Genauigkeit von $97.1 \%$ erzielt werden. Unpersönliche Modelle, die für einen Teilnehmer exklusiv nur die Daten der anderen Teilnehmer verwenden, profitieren ebenfalls von der Datenkombination. Durch diese wird eine Genauigkeit von $78.5 \%$ erreicht, sodass die Genauigkeit der Modelle auf Basis der besten einzelnen Datenquelle, dem Beschleunigungssensors des Fitness-Trackers, um $3.3 \%$ übertroffen wird.
+
+Da sich bei der Verwendung unterschiedlicher Sensoren, die in separaten Geräten verbaut sind, die Frage ergibt, inwiefern die Synchronität der \textit{Readings} eine Rolle spielt, wurde der Effekt von gausschen Rauschen auf die Zeitstempel dieser geprüft. Dabei konnte festgestellt werden, dass $\mathcal{N}(0, 500ms)$-verteilte Abweichungen der Zeitstempel der \textit{Readings} keinen nennenswerten Einfluss auf die Genauigkeit haben.
+
+Als weiterer Einfluss auf die Erkennungsrate wurde überprüft, welche Abtastraten für die Aktivitätenerkennung erforderlich sind. Motiviert wurde diese Prüfung dadurch, dass eine höhere Abtastrate zu einem höheren Energieverbrauch führt und die verwendeten Geräte typischerweise keine permanente Stromversorgung haben. In vielen verwandten Arbeiten werden die Sensoren mit 20 Hz abgetastet, jedoch zeigt die Untersuchung, dass für persönliche Modelle sogar eine Abtastrate von 1 Hz ausreichen kann. Unpersönliche Modelle werden von der Reduzierung der Abtastrate stärker geschwächt, jedoch ist mit 5 Hz immer noch eine Genauigkeit von $74.6 \%$ möglich.
+
+Bei der Analyse der Konfusionsmatrizen ist aufgefallen, dass die Ess- und Trinkaktivitäten außergewöhnlich oft untereinander verwechselt werden. Eine Verschmelzung dieser Aktivitäten ermöglichte die Steigerung der Genauigkeit unpersönlicher Modelle um $8.6 \%$ auf wesentlich praxistauglichere $87.1 \%$. Hieraus konnte die Erkenntnis abgeleitet werden, dass Aktivitäten für unpersönliche Modelle nicht zu feingranular voneinander abgegrenzt werden sollten.
+
+Hinsichtlich der für die Bildung unpersönlicher Modelle erforderlichen Trainingsdaten konnte in Abschnitt~\ref{sec:accuracy-usercount} festgestellt werden, dass die Kombination unterschiedlicher Sensoren die Notwendigkeit vieler Personen im Datensatz verringern kann. 
+
+Da der von der Transformationssoftware ausgebene Datensatz hochdimensional ist, wurde der Einfluss von Feature-Selection geprüft, dabei jedoch festgestellt, dass dadurch keine Verbesserungen der Genauigkeit möglich waren.
+
+Zusätzlich zu den eigentlichen Zielen dieser Arbeit konnte außerdem herausgefunden werden, dass auch Personen- statt Aktivitätenerkennung hinsichtlich der Erkennungsrate von der Kombination diverser Sensoren profitieren kann.
 
 \section{Beurteilung der Ergebnisse}
 \todo{TODO}
