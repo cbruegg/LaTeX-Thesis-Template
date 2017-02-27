@@ -1,8 +1,9 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
+\todo{Diese nicht so fein unterteilen, wenn nicht >= 3 Absätze}
 
 Dieses Kapitel widmet sich der Auswertung der Ergebnisse anhand verschiedener Metriken. Eingebettet in der Transformationssoftware befindet sich ein Präprozessor, der die aufgenommen Daten vor der Transformation manipulieren kann. Auf diese Weise werden mehrere Trainingsdatensätze erstellt, die in der Evaluation daraufhin analysiert werden, wie genau ein Klassifikator nach dem Training mit ihnen Vorhersagen treffen kann.
-
+\\\\
 Die folgenden Datensätze werden generiert:
 
 \begin{enumerate}
@@ -76,7 +77,7 @@ coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
 \subsubsection{Variation zwischen Teilnehmern}
 Motiviert durch Weiss et al. (2012) \cite{Weiss2012} wurde auch die Genauigkeitsverteilung der Modelle untersucht. Es ist von Interesse, wie die Genauigkeit unter den Teilnehmern variiert, da allein eine hohe Durchschnittsgenauigkeit nicht zeigt, wie praxistauglich die Modelle tatsächlich sind. Ist die Genauigkeit für einige Teilnehmer sehr schlecht, für andere Teilnehmer hingegen sehr gut und damit insgesamt instabil, schränkt dies die Verwendbarkeit der Methode ein, da die Zuverlässigkeit gering ist.
 
-Eine Analyse der persönlichen \textit{Comb}-Modelle ergab jedoch, dass keines eine schlechtere Genauigkeit als $98.69 \%$ lieferte, wobei bereits der außerordentlich hohe Durchschnittswert von $99.4 \%$ implizierte, dass auch die persönlichen Modelle nicht schlecht sein konnten. Eine größere Rolle wird diese Analyse demnach bei den unpersönlichen Modellen spielen.
+Eine Analyse der persönlichen \textit{Comb}-Modelle ergab jedoch, dass keines eine schlechtere Genauigkeit als $98.69 \%$ lieferte, wobei bereits der außerordentlich hohe Durchschnittswert von $99.4 \%$ implizierte, dass die persönlichen Modelle nicht schlecht sein konnten. Eine größere Rolle wird diese Analyse demnach bei den unpersönlichen Modellen spielen.
 
 \subsection{Unpersönliche Modelle}
 \label{subsec:eval-impersonal-models}
@@ -559,6 +560,38 @@ Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{t
 \end{tabular}
 \caption{Genauigkeit mit Feature Selection}
 \label{tab:accuracy-feature-selection}
+\end{table}
+
+\section{Zusatz: Personenerkennung durch Bewegungsdaten}
+Die von der Transformationssoftware ausgegebenen Daten enthalten neben den regulären Features auch eine Spalte, die den Namen des Teilnehmers angibt. Vor der weiteren Auswertung wurde dieses Feature stets aus dem Datensatz entfernt, jedoch lässt es sich auch zu einem nützlichen Test verwenden. Unter geringem Aufwand konnte geprüft werden, inwiefern die Kombination mehrerer Sensoren für die Personenerkennung anhand von Bewegungsdaten geeignet ist. Diese Idee ist nicht neu: 2010 untersuchten auch Kwapisz et al. auf Basis ihrer bisherigen Entwicklungen bezüglich Aktivitätenerkennung durch Smartphones, ob diese biometrische Identifikation ermöglichen \cite{Kwapisz2010} und kamen zu einem positiven Ergebnis.
+
+Nach Entfernung der Aktivität als ehemaliges Target aus den Daten wurde WEKA eingesetzt, um mithilfe des auch für die Aktivitätenerkennung verwendeten RF-Modells als Target nun den Namen des Teilnehmers vorherzusagen. Evaluiert wurde die Genauigkeit über eine 10-fache Kreuzvalidierung, dessen Ergebnisse in Tabelle~\ref{tab:user-prediction-accuracy} zu sehen sind. Mit einer Genauigkeit von $97.7 \%$ ist das \textit{Comb}-Modell erwarteterweise am besten. Interessant ist der Vorsprung gegenüber den anderen Modellen: Gegenüber der Kombination der Daten des Band und der Kombination der Daten des Smartphones konnte die Genauigkeit um $10.4 \%$ respektive $12.3 \%$ gesteigert werden. Relativ schwach sind die Modelle, die lediglich einen einzelnen Sensor nutzen, wobei der Beschleunigungssensor des Smartphones eine überraschend gute Erkennungsrate erzielen lässt.
+
+Bei der Interpretation dieser Genauigkeiten ist Vorsicht geboten, da insbesondere falsch-positive Erkennungen einer Person zumindest im Kontext der Authentifizierung fatal sind. Da jedoch unter anderem Kwapisz et al. bereits vielversprechende Resultate hinsichtlich dieses Aspekts lieferten, sind die hier erzielten Genauigkeiten ein guter Indikator dafür, dass auch hier die Kombination mehrerer Datenquellen förderlich sein kann, wenn die Verwendung einer einzelnen Quelle keine akzeptablen Genauigkeiten liefert.
+
+\begin{table}
+\centering
+\begin{tabular}{|l|c|}
+	\hline 
+	\textbf{Datensatz} & \textbf{Genauigkeit in Prozent} \\ 
+	\hline 
+	Comb & 97.7 \\ 
+	\hline
+	Band comb & 87.3 \\ 
+	\hline 
+	Band gyro & 40.5 \\ 
+	\hline 
+	Band accel & 62.2 \\ 
+	\hline 
+	Phone comb & 85.4 \\ 
+	\hline 
+	Phone gyro & 48.4 \\ 
+	\hline 
+	Phone accel & 83.3 \\ 
+	\hline 
+\end{tabular} 
+\caption{Genauigkeit der Personenerkennung}
+\label{tab:user-prediction-accuracy}
 \end{table}
 
 % vim: set ft=tex

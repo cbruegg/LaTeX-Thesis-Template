@@ -354,4 +354,12 @@
   note         = {Abgerufen am 19.02.2017},
 }
 
+@Misc{Moxfyre2009Aliasing,
+  author       = {"Moxfyre"},
+  title        = {Aliasing Sine},
+  howpublished = {https://en.wikipedia.org/wiki/File:AliasingSines.svg},
+  month        = {04},
+  year         = {2009},
+}
+
 @Comment{jabref-meta: databaseType:bibtex;}
