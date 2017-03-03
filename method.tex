@@ -1,10 +1,10 @@
 \chapter{Methode}
 \label{chap:method}
-Dieses Kapitel erläutert die Art und Weise, mit der aus den im Experiment gewonnenen Daten Modelle trainiert wurden, welche die ausgeführte Aktivität automatisch erkennen können. Der erste Schritt ist die Aufnahme der Rohdaten, die durch eine in Abschnitt~\ref{sec:android-app} Android-App realisiert wurde. Die gespeicherten Rohdaten sind noch nicht für einen herkömmlichen ML-Klassifikationsalgorithmus verwertbar, weshalb eine in Abschnitt~\ref{sec:transformation} beschriebene Transformation ausgeführt wird. Als dritter und letzter Schritt erfolgt die Ausführung diverser ML-Klassifikationsalgorithmen, die in Abschnitt~\ref{section:ml-algos} erläutert werden.
+Dieses Kapitel erläutert die Art und Weise, mit der aus den im Experiment gewonnenen Daten Modelle trainiert wurden, welche die ausgeführte Aktivität automatisch erkennen können. Der erste Schritt ist die Aufnahme der Rohdaten, die durch eine in Abschnitt~\ref{sec:android-app} beschriebene Android-App realisiert wurde. Die gespeicherten Rohdaten sind noch nicht für einen herkömmlichen ML-Klassifikationsalgorithmus verwertbar, weshalb eine in Abschnitt~\ref{sec:transformation} beschriebene Transformation ausgeführt wird. Als dritter und letzter Schritt erfolgt die Ausführung diverser ML-Klassifikationsalgorithmen, die in Abschnitt~\ref{section:ml-algos} erläutert werden.
 
 \section{Implementierung der Aufzeichnungssoftware}
 \label{sec:android-app}
-Die Aufzeichnung der Daten erforderte die Entwicklung einer neuen Software. Mit dem \textit{Actitracker} besteht zwar bereits eine Software von Lockhart et al. \cite{Lockhart2014}, jedoch unterstützt diese die synchronisierte Aufnahme mehrerer Sensoren, sowie das Microsoft Band 2 generell nicht. Wichtige Anforderungen an die Aufzeichnungssoftware waren in dieser Arbeit eine hohe Zuverlässigkeit, Fernsteuerbarkeit und das automatische Hochladen der Daten auf einen Datenspeicher im Anschluss an die Aufnahme. Teilnehmer des Experimentes sollten mit der Anwendung möglichst wenig in Berührung kommen.
+Die Aufzeichnung der Daten erforderte die Entwicklung einer neuen Software. Mit dem \textit{Actitracker} besteht zwar bereits eine Software von Lockhart et al. \cite{Lockhart2014}, jedoch unterstützt diese die synchronisierte Aufnahme mehrerer Sensoren sowie das Microsoft Band 2 generell nicht. Wichtige Anforderungen an die Aufzeichnungssoftware waren in dieser Arbeit eine hohe Zuverlässigkeit, Fernsteuerbarkeit und das automatische Hochladen der Daten auf einen Datenspeicher im Anschluss an die Aufnahme. Teilnehmer des Experimentes sollten mit der Anwendung möglichst wenig in Berührung kommen.
 
 \subsection{Definition der Messdaten}
 \begin{definition}
@@ -19,15 +19,15 @@ Die Aufzeichnungssoftware wurde als Anwendung für das Android-Betriebssystem im
 \label{fig:app-structure}
 \end{figure}
 
-Abbildung~\ref{fig:app-structure} bietet einen Überblick über die Struktur der Aufzeichnungssoftware. Im Zentrum steht die Klasse \textit{CollectionService}, die für die robuste Sammlung der Daten verantwortlich ist und daher als persistenter Android-\textit{Service} implementiert ist, der im Gegensatz zu anderen Komponenten einer Android-App nicht ohne weiteres durch das System zur Schonung der Ressourcen beendet werden kann. Gesteuert wird die Aufnahme über eine grafische Benutzeroberfläche auf dem Smartphone selbst (\textit{AndroidUI}), sowie optional auch über eine Weboberfläche, die über einen einfachen HTTP-Server zur Verfügung steht. In den Benutzeroberflächen kann der Name des Probanden, sowie die ausgeführte Aktivität angegeben werden. Des Weiteren wird hierüber die Aufnahme gestartet und gestoppt.
+Abbildung~\ref{fig:app-structure} bietet einen Überblick über die Struktur der Aufzeichnungssoftware. Im Zentrum steht die Klasse \textit{CollectionService}, die für die robuste Sammlung der Daten verantwortlich ist und daher als persistenter Android-\textit{Service} implementiert ist, der im Gegensatz zu anderen Komponenten einer Android-App nicht ohne weiteres durch das System zur Schonung der Ressourcen beendet werden kann. Gesteuert wird die Aufnahme über eine grafische Benutzeroberfläche auf dem Smartphone selbst (\textit{AndroidUI}) sowie optional auch über eine Weboberfläche, die über einen einfachen HTTP-Server zur Verfügung steht. In den Benutzeroberflächen können der Name des Probanden sowie die ausgeführte Aktivität angegeben werden. Des Weiteren wird hierüber die Aufnahme gestartet und gestoppt.
 
-Der \textit{CollectionService} delegiert die Aufnahme an den \textit{BandDataRecorder} und den \textit{LocalDataRecorder} weiter, die jeweils für das Microsoft Band 2 respektive die Smartphone-lokalen Sensoren verantwortlich sind. Über den \textit{BandConnector} wird die Bluetooth-Verbindung zum Band hergestellt und aufrecht erhalten. \textit{BandDataRecorder} und \textit{LocalDataRecorder} zeichnen Daten in Form von \textit{Readings} auf. Die Methode \textit{getValuesPerComponent()} liefert beispielsweise Daten der Form $\{x \to 1.0, y \to 2.0, z \to 3.0\}$, wenn die Komponenten des jeweiligen Sensors der jeweiligen \textit{Source} $\{x, y, z\}$ sind.
+Der \textit{CollectionService} delegiert die Aufnahme an den \textit{BandDataRecorder} und den \textit{LocalDataRecorder} weiter, die jeweils für das Microsoft Band 2 respektive die Smartphone-lokalen Sensoren verantwortlich sind. Über den \textit{BandConnector} wird die Bluetooth-Verbindung zum Band hergestellt und aufrecht erhalten. \textit{BandDataRecorder} und \textit{LocalDataRecorder} zeichnen Daten in Form von \textit{Readings} auf. Die Methode \textit{getValuesPerComponent()} liefert bei einem triaxialen Sensor beispielsweise Daten der Form $\{x \to 1.0, y \to 2.0, z \to 3.0\}$.
 
 Wird die Aufnahme gestoppt, werden die Readings mitsamt den Metadaten Name des Probanden und Aktivität serialisiert und per SFTP auf einen entfernten Speicher hochgeladen. Anschließend werden die Daten von dort abgerufen und wie im folgenden Abschnitt beschrieben weiterverarbeitet.
 
 \section{Transformation der Daten}
 \label{sec:transformation}
-Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML\hyph Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die in Rahmen dieser Arbeit bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
+Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reihe von Daten mit Zeitstempeln. In dieser Form kann noch kein konventioneller ML\hyph Klassifikationsalgorithmus mit den Daten arbeiten, da diese Daten in Form einer Liste von \textit{Instanzen} erwarten. Eine Instanz besteht aus einer Menge von \textit{Attributen/Features}, die im Rahmen dieser Arbeit bis auf das nominale \textit{Target}-Attribut allesamt kardinal sind. Das Target-Attribut ist dabei die durchgeführte Aktivität. Entsprechend ist eine Transformation der Daten notwendig, um diese tatsächlich nutzbar zu machen.
 
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
@@ -36,26 +36,26 @@ Um aus den sequentiellen Daten des Intervalls eine feste Anzahl von Features zu 
 \subsubsection{Average \& Standard Deviation}
 Der Durchschnittswert einer Reihe von Zahlen ist im Kontext der Aktivitätenerkennung relevant, da er zusammen mit der ebenfalls nachfolgend definierten Standardabweichung auf einfache Art und Weise angibt, in welchen Bereichen sich die Sensordaten bewegen.
 \begin{align*}
-\text{Avg}(A) &:= \frac{1}{N} * \sum_{a \in A} a \\
-\text{StdDev}(A) &:= \sqrt{\frac{1}{N} * \sum_{a \in A} (a - \text{Avg}(A))^2}
+\text{Avg}(A) &:= \frac{1}{N} \cdot \sum_{a \in A} a \\
+\text{StdDev}(A) &:= \sqrt{\frac{1}{N} \cdot \sum_{a \in A} (a - \text{Avg}(A))^2}
 \end{align*}
 \subsubsection{Average Absolute Difference}
 Diese Funktion gibt ähnlich wie \textit{StdDev} Veränderungen in den Datenreihen wieder, ist dabei jedoch nicht quadratisch und somit für ML-Algorithmen möglicherweise leichter zu handhaben.
 \[
-\text{AvgAbsDiff}(A) := \frac{1}{N} * \sum_{a \in A} |a - \text{Avg}(A)|
+\text{AvgAbsDiff}(A) := \frac{1}{N} \cdot \sum_{a \in A} |a - \text{Avg}(A)|
 \]
 \subsubsection{$k$-Binned Distribution}
-Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-Vektor anstatt einen Skalar. Wie \textit{Avg} und \textit{StdDev} erklärt diese Funktion den Wertebereich der Datenreihen, deckt diesen allerdings vollständig ab. Da die Interpretation der Ergebnisse dieser Funktion dafür komplexer ist, handelt es sich um eine sinnvolle Ergänzung zu den genannten Funktionen.
+Im Gegensatz zu den obigen Funktionen liefert diese Aggregatfunktion einen $k$-Vektor anstatt eines Skalars. Wie \textit{Avg} und \textit{StdDev} erklärt diese Funktion den Wertebereich der Datenreihen, deckt diesen allerdings vollständig ab. Da die Interpretation der Ergebnisse dieser Funktion dafür komplexer ist, handelt es sich um eine sinnvolle Ergänzung zu den genannten Funktionen.
 \\\\
 Seien $i \in \{0, ..., k - 1\}, S := \frac{\max A - \min A}{k}$. Dann ist die \textit{Binned Distribution} wie folgt definiert:
 \[
-\text{Bin}(A, i) := \#\{a \in A | (\min A) + i * S \leq a < (\min A) + (i + 1) * S\}
+\text{Bin}(A, i) := \#\{a \in A | (\min A) + i \cdot S \leq a < (\min A) + (i + 1) \cdot S\}
 \]
 $\text{Bin}(A, i)$ ist demzufolge die Anzahl der Elemente in Korb $i$, wenn man $A$ der Größe nach sortiert auf $k$ Körbe verteilt. Der Bin ist hierbei als Multimenge zu verstehen und darf somit Elemente auch mehrfach enthalten.
 \subsubsection{Average Root of Squares}
 Auch diese Aggregatfunktion unterscheidet sich von den bisherigen, da sie mehrere Listen als Parameter erhält und somit Zusammenhänge zwischen diesen erklärt:
 \[
-\text{Aros}(A_1, ..., A_M) = \frac{1}{M} * \sum_{i = 1}^{M} \sqrt{\sum_{a \in A_i} a^2}
+\text{Aros}(A_1, ..., A_M) = \frac{1}{M} \cdot \sum_{i = 1}^{M} \sqrt{\sum_{a \in A_i} a^2}
 \]
 \subsubsection{Average Time between Peaks}
 Diese Aggregatfunktion gibt die durchschnittliche Zeit zwischen Höhepunkten in $A$ zurück, die ein signifikantes Merkmal körperlicher Aktivitäten sein können, wofür zusätzlich eine Funktion $\text{timeForIndex}: \mathbb{N} \to \mathbb{N}$ benötigt wird. Die Wahl der Höhepunkte erfolgt durch eine Heuristik. 
@@ -70,7 +70,7 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
     \begin{algorithmic}
         \State $\text{indices} \gets \emptyset$
         \For{$i \in \{1, ..., |A| - 1\}$}
-            \If{$A[i] * t \geq A[i+1]$}
+            \If{$A[i] \cdot t \geq A[i+1]$}
                 \State $\text{indices} \gets \text{indices} \cup \{i\}$
             \EndIf
         \EndFor
@@ -92,8 +92,8 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
         \State $\text{otherPeakIndices} \gets \emptyset$
         \State threshold $\gets 0.8$
         \Repeat
-            \State otherPeakIndices $\gets$ Indices of $A$ where $A[i] \geq A[\text{highestPeakIdx}] * $ threshold
-            \State threshold $\gets \text{threshold} * 0.9$
+            \State otherPeakIndices $\gets$ Indices of $A$ where $A[i] \geq A[\text{highestPeakIdx}] \cdot $ threshold
+            \State threshold $\gets \text{threshold} \cdot 0.9$
         \Until{$|\text{otherPeaksIndices}| \geq \text{minPeaks} \vee \text{threshold} < 0.3$}
         \State \LeftComment \textit{Check whether we have found enough peaks}
         \If{$|\text{otherPeakIndices}| < $ minPeaks}
@@ -166,7 +166,7 @@ Nun werden die Aggregatfunktionen auf $I_1$ angewendet:
 \end{align*}
 Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich der folgende Datensatz, der von einem herkömmmlichen Klassifikationsalgorithmus verarbeitet werden kann:\\
 
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|}
 	\hline 
 	Intervall & $\text{Avg}_\text{Band, Gyroscope, x}$ & $\text{Avg}_\text{Band, Gyroscope, y}$  & $...$  & sampleClass  \\ 
 	\hline 
@@ -194,17 +194,17 @@ Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend
 Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte ML-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser ML-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
 \todo{Hyperparameter aktualisieren, falls nötig}
 \subsection{Random Forest (RF)}
-Ein \textit{Random Forest} ist ein Wald von Entscheidungsbäumen (erklärt in Kapitel 14.4 \cite{Bishop2006}), die randomisiert entstanden sind. Soll eine neue Instanz klassifiziert werden, treffen alle Entscheidungsbäume eine Entscheidung und die am häufigsten vorhergesagte Klasse gewinnt. WEKA nutzt eine Implementierung nach \cite{Breiman2001}. Experimentell haben sich die folgenden Hyperparameterwerte als sinnvoll erwiesen: Die Anzahl der Bäume in Wald wurde auf 50, die Anzahl der verwendeten Features pro Baum auf 10, sowie die maximale Tiefe auf 25 festgelegt.
+Ein \textit{Random Forest} ist ein Wald von Entscheidungsbäumen (erklärt in Kapitel 14.4 \cite{Bishop2006}), die randomisiert entstanden sind. Soll eine neue Instanz klassifiziert werden, treffen alle Entscheidungsbäume eine Entscheidung und die am häufigsten vorhergesagte Klasse gewinnt. WEKA nutzt eine Implementierung nach \cite{Breiman2001}. Experimentell haben sich die folgenden Hyperparameterwerte als sinnvoll erwiesen: Die Anzahl der Bäume in Wald wurde auf 50, die Anzahl der verwendeten Features pro Baum auf 10 sowie die maximale Tiefe auf 25 festgelegt.
 \subsection{J48-Entscheidungsbaum (J48)}
 J48 ist eine Implementierung des \textit{C4.5}-Algorithmus \cite{Quinlan1993}. Der Entscheidungsbaum wird anhand von Trainingsdaten $T$ iterativ durch das Hinzufügen von Entscheidungsknoten erzeugt, die den Informationsgehalt der Teilmengen von $T$ minimieren, die aus dem Split an jenem Entscheidungsknoten hervorgehen. Der Informationsgehalt ist umso höher, je mehr verschiedene Klassen sich in einer Menge von Instanzen befinden. Ein niedriger Informationsgehalt besagt demnach, dass nach einer Entscheidung an einem Entscheidungsknoten klarer geworden ist, welcher Klasse die Instanzen in den Mengen nach dem Split zuzuordnen sind.
 \subsection{Instance-Based-Learner (IB$k$)}
 Der IB$k$-Algorithmus ist ein $k$NN-basierter Klassifikationsalgorithmus. Soll einer neuen Instanz $x \in \mathbb{R}^n$ eine Klasse zugeordnet werden, werden anhand eines Distanzmaßes für den Vektorraum $\mathbb{R}^n$ die $k$ nächsten Nachbarn von $x$ gesucht. $x$ wird danach die Klasse zugeordnet, die unter den $k$ Nachbarn am häufigsten vorkam. Weitere Details sind zu finden in \cite{Aha1991}.
 $k$ ist dabei ein Hyperparameter, der auf 3 eingestellt wurde.
 \subsection{Naive Bayes (NB)}
-Naive Bayes ist eine probabilistische Methode zur Klassifikation \cite{John1995}. Mit $x = (x_1, ..., x_n)$ wird die Klasse $C$ gesucht, die $\mathbb{P}(C | x_1, ..., x_n)$ maximiert. $x$ besteht hier aus nominalen Attributen. Der Satz von Bayes besagt, dass $\mathbb{P}(C|x) = \frac{\mathbb{P}(C) \mathbb{P}(x | C)}{\mathbb{P}(x)}$. Da über $C$ optimiert wird, kann der Nenner für diesen Ansatz ignoriert werden. Nimmt man \textit{naiv} an, dass $x_1, ..., x_n$ voneinander unabhängig sind, kann somit statt $\mathbb{P}(C | x)$ auch folgender Term über $C$ maximiert werden: $\mathbb{P}(C) \prod_{i=1}^{n} \mathbb{P}(x_i | C)$. Durch den Trainingsdatensatz sind die $\mathbb{P}(C)$ als Prior der Klassen $C$, sowie alle $\mathbb{P}(x_i | C)$ bekannt, sodass der Term durch einfaches Ausprobieren aller Klassen maximiert werden kann.
+Naive Bayes ist eine probabilistische Methode zur Klassifikation \cite{John1995}. Mit $x = (x_1, ..., x_n)$ wird die Klasse $C$ gesucht, die $\mathbb{P}(C | x_1, ..., x_n)$ maximiert. $x$ besteht hier aus nominalen Attributen. Der Satz von Bayes besagt, dass $\mathbb{P}(C|x) = \frac{\mathbb{P}(C) \mathbb{P}(x | C)}{\mathbb{P}(x)}$. Da über $C$ optimiert wird, kann der Nenner für diesen Ansatz ignoriert werden. Nimmt man \textit{naiv} an, dass $x_1, ..., x_n$ voneinander unabhängig sind, kann somit statt $\mathbb{P}(C | x)$ auch folgender Term über $C$ maximiert werden: $\mathbb{P}(C) \prod_{i=1}^{n} \mathbb{P}(x_i | C)$. Durch den Trainingsdatensatz sind die $\mathbb{P}(C)$ als Prior der Klassen $C$ sowie alle $\mathbb{P}(x_i | C)$ bekannt, sodass der Term durch einfaches Ausprobieren aller Klassen maximiert werden kann.
 
 Enthält $x$ numerische Attribute, müssen diese zunächst durch nominale Attribute ersetzt werden. Der Wertebereich aller $x_i$ über den Trainingsdatensatz hinweg kann in eine feste Anzahl von Intervallen aufgeteilt werden. Für jedes Intervall $I$ wird nun eine Indikatorvariable als Feature angelegt, die angibt, ob für eine Instanz $x$ gilt, dass $x_i \in I$.
 \subsection{Multilayer Perceptron (MLP)}
-Bei dieser Methode handelt es sich um ein mehrschichtiges Netzwerk von sogenannten \textit{Perzeptren}, auch \textit{(künstliches) neuronales Netzwerk} genannt. Ein Perzeptron erhält $n$ Eingaben $x_1, ..., x_n$ und gewichtet diese mit Parametern $\Theta_1, ..., \Theta_n$, die gelernt werden. Das Perzeptron berechnet $y = g(\sum_{i=1}^{n} \Theta_i x_i)$ als Ausgabewert, wobei $g$ eine Aktivierungsfunktion ist, die den Ausgabewerte beschränkt, beispielsweise die Sigmoidfunktion.
+Bei dieser Methode handelt es sich um ein mehrschichtiges Netzwerk von sogenannten \textit{Perzeptren}, auch \textit{(künstliches) neuronales Netzwerk} genannt. Ein Perzeptron erhält $n$ Eingaben $x_1, ..., x_n$ und gewichtet diese mit Parametern $\Theta_1, ..., \Theta_n$, die gelernt werden. Das Perzeptron berechnet $y = g(\sum_{i=1}^{n} \Theta_i x_i)$ als Ausgabewert, wobei $g$ eine Aktivierungsfunktion ist, die den Ausgabewert beschränkt, beispielsweise die Sigmoidfunktion.
 
 Die Ausgabe eines Perzeptrons kann einem Perzeptron der nächsten Schicht als Eingang dienen. Die letzte Schicht fungiert als Ausgabe des Netzwerks, dessen Fehler anhand eines Trainingsdatensatzes bestimmt werden kann. Jedes Perzeptron berechnet, wie die eigenen Parameter $\Theta$ angepasst werden müssen, um den Fehler zu minimieren, wofür der Fehler der Perzeptren der letzten Schicht an die vorherige Schicht weiter propagiert wird (\textit{Backpropagation}). Zur Optimierung der Parameter wird ein stochastischer Gradientenabstieg verwendet. Zur Klassifikation können die Ausgangswerte der Perzeptren der letzten Schicht als Indikatorvariablen für die vorhandenen Klassen interpretiert werden. Weitere Informationen sind zu finden in \cite{Haykin1994}.

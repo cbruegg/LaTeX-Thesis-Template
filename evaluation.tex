@@ -1,7 +1,7 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
 
-Dieses Kapitel widmet sich der Auswertung der Ergebnisse anhand verschiedener Metriken. Eingebettet in der Transformationssoftware befindet sich ein Präprozessor, der die aufgenommen Daten vor der Transformation manipulieren kann. Auf diese Weise werden mehrere Trainingsdatensätze erstellt, die in der Evaluation daraufhin analysiert werden, wie genau ein Klassifikator nach dem Training mit ihnen Vorhersagen treffen kann.
+Dieses Kapitel widmet sich der Auswertung der Ergebnisse anhand verschiedener Metriken. Eingebettet in der Transformationssoftware befindet sich ein Präprozessor, der die aufgenommenen Daten vor der Transformation manipulieren kann. Auf diese Weise werden mehrere Trainingsdatensätze erstellt, die in der Evaluation daraufhin analysiert werden, wie genau ein Klassifikator nach dem Training mit ihnen Vorhersagen treffen kann.
 \\\\
 Die folgenden Datensätze werden generiert:
 
@@ -29,13 +29,13 @@ zu finden. Fettgedruckt ist immer der jeweils höchste Wert einer Spalte.
 
 \subsection{Persönliche Modelle}
 
-Die Evaluierung der persönlichen Modelle erfolgt wie folgt: Für jeden Benutzer $b$ wird eine 10-fache Kreuzvalidierung durchgeführt, wobei die Trainingsdaten nur Daten von $b$ beinhalten. Anschließend wird der Durchschnitt der einzelnen Genauigkeiten über alle Benutzer gebildet, um einen globalen Genauigkeitswert zu erhalten. Um dieses Testverfahren zu ermöglichen, wurde die Weka-Software leicht angepasst: Die Methode zur Kreuzvalidierung wurde um einen Parameter $\texttt{foldSelector}: \texttt{Instanzen} \to \mathbb{N}$ erweitert, der für eine Instanz aus dem Datensatz zurückgibt, in welcher Iteration der Kreuzvalidierung diese aus dem Trainingsdatensatz ausgeschlossen und stattdessen im Testdatensatz verwendet wird.
+Die Evaluierung der persönlichen Modelle erfolgt wie folgt: Für jeden Benutzer $b$ wird eine 10-fache Kreuzvalidierung durchgeführt, wobei die Trainingsdaten nur Daten von $b$ beinhalten. Anschließend wird der Durchschnitt der einzelnen Genauigkeiten über alle Benutzer gebildet, um einen globalen Genauigkeitswert zu erhalten. Um dieses Testverfahren zu ermöglichen, wurde die WEKA-Software leicht angepasst: Die Methode zur Kreuzvalidierung wurde um einen Parameter $\texttt{foldSelector}: \texttt{Instanzen} \to \mathbb{N}$ erweitert, der für eine Instanz aus dem Datensatz zurückgibt, in welcher Iteration der Kreuzvalidierung diese aus dem Trainingsdatensatz ausgeschlossen und stattdessen im Testdatensatz verwendet wird.
 
 Nutzt man nur je ein Gyroskop, ist die Qualität der persönlichen Modelle am schlechtesten. Im Gegensatz dazu haben bereits Modelle, die lediglich Daten von einem der Beschleunigungssensoren verwenden, eine gute Aussagekraft.
 
 Vergleicht man \textit{Band accel} als die beste einzelne Datenquelle mit den Kombinationsmöglichkeiten, so lässt sich feststellen, dass die durch die Hinzunahme der anderen Sensoren des Band resultierende Kombination eine Genauigkeit von $97.1 \%$ erzielt, was einer Verbesserung um $5.5 \%$ entspricht. Im Gegensatz dazu liefert die Kombination der beiden Smartphone-Sensoren lediglich eine Verbesserung von $0.7 \%$ gegenüber \textit{Phone accel}. Der einzelnen Quelle \textit{Band accel} ist selbst die Kombination der Smartphone-Sensoren unterlegen.
 
-Hebt man jedoch diese künstlichen Einschränkungen auf, so wird eine Genauigkeit von $99.4 \%$ erreicht, sodass Benutzer nach dreiminütiger Aufnahme einer Aktivität davon ausgehen könnten, dass diese in Zukunft bis auf wenige Ausreißer automatisch erkannt wird. Insgesamt konnte gegenüber \textit{Phone Accel} damit eine Verbesserung um $9.4 \%$ erreicht werden. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $91.6 \%$ liefert die Kombination aller Daten eine Verbesserung um $7.8 \%$.
+Hebt man jedoch diese künstlichen Einschränkungen auf, so wird eine Genauigkeit von $99.4 \%$ erreicht, sodass Benutzer nach dreiminütiger Aufnahme einer Aktivität davon ausgehen könnten, dass diese in Zukunft bis auf wenige Ausreißer automatisch erkannt wird. Insgesamt konnte gegenüber \textit{Phone Accel} damit eine Verbesserung um $9.4 \%$ erreicht werden. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $91.6 \%$ liefert die Kombination aller Daten eine Verbesserung um $7.8$ Prozentpunkte.
 
 Anzumerken ist, dass die Genauigkeit von $97.1 \%$, die durch die Kombination der Band-Sensoren erzielt wird, je nach Anwendungszweck bereits ausreichend sein kann und die Hinzunahme von Smartphone-Sensoren daher nicht unbedingt erforderlich ist. Dennoch folgt aus diesen Ergebnissen die wertvolle Erkenntnis, dass zumindest die Kombination der verschiedenen Sensoren des Bands eine nennenswerte Verbesserung der Genauigkeit erzielt.
 
@@ -167,7 +167,7 @@ Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollst�
 \subsubsection{Variation zwischen Teilnehmern}
 Wie die persönlichen Modelle wurden auch die unpersönlichen Modelle zusätzlich pro Teilnehmer evaluiert, um eine Genauigkeitsverteilung zu erhalten.
 
-Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die Genauigkeitsverteilungen, die aus dem Experiment hervorgingen. Kein unpersönliches \textit{Comb}-Modell für einen Teilnehmer war ungenauer als $65 \%$, während über $80 \%$ der Teilnehmer sogar \textit{Comb}-Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. Es ist auch in dieser Abbildung offensichtlich, dass die \textit{Band accel}-Modelle genauer als die \textit{Phone accel}-Modelle sind, jedoch liegt die Spannweite der Genauigkeiten relativ gleichmäßig zwischen 60 und 90 Prozent, während bei den \textit{Comb}-Modellen eine klare Häufung im Intervall $[75, 80)$ zu erkennen ist. Des Weiteren ist im Gegensatz zu den \textit{Comb}-Modellen ein \textit{Band accel}-Modell schlechter als $65 \%$ und keines besser als $90 \%$.
+Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die Genauigkeitsverteilungen, die aus dem Experiment hervorgingen. Kein unpersönliches \textit{Comb}-Modell für einen Teilnehmer war ungenauer als $65 \%$, während $80 \%$ der Teilnehmer sogar \textit{Comb}-Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. Es ist auch in dieser Abbildung offensichtlich, dass die \textit{Band accel}-Modelle genauer als die \textit{Phone accel}-Modelle sind, jedoch liegt die Spannweite der Genauigkeiten relativ gleichmäßig zwischen 60 und 90 Prozent, während bei den \textit{Comb}-Modellen eine klare Häufung im Intervall $[75, 80)$ zu erkennen ist. Des Weiteren ist im Gegensatz zu den \textit{Comb}-Modellen ein \textit{Band accel}-Modell schlechter als $65 \%$ und keines besser als $90 \%$.
 
 \begin{figure}
 \centering
@@ -198,7 +198,7 @@ coordinates {(30,2) (35,4) (40,2) (45,2) (50,0) (55,0) (60,0) (65,0) (70,0) (75,
 
 \end{axis}
 \end{tikzpicture}
-\caption[Genauigkeitsverteilungen unpersönlicher Modelle]{Genauigkeitsverteilungen unpersönlicher Modelle. Die Beschriftungen $n$ der x-Achse stehen für das Intervall $[n, n+5)$. }
+\caption[Genauigkeitsverteilungen unpersönlicher Modelle]{Genauigkeitsverteilungen unpersönlicher Modelle. Die Beschriftungen $n$ der x-Achse stehen für die Intervalle $[n, n+5)$. }
 \label{fig:accuracy-impersonal-per-user}
 \end{figure}
 
