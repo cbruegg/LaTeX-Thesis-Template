@@ -65,7 +65,7 @@ Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes.
 Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den gesammelten Daten als gut geeignet. Für andere Datensätze kann eine Anpassung erforderlich sein.
 
 \begin{algorithm}
-    \caption{IndicesOfPeaks($A$, $t$), $t \in [0,1]$. Returns a list of indices $i$ where $A[i] * t \geq A[i+1]$}
+    \caption{IndicesOfPeaks($A$, $t$), $t \in [0,1]$. Returns a list of indices $i$ where $A[i] \cdot t \geq A[i+1]$}
     \label{algo:indicesOfPeaks}
     \begin{algorithmic}
         \State $\text{indices} \gets \emptyset$
@@ -161,8 +161,8 @@ Nun werden die Aggregatfunktionen auf $I_1$ angewendet:
 &\text{Bin}_\text{Band, Accelerometer, x}(1) = \#\{1\} = 1 \\
 &\text{Bin}_\text{Band, Accelerometer, y}(0) = \#\{\} = 0 \\
 &\text{Bin}_\text{Band, Accelerometer, y}(1) = \#\{\} = 0 \\
-&\text{Aros}_\text{Band, Gyroscope} = (1/2) * (\underbrace{\sqrt{1^2 + 2^2}}_x + \underbrace{\sqrt{0^2 + 2^2}}_y) \approx 2.12 \\
-&\text{Aros}_\text{Band, Accelerometer} = (1/2) * (\underbrace{\sqrt{1^2 + 0^2}}_x + \underbrace{\sqrt{1^2 + 1^2}}_y) \approx 1.2 \\
+&\text{Aros}_\text{Band, Gyroscope} = (1/2) \cdot (\underbrace{\sqrt{1^2 + 2^2}}_x + \underbrace{\sqrt{0^2 + 2^2}}_y) \approx 2.12 \\
+&\text{Aros}_\text{Band, Accelerometer} = (1/2) \cdot (\underbrace{\sqrt{1^2 + 0^2}}_x + \underbrace{\sqrt{1^2 + 1^2}}_y) \approx 1.2 \\
 \end{align*}
 Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich der folgende Datensatz, der von einem herkömmmlichen Klassifikationsalgorithmus verarbeitet werden kann:\\
 
