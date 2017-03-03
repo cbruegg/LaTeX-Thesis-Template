@@ -60,38 +60,6 @@
    year = {1995}
 }
 
-<div class="small-text" align="right" style="margin-right:10px">
-	
-	BibTeX |
-    
-    <a href="javascript:ColdFusion.Window.show('theformats');ColdFusion.navigate('exportformats.cfm?id=1964918&expformat=endnotes','theformats');" >EndNote</a>  |  
-    
-    <a href="javascript:ColdFusion.Window.show('theformats');ColdFusion.navigate('exportformats.cfm?id=1964918&expformat=acmref','theformats');" >ACM Ref</a>
-    
-</div>
-
-<PRE id="1964918">
-
-@Article{Kwapisz2012,
-  author     = {Kwapisz, Jennifer R. and Weiss, Gary M. and Moore, Samuel A.},
-  title      = {Activity Recognition Using Cell Phone Accelerometers},
-  journal    = {AAAI Technical Report},
-  year       = {2012},
-  volume     = {12},
-  number     = {2},
-  pages      = {74--82},
-  month      = mar,
-  issn       = {1931-0145},
-  acmid      = {1964918},
-  address    = {New York, NY, USA},
-  doi        = {10.1145/1964897.1964918},
-  issue_date = {December 2010},
-  keywords   = {accelerometer, activity recognition, cell phone, induction, sensor mining, sensors},
-  numpages   = {9},
-  publisher  = {ACM},
-  url        = {http://doi.acm.org/10.1145/1964897.1964918},
-}
-
 
  @article{Breiman2001,
     author = {Leo Breiman},
@@ -362,15 +330,57 @@
 }
 
 @InProceedings{Kwapisz2010,
-  author        = {J. R. Kwapisz and G. M. Weiss and S. A. Moore},
-  title         = {Cell phone-based biometric identification},
-  booktitle     = {Proc. Applications and Systems (BTAS) 2010 Fourth IEEE Int. Conf. Biometrics: Theory},
-  year          = {2010},
-  pages         = {1--7},
-  month         = sep,
+  author    = {J. R. Kwapisz and G. M. Weiss and S. A. Moore},
+  title     = {Cell phone-based biometric identification},
+  booktitle = {Proc. Applications and Systems (BTAS) 2010 Fourth IEEE Int. Conf. Biometrics: Theory},
+  year      = {2010},
+  pages     = {1--7},
+  month     = sep,
+  doi       = {10.1109/BTAS.2010.5634532},
+  keywords  = {accelerometers, biometrics (access control), mobile handsets, accelerometers, behavioral biometric identification, cell phone-based biometric identification, mobile devices, phone-based acceleration sensors, smart phones, Accelerometers, Accuracy, Aggregates, Authentication, Intelligent sensors, Temperature sensors},
+}
+
+@Article{Kiani1998,
+  author    = {Kiani, Kourosh and Snijders, Chris J and Gelsema, Edzard S},
+  title     = {Recognition of daily life motor activity classes using an artificial neural network},
+  journal   = {Archives of physical medicine and rehabilitation},
+  year      = {1998},
+  volume    = {79},
+  number    = {2},
+  pages     = {147--154},
+  publisher = {Elsevier},
+}
+
+@Article{Kwapisz2011,
+  author        = {Kwapisz, Jennifer R. and Weiss, Gary M. and Moore, Samuel A.},
+  title         = {Activity Recognition Using Cell Phone Accelerometers},
+  journal       = {SIGKDD Explor. Newsl.},
+  year          = {2011},
+  volume        = {12},
+  number        = {2},
+  pages         = {74--82},
+  month         = mar,
+  issn          = {1931-0145},
   __markedentry = {[Christian:6]},
-  doi           = {10.1109/BTAS.2010.5634532},
-  keywords      = {accelerometers, biometrics (access control), mobile handsets, accelerometers, behavioral biometric identification, cell phone-based biometric identification, mobile devices, phone-based acceleration sensors, smart phones, Accelerometers, Accuracy, Aggregates, Authentication, Intelligent sensors, Temperature sensors},
+  acmid         = {1964918},
+  address       = {New York, NY, USA},
+  doi           = {10.1145/1964897.1964918},
+  issue_date    = {December 2010},
+  keywords      = {accelerometer, activity recognition, cell phone, induction, sensor mining, sensors},
+  numpages      = {9},
+  publisher     = {ACM},
+  url           = {http://doi.acm.org/10.1145/1964897.1964918},
+}
+
+@Article{Coren1991,
+  author    = {Coren, Stanley and Halpern, Diane F},
+  title     = {Left-handedness: a marker for decreased survival fitness.},
+  journal   = {Psychological bulletin},
+  year      = {1991},
+  volume    = {109},
+  number    = {1},
+  pages     = {90},
+  publisher = {American Psychological Association},
 }
 
 @Comment{jabref-meta: databaseType:bibtex;}

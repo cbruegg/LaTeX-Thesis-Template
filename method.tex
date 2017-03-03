@@ -32,7 +32,7 @@ Jede einzelne Aufnahme eines Nutzers und einer Aktivität besteht aus einer Reih
 Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten zunächst in Intervalle mit zehnsekündiger Dauer auf. Ein solches Intervall soll schließlich eine Instanz, d.h. ein Beispiel für eine Aktivität bilden. Das erste und das letzte Intervall werden gelöscht, da in dieser Zeit die Aufnahme gestartet und gestoppt wurde, was ansonsten durch den anderen Bewegungsablauf die Ergebnisse verfälschen könnte. Aktuell umfasst das Intervall noch mehrere Readings, die aggregiert werden müssen.
 
 \subsection{Beschreibung der Aggregatfunktionen}
-Um aus den sequentiellen Daten des Intervalls eine feste Anzahl von Features zu gewinnen, die dieses Intervall beschreiben, werden Aggregatfunktionen benötigt, die eine Liste von Zahlen $A[1..N]$ auf eine feste Anzahl von Werten reduziert, welche die sequentiellen Daten in Kombination möglichst gut beschreiben. In den folgenden Abschnitten werden die auch von Weiss et al. verwendeten \cite{Weiss2016} Aggregatfunktionen in Anlehnung an Kwapisz et al. \cite{Kwapisz2012} begründet und definiert.
+Um aus den sequentiellen Daten des Intervalls eine feste Anzahl von Features zu gewinnen, die dieses Intervall beschreiben, werden Aggregatfunktionen benötigt, die eine Liste von Zahlen $A[1..N]$ auf eine feste Anzahl von Werten reduziert, welche die sequentiellen Daten in Kombination möglichst gut beschreiben. In den folgenden Abschnitten werden die auch von Weiss et al. verwendeten \cite{Weiss2016} Aggregatfunktionen in Anlehnung an Kwapisz et al. \cite{Kwapisz2011} begründet und definiert.
 \subsubsection{Average \& Standard Deviation}
 Der Durchschnittswert einer Reihe von Zahlen ist im Kontext der Aktivitätenerkennung relevant, da er zusammen mit der ebenfalls nachfolgend definierten Standardabweichung auf einfache Art und Weise angibt, in welchen Bereichen sich die Sensordaten bewegen.
 \begin{align*}
@@ -60,7 +60,7 @@ Auch diese Aggregatfunktion unterscheidet sich von den bisherigen, da sie mehrer
 \subsubsection{Average Time between Peaks}
 Diese Aggregatfunktion gibt die durchschnittliche Zeit zwischen Höhepunkten in $A$ zurück, die ein signifikantes Merkmal körperlicher Aktivitäten sein können, wofür zusätzlich eine Funktion $\text{timeForIndex}: \mathbb{N} \to \mathbb{N}$ benötigt wird. Die Wahl der Höhepunkte erfolgt durch eine Heuristik. 
 
-Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes. Zunächst wird mittels Algorithmus~\ref{algo:indicesOfPeaks} bestimmt, an welchen Indizes in der Liste Werte stehen, die deutlich größer als ihre Nachfolger sind. Dadurch wird definiert, was eine Spitze in dieser spezifischen Liste ausmacht. Anschließend werden Spitzen gesucht, die maximal um den Faktor \textit{threshold} kleiner sind als die größte Spitze, die der Algorithmus gefunden hast. Diese Grenze wird solange gesenkt, bis genügend Spitzen gefunden wurden oder die Grenze so niedrig liegt, dass es sich nicht mehr um Spitzen handelt. Als letztes berechnet der Algorithmus die durchschnittliche Zeit zwischen den Spitzen mithilfe der Funktion \textit{timeForIndex}.
+Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes. Zunächst wird mittels Algorithmus~\ref{algo:indicesOfPeaks} bestimmt, an welchen Indizes in der Liste Werte stehen, die deutlich größer als ihre Nachfolger sind. Dadurch wird definiert, was eine Spitze in dieser spezifischen Liste ausmacht. Anschließend werden Spitzen gesucht, die maximal um den Faktor \textit{threshold} kleiner sind als die größte Spitze, die der Algorithmus gefunden hast. Diese Grenze wird solange gesenkt, bis genügend Spitzen gefunden wurden oder die Grenze so niedrig liegt, dass es sich nicht mehr um Spitzen handelt. Als letztes berechnet der Algorithmus die durchschnittliche Zeit zwischen den Spitzen mit Hilfe der Funktion \textit{timeForIndex}.
 
 Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den gesammelten Daten als gut geeignet. Für andere Datensätze kann eine Anpassung erforderlich sein.
 
@@ -110,7 +110,7 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
 \end{algorithm}
 
 \subsection{Anwendung der Aggregatfunktionen}
-Die Transformationssoftware reduziert nun mithilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}^\alpha$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
+Die Transformationssoftware reduziert nun mit Hilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}^\alpha$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
 \subsubsection{Pro Kombination von Gerät $G$ und Sensor $S$}
 Seien $P$ die einzelnen Komponenten des Sensors, beispielsweise $P = \{x, y, z\}$.
 \begin{align*}
@@ -178,18 +178,19 @@ Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich de
 Die Intervallspalte dient nur der Illustration und wird dem ML-Algorithmus nicht gezeigt.
 
 \section{Nachbearbeitung der Daten}
-Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass ML-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatisch hohen Einfluss zuschreiben, werden alle numerischen Spalten mithilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt danach an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth,clip,trim=5mm 5mm 5mm 5mm]{img/transformation}
-\caption{Aufnahme- und Transformationsprozess}
-\label{fig:recording-and-transformation}
-\end{figure}
+Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass ML-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatisch hohen Einfluss zuschreiben, werden alle numerischen Spalten mit Hilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt danach an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.
 
 \section{Anwendung von ML-Klassifikationsalgorithmen}
 \label{section:ml-algos}
+
 Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend den Aufnahme- und Transformationsprozess bis zu diesem Schritt. Erst in der Tabellenform, die im untersten Teil der Abbildung zu sehen ist, können die gesammelten Daten von einem herkömmlichen ML-Klassifikationsalgorithmus zum Training und außerdem zur Evaluation des damit gelernten Modells verwendet werden.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\textwidth,clip,trim=5mm 5mm 5mm 5mm]{img/transformation}
+	\caption{Aufnahme- und Transformationsprozess}
+	\label{fig:recording-and-transformation}
+\end{figure}
 
 Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte ML-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser ML-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
 \todo{Hyperparameter aktualisieren, falls nötig}
