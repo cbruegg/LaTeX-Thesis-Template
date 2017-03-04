@@ -81,7 +81,7 @@ Eine Analyse der persönlichen \textit{Comb}-Modelle ergab jedoch, dass keines e
 
 \subsection{Unpersönliche Modelle}
 \label{subsec:eval-impersonal-models}
-Für die Evaluierung der unpersönlichen Modelle wird eine Kreuzvalidierung über die Nutzer durchgeführt, das heißt der Datensatz $D$ wird für alle Benutzer $b$ aufgeteilt in $D = \text{Train} \uplus \text{Test}$ mit $\text{Train} = \{\text{Intervall ist nicht von } b\}, \text{Test} = D \backslash \text{Train}$.
+Für die Evaluierung der unpersönlichen Modelle wird eine Kreuzvalidierung über die Nutzer durchgeführt. Das heißt der Datensatz $D$ wird für alle Benutzer $b$ aufgeteilt in $D = \text{Train} \uplus \text{Test}$ mit $\text{Train} = \{\text{Intervall ist nicht von } b\}, \text{Test} = D \backslash \text{Train}$.
 
 Das schlechteste Ergebnis wird mit $35.1 \%$ bei den unpersönlichen Modellen erzielt, wenn nur das Gyroskop des Smartphones verwendet wird. Nur wenig besser sind die Modelle, die nur den Beschleunigungssensor des Smartphones ($39.2 \%$) oder beide Sensoren des Smartphones ($41.3 \%$) nutzen. Für den praktischen Gebrauch sind diese Modelle aufgrund ihrer Ungenauigkeit untauglich. Schon rund $20 $ Prozentpunkte besser sind die Modelle, die nur das Gyroskop des Band nutzen, wobei der Wechsel zum Beschleunigungssensor eine weitere Verbesserung um fast $14$ Prozentpunkte ermöglicht. Offenbar erklären die Daten des Beschleunigungssensors einen Großteil der Daten, die auch durch das Gyroskop und die anderen Sensoren des Band erklärt werden, sodass eine Kombination aller Band-Sensoren lediglich ein Verbesserung um rund einen Prozentpunkt ermöglicht. Selbiges gilt auch für die Hinzunahme der Daten des Smartphones: Es wird eine Verbesserung um $2$ Prozentpunkte erzielt, was darauf schließen lässt, dass die Armbewegungen unter den Probanden ähnlich sind, die Bewegungen auf Hüfthöhe hingegen weniger. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $75.2 \%$ liefert die Kombination aller Daten eine Verbesserung um $3.3$ Prozentpunkte.
 
@@ -92,7 +92,7 @@ Als denkbare Erklärung für die Schwäche der unpersönlichen Modelle gegenübe
 \subsubsection{Vergleich mit Weiss et al.}
 Im Gegensatz zu den persönlichen Modellen unterscheiden sich die unpersönlichen Modelle allesamt um etwa 5 Prozent von denen von Weiss et al. 
 
-Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollständig kombinierten Daten sowie den kombinierten Daten der Watch arbeitsübergreifend am höchsten.
+Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollständig kombinierten Daten sowie den kombinierten Daten der Smartwatch, beziehungsweise des Fitness-Trackers arbeitsübergreifend am höchsten.
 
 \begin{figure}
 	\centering
@@ -236,9 +236,9 @@ Um zu prüfen, ob eine Standardabweichung von $500 \text{ms}$ sinnvoll ist, wurd
 
 \section{Genauigkeit bei einer niedrigen Sampling-Rate}
 \label{sec:lower-sampling-rate}
-Da beide verwendeten Geräte primär akkubetrieben sind, muss bei einer marktreifen Umsetzung einer Aufnahmesoftware auch bedacht werden, dass das Sammeln der Daten hinsichtlich der Energieressourcen nicht kostenlos ist. Eine Rolle beim Energieverbrauch spielt auch die Sampling-Rate (Abtastrate): Ist sie hoch eingestellt, können die entsprechenden Sensoren nicht in einen Energiesparmodus wechseln und außerdem müssen von der anfordernden Anwendung mehr Daten verarbeitet werden, wodurch wiederum Anforderungen an den Prozessor gestellt werden \cite{Krause2005}. Beim Band kommt hinzu, dass eine höhere Bluetooth-Datenrate in Kauf genommen werden muss, die insbesondere auf den bauartbedingt kleinen Akku des Fitness-Trackers einen negativen Einfluss hat. Aus diesem Grund ist es untersuchenswert, inwiefern die Sampling-Rate einen Einfluss auf die Genauigkeit der Modelle besitzt, um möglicherweise Energie sparen zu können.
+Da beide verwendeten Geräte primär akkubetrieben sind, muss bei einer marktreifen Umsetzung einer Aufnahmesoftware auch bedacht werden, dass das Sammeln der Daten Energieressourcen beansprucht. Eine Rolle beim Energieverbrauch spielt auch die Sampling-Rate (Abtastrate): Ist sie hoch eingestellt, können die entsprechenden Sensoren nicht in einen Energiesparmodus wechseln und außerdem müssen von der anfordernden Anwendung mehr Daten verarbeitet werden, wodurch wiederum Anforderungen an den Prozessor gestellt werden \cite{Krause2005}. Beim Band kommt hinzu, dass eine höhere Bluetooth-Datenrate in Kauf genommen werden muss, die insbesondere auf den bauartbedingt kleinen Akku des Fitness-Trackers einen negativen Einfluss hat. Aus diesem Grund muss untersucht werden, inwiefern die Sampling-Rate einen Einfluss auf die Genauigkeit der Modelle besitzt, um möglicherweise Energie sparen zu können.
 
-Die Sampling-Raten, mit denen die Aufnahmesoftware Daten aufgezeichnet hat, befinden sich in Tabelle~\ref{tab:sampling-rates}. Um Sampling-Raten miteinander zu vergleichen, wurden dieselben Rohdaten verwendet wie im normalen, vollständigen Modell. Um eine Sampling-Rate von $k$ Hz zu simulieren, wurden nach einem behaltenen Reading $(t_0\,\text{secs}, \text{sensor}, \text{source}, ...)$ alle weiteren Readings $(t\,\text{secs}, \text{sensor}, \text{source}, ...)$ mit $t \in [t_0, t_0 + 1/k]$ gelöscht. Abbildung~\ref{fig:aliasing} zeigt beispielhaft Aliasingeffekte, die durch dieses Verfahren entstehen können, wenn Sensordaten Schwingungen beinhalten. Reduziert man die Sampling-Rate, ohne darüberliegende Frequenzen aus dem Signal herauszufiltern, können die noch vorhandenen Daten auf mehrere Arten (miss-)interpretiert werden. Aus diesem Grund geben die folgenden Ergebnisse untere Schranken für die Genauigkeiten an, die mit meinem Datensatz bei verringerten Abtastraten möglich sind.
+Die Sampling-Raten, mit denen die Aufnahmesoftware Daten aufgezeichnet hat, befinden sich in Tabelle~\ref{tab:sampling-rates}. Um Sampling-Raten miteinander zu vergleichen, wurden dieselben Rohdaten verwendet wie im normalen, vollständigen Modell. Um eine Sampling-Rate von $k$ Hz zu simulieren, wurden nach einem behaltenen Reading $(t_0\,\text{secs}, \text{sensor}, \text{source}, ...)$ alle weiteren Readings $(t\,\text{secs}, \text{sensor}, \text{source}, ...)$ mit $t \in [t_0, t_0 + 1/k]$ gelöscht. Abbildung~\ref{fig:aliasing} zeigt beispielhaft Aliasingeffekte, die durch dieses Verfahren entstehen können, wenn Sensordaten Schwingungen beinhalten. Reduziert man die Sampling-Rate, ohne darüberliegende Frequenzen aus dem Signal herauszufiltern, können die noch vorhandenen Daten auf mehrere Arten (miss-)interpretiert werden. Aus diesem Grund geben die folgenden Ergebnisse untere Schranken für die Genauigkeiten an, die mit dem vorhandenen Datensatz bei verringerten Abtastraten möglich sind.
 
 \begin{figure}
 \centering
@@ -323,24 +323,6 @@ Entgegen der Erwartungen verschlechterten sich die persönlichen \acs{RF}-Modell
 \end{table}
 
 \section{Genauigkeit bei Verschmelzung der Ess- und Trinkaktivitäten}
-\begin{table}
-\centering
-\begin{tabular}{|c|c|c|}
-	\hline 
-	\textbf{Algo.} & \textbf{Comb, Unpers., verschmolzen} & \textbf{Comb, Unpers., nicht verschmolzen} \\ 
-	\hline 
-	\acs{RF} & \textbf{87.1} &  \textbf{78.5} \\ 
-	\acs{J48} & 73.7 &  59.7 \\ 
-	\acs{IB}3 & 63.9 &  52.9  \\ 
-	\acs{NB} & 72.4 & 60.9  \\ 
-	\acs{MLP} & 77.6  & 54.9 \\ 
-	\hline 
-	$\varnothing$ & 74.9 & 61.4  \\ 
-	\hline
-\end{tabular} 
-\caption{Genauigkeit der Modelle bei Verschmelzung der Ess- und Trinkaktivitäten in Prozent}
-\label{tab:accuracy-merge-eating}
-\end{table}
 \begin{sidewaystable}
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
@@ -388,6 +370,24 @@ Entgegen der Erwartungen verschlechterten sich die persönlichen \acs{RF}-Modell
 \caption{Konfusionsmatrix der unpersönlichen \ac{RF}-Modelle}
 \label{tab:confusion-impersonal-rf}
 \end{sidewaystable}
+\begin{table}
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		\textbf{Algo.} & \textbf{Comb, Unpers., verschmolzen} & \textbf{Comb, Unpers., nicht verschmolzen} \\ 
+		\hline 
+		\acs{RF} & \textbf{87.1} &  \textbf{78.5} \\ 
+		\acs{J48} & 73.7 &  59.7 \\ 
+		\acs{IB}3 & 63.9 &  52.9  \\ 
+		\acs{NB} & 72.4 & 60.9  \\ 
+		\acs{MLP} & 77.6  & 54.9 \\ 
+		\hline 
+		$\varnothing$ & 74.9 & 61.4  \\ 
+		\hline
+	\end{tabular} 
+	\caption{Genauigkeit der Modelle bei Verschmelzung der Ess- und Trinkaktivitäten in Prozent}
+	\label{tab:accuracy-merge-eating}
+\end{table}
 
 Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen \acs{RF}-basierten Modelle in Tabelle~\ref{tab:confusion-impersonal-rf}, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse in $298/324 \approx 92 \%$ der Fälle im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale bei all diesen Klassen das Sitzen sowie das Führen der Hand zum Mund sind.
 
@@ -431,9 +431,9 @@ Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen \acs{RF}-
 \label{tab:confusion-impersonal-rf-merged}
 \end{sidewaystable}
 
-Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. Bei den \ac{RF}-Modellen ist eine Verbesserung um $8.6$ Prozentpunkte zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt. Tabelle~\ref{tab:confusion-impersonal-rf-merged} zeigt die neue Konfusionsmatrix der \ac{RF}-Modelle und es wird deutlich, dass aufgrund der verschmolzenen Aktivität \textit{Eating} die Fehlerrate stark gesunken ist.
+Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. Bei den \ac{RF}-Modellen ist eine Verbesserung um $8.6$ Prozentpunkte zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt. Tabelle~\ref{tab:confusion-impersonal-rf-merged} zeigt die neue Konfusionsmatrix der \ac{RF}-Modelle und es wird deutlich, dass aufgrund der verschmolzenen Aktivität \textit{Eating} die Fehlerrate stark gesunken ist. \todo{Aktivitäten aufzählen}
 
-Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschweren kann.
+Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschwert.
 
 \section{Genauigkeit in Abhängigkeit von der Teilnehmeranzahl}
 \label{sec:accuracy-usercount}
@@ -447,7 +447,7 @@ Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönli
 Während die persönlichen Modelle lediglich auf die Bewegungsdaten einer einzelnen Person zurückgreifen, sind für die unpersönlichen Modelle Daten anderer Personen erforderlich. Daraus ergibt sich die Frage, wie die Genauigkeit der unpersönlichen Modelle von der Anzahl der Personen, auf denen dieses basiert, abhängig ist. Um dies zu ermitteln, wurden aus dem aus 10 Personen bestehenden vollständigen Datensatz $D$ für $i \in \{2, ..., 10\}$ je $N_i := \min(10, \binom{10}{i})$ verschiedene, zufällig gezogene Datensätze $D_{i,j}$ mit $j \in \{1, ..., N_i\}$ generiert. Dieser Prozess ist in Abbildung~\ref{fig:random-set-draw} illustriert. Ein Datensatz $D_{i,j}$ enthält Daten von $i \geq 2$ verschiedenen Personen, um die Aufteilung in Train- und Testsets zu ermöglichen, da ein Testset für die unpersönlichen Modelle genau eine Person enthalten soll und die Mengen disjunkt sein müssen (vgl. Abschnitt~\ref{subsec:eval-impersonal-models}). Die Genauigkeit in Abhängigkeit von der Anzahl der Personen $i$ ist dann definiert durch $G(i) := \sum_{j=1}^{N_i} \frac{\text{Genauigkeit mit } D_{i,j}}{N_i}$. Die Berechnung der Genauigkeit mit Datensatz $D_{i,j}$ erfolgt nach Abschnitt~\ref{subsec:eval-impersonal-models}.
 Abbildung~\ref{fig:accuracy-convergence} zeigt den Plot der Funktion $G$. Es ist zu erkennen, dass die Genauigkeit langsam konvergiert, wobei für $i > 10$ noch etwas höhere Genauigkeiten zu erwarten sind. Die Verifikation dieser Hypothese durch weitere Aufnahmen war im Rahmen der zeitlichen Beschränkungen einer Bachelorarbeit nicht möglich.
 
-Zum Vergleich befindet sich in Abbildung~\ref{fig:accuracy-convergence-lockhart} eine Grafik aus \cite{Lockhart2014}, die zeigt, wie sich die Genauigkeit unpersönlicher \ac{RF}-Modelle, die nur aus Daten eines Smartphone-Accelerometers gewonnen wurden, in dieser Arbeit in Abhängigkeit von der Personenanzahl verhält. Der große \acs{HASC}-Datensatz konvergiert gegen eine Genauigkeit von etwa $85 \%$, die laut Extrapolation der Autoren auch mit einem größeren eigenen Datensatz hätten erreicht werden können. Es fällt auf, dass auch der Plot in Abbildung~\ref{fig:accuracy-convergence} gegen einen ähnlichen Grenzwert konvergieren könnte, wobei zu beachten ist, dass die beiden externen Datensätze weniger verschiedene Aktivitäten beinhalten, die zudem hinsichtlich ihrer Erkennbarkeit durch \acs{ML}-Klassifikation variieren könnten. Zusätzlich ist festzustellen, dass die Genauigkeit in Abbildung~\ref{fig:accuracy-convergence} bei 10 Personen bereits etwa $80 \%$ beträgt, während es in Abbildung~\ref{fig:accuracy-convergence-lockhart} nur etwa $63 \%$, respektive $70 \%$ sind. Dies deutet darauf hin, dass mehr Sensoren die Notwendigkeit vieler Personen im Datensatz verringern.
+Zum Vergleich befindet sich in Abbildung~\ref{fig:accuracy-convergence-lockhart} eine Grafik aus \cite{Lockhart2014}, die zeigt, wie sich die Genauigkeit unpersönlicher \ac{RF}-Modelle, die nur aus Daten eines Smartphone-Accelerometers gewonnen wurden, in dieser Arbeit in Abhängigkeit von der Personenanzahl verhält. Der große \acs{HASC}-Datensatz konvergiert gegen eine Genauigkeit von etwa $85 \%$, die laut Extrapolation der Autoren auch mit einem größeren eigenen Datensatz hätten erreicht werden können. Es fällt auf, dass auch der Plot in Abbildung~\ref{fig:accuracy-convergence} gegen einen ähnlichen Grenzwert zu konvergieren scheint, wobei zu beachten ist, dass die beiden externen Datensätze weniger verschiedene Aktivitäten beinhalten, die zudem hinsichtlich ihrer Erkennbarkeit durch \acs{ML}-Klassifikation variieren könnten. Zusätzlich ist festzustellen, dass die Genauigkeit in Abbildung~\ref{fig:accuracy-convergence} bei 10 Personen bereits etwa $80 \%$ beträgt, während es in Abbildung~\ref{fig:accuracy-convergence-lockhart} nur etwa $63 \%$, respektive $70 \%$ sind. Dies deutet darauf hin, dass mehr Sensoren die Notwendigkeit vieler Personen im Datensatz verringern.
 
 \begin{figure}
 \centering
@@ -485,19 +485,19 @@ ylabel=$G(i) \text{ = Genauigkeit der Modelle}$]
 \end{figure}
 
 \section{Optimierung der Hyperparameter}
-Um die unpersönlichen Modelle weiter zu verbessern, wurden die Hyperparameter des \acs{RF}-Modells optimiert, da dieses Verfahren bis dato das beste Ergebnis geliefert hat. Als Baseline dient das RF1-Modell, das dieselben Hyperparameter besitzt wie das \acs{RF}-Modell in Abbildung~\ref{tab:accuracy-impersonal}. Zu bemerken ist, dass die folgenden Genauigkeiten je nach Seed für den Zufallsgenerator um $\pm 1.5$ Prozentpunkte schwanken, weshalb die Genauigkeit des RF1-Modells im hier gezeigten Durchlauf des Tests rund $1.45$ Prozentpunkte über der des \acs{RF}-Modells in Abbildung~\ref{tab:accuracy-impersonal} liegt.
+Um die unpersönlichen Modelle weiter zu verbessern, wurden die Hyperparameter des \acs{RF}-Modells optimiert, da dieses Verfahren bis dato das beste Ergebnis geliefert hat. Als Baseline dient das RF1-Modell, das dieselben Hyperparameter besitzt wie das \acs{RF}-Modell in Abbildung~\ref{tab:accuracy-impersonal}. Zu bemerken ist, dass die folgenden Genauigkeiten je nach Seed für den Zufallsgenerator um $\pm 1.5$ Prozentpunkte schwanken, weshalb die Genauigkeit des RF1-Modells im hier gezeigten Durchlauf des Tests rund $1.5$ Prozentpunkte über der des \acs{RF}-Modells in Abbildung~\ref{tab:accuracy-impersonal} liegt.
 
 Die variierten Hyperparameter sind die folgenden:
 
 \begin{itemize}
 	\item \textit{numIterations} gibt die Anzahl der Entscheidungsbäume im Wald an. Ein zu niedriger Wert sorgt dafür, dass die zufällig generierten Bäume den Datensatz zusammen nicht gut genug abdecken können.
 	\item \textit{numFeatures} gibt die Anzahl der Features an, die jeder Entscheidungsbaum bei einem Split betrachtet. Wird ein zu hoher Wert verwendet, ist die Entwicklung des Baums weniger vom Zufall getrieben. Ist der Wert zu niedrig, so sinkt die Wahrscheinlichkeit, dass ein Split an einem Feature durchgeführt wird, sodass der Information Gain groß ist.
-	\item \textit{maxDepth} bestimmt die maximale Tiefe der Entscheidungsbäume im Wald. Ein niedriger Wert sorgt dafür, dass der Baum sich den Trainingsdaten nicht zu sehr anpasst und overfittet. Dabei muss beachtet werden, dass ein zu niedriger Wert wiederum dafür sorgen kann, dass zu wenige Features betrachtet werden können, um eine genaue Klassifizierung zu ermöglichen.
+	\item \textit{maxDepth} bestimmt die maximale Tiefe der Entscheidungsbäume im Wald. Ein niedriger Wert sorgt dafür, dass der Baum sich den Trainingsdaten nicht zu sehr anpasst und \textit{Overfitting} somit vermieden wird. Dabei muss beachtet werden, dass ein zu niedriger Wert wiederum dafür sorgen kann, dass zu wenige Features betrachtet werden können, um eine genaue Klassifizierung zu ermöglichen.
 \end{itemize}
 
 Tabelle~\ref{tab:hyperparam-opt} zeigt die Genauigkeiten in Abhängigkeit von den Hyperparametern. In einigen Fällen wurde für \textit{numFeatures} der WEKA-Standardwert $f = \lfloor log_2(n - 1) + 1 \rfloor = \lfloor log_2(208) + 1 \rfloor = 8$ verwendet wird, wobei $n$ die Anzahl der Features einer Instanz ist.
 
-Gegenüber der Baseline ist das RF8-Modell das beste, allerdings nur weniger als $1.3$ Prozentpunkte besser, sodass die Differenz unter den Veränderungen durch Schwankungen liegt. Es ist jedoch festzustellen, dass der automatisch gewählte Wert $f$ für \textit{numFeatures} die besten Ergebnisse erzielt. Eine Erhöhung der maximalen Tiefe auf 50 oder gar 75 erzielt keine nennenswert besseren Ergebnisse als die oben gewählte Tiefe von 25. Auch für die Anzahl der Bäume gilt, dass bereits 50 annähernd so gut sind wie 100 oder mehr. Positiv zu vermerken ist somit, dass in diesem Anwendungsfall von Random Forests auch kleine Werte eine gute Genauigkeit liefern, wobei der Leistungsbedarf entsprechend niedriger ist.
+Gegenüber der Baseline ist das RF8-Modell das beste, allerdings nur weniger als $1.3$ Prozentpunkte besser, sodass die Differenz unter den Veränderungen durch zufallsbedingte Schwankungen liegt. Es ist jedoch festzustellen, dass der automatisch gewählte Wert $f$ für \textit{numFeatures} die besten Ergebnisse erzielt. Eine Erhöhung der maximalen Tiefe auf 50 oder gar 75 erzielt keine nennenswert besseren Ergebnisse als die oben gewählte Tiefe von 25. Auch für die Anzahl der Bäume gilt, dass bereits 50 annähernd so gut sind wie 100 oder mehr. Positiv zu vermerken ist somit, dass in diesem Anwendungsfall von Random Forests auch kleine Werte eine gute Genauigkeit liefern, wobei der Leistungsbedarf entsprechend niedriger ist.
 
 \begin{table}
 \centering
