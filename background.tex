@@ -35,24 +35,24 @@ Der Hauttemperatursensor misst die Temperatur der Haut des Nutzers, die an der U
 Der Laufgeschwindigkeitssensor ist ein virtueller Sensor, der auf Basis des elektronischen Schrittzählers im Microsoft Band 2 generiert wird. Er gibt die geschätzte Laufgeschwindigkeit des Trägers in $cm/s$ an.
 
 \section{Wichtige Begriffe}
-In den folgenden Kapiteln wird von einem grundlegenden Verständnis von Machine Learning-Klassifikation ausgegangen.
+In den folgenden Kapiteln wird von einem grundlegenden Verständnis von \ac{ML}-Klassifikation ausgegangen.
 
-\begin{definition}[ML-Klassifikation]
+\begin{definition}[\ac{ML}-Klassifikation]
 \label{def:ml-classification}
 Gegeben sei ein Datensatz $D \ni (x_1, ..., x_n, y)$ mit $|D| = m$ Instanzen. Dann sind $x = (x_1, ..., x_n)$ die \textit{Input-Features} und $y$ das \textit{Target}. Im Falle eines Klassifikationsproblems ist $y$ nominal und beschreibt in Form eines Texts eine \textit{Klasse}. Gesucht ist nun eine \textit{Hypothesenfunktion} $h(x) = \hat{y}$, die zu gegebenen Features den wahrscheinlichsten Wert des Targets bestimmt \cite{Ng2011a}.
 \end{definition}
 Neben Definition~\ref{def:ml-classification} sind für das Verständnis dieser Arbeit die folgenden Begriffe wichtig:
 \begin{enumerate}
-\item \textit{(Überwachtes) Lernen, bzw. Training} und \textit{Modelle.} Einem ML-Algorithmus werden Trainingsdaten $T_1 \subset D$ gezeigt, zu denen das Target bekannt ist. Aus diesem Prozess ergibt sich ein gelerntes \textit{Modell}. 
+\item \textit{(Überwachtes) Lernen, bzw. Training} und \textit{Modelle.} Einem \ac{ML}-Algorithmus werden Trainingsdaten $T_1 \subset D$ gezeigt, zu denen das Target bekannt ist. Aus diesem Prozess ergibt sich ein gelerntes \textit{Modell}. 
 
 Weitere Informationen befinden sich in Hastie, Kapitel 2.1 \cite{Hastie2009}.
-\item \textit{Overfitting und Train-Test-Split.} Um die Genauigkeit eines Modells zu evaluieren, müssen mit Hilfe dessen Testdaten $T_2 \subset D$ klassifiziert werden, zu denen das Target ebenfalls bekannt ist. Ist $T_1 \cap T_2 \neq \emptyset$, so besteht das Risiko, dass der ML-Algorithmus sich den Trainingsdaten zu sehr angepasst hat, daher auch im Test mit $T_2$ genau ist und auf weiteren, noch unbekannten Daten eine schlechte Genauigkeit erzielt (\textit{Overfitting}). 
+\item \textit{Overfitting und Train-Test-Split.} Um die Genauigkeit eines Modells zu evaluieren, müssen mit Hilfe dessen Testdaten $T_2 \subset D$ klassifiziert werden, zu denen das Target ebenfalls bekannt ist. Ist $T_1 \cap T_2 \neq \emptyset$, so besteht das Risiko, dass der \ac{ML}-Algorithmus sich den Trainingsdaten zu sehr angepasst hat, daher auch im Test mit $T_2$ genau ist und auf weiteren, noch unbekannten Daten eine schlechte Genauigkeit erzielt (\textit{Overfitting}). 
 
 Weitere Informationen befinden sich in Hastie, Kapitel 7.2 \cite{Hastie2009}.
-\item \textit{Kreuzvalidierung.} Bei einer $k$-fachen Kreuzvalidierung werden $k$ Paare $T_1, T_2$ mit $T_1 \cap T_2 = \emptyset$ erstellt, sodass jedes Datum einmal in $T_2$, dann jedoch nicht in $T_1$ enthalten ist. Anschließend wird ein ML-Klassifikationsalgorithmus mit jedem $T_1$ trainiert und dem dazugehörigen $T_2$ ausgewertet. 
+\item \textit{Kreuzvalidierung.} Bei einer $k$-fachen Kreuzvalidierung werden $k$ Paare $T_1, T_2$ mit $T_1 \cap T_2 = \emptyset$ erstellt, sodass jedes Datum einmal in $T_2$, dann jedoch nicht in $T_1$ enthalten ist. Anschließend wird ein \ac{ML}-Klassifikationsalgorithmus mit jedem $T_1$ trainiert und dem dazugehörigen $T_2$ ausgewertet. 
 
 Weitere Informationen befinden sich in Hastie, Kapitel 7.10 \cite{Hastie2009}.
-\item \textit{Hyperparameter.}  Dabei handelt es sich um Parameter eines ML-Algorithmus, die dieser nicht eigenständig optimieren kann.
+\item \textit{Hyperparameter.}  Dabei handelt es sich um Parameter eines \ac{ML}-Algorithmus, die dieser nicht eigenständig optimieren kann.
 \end{enumerate}
 
 

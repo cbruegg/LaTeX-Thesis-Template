@@ -175,15 +175,15 @@ Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich de
 	$I_2$ & $...$ & $...$ & $...$ & Jogging   \\ 
 	\hline 
 \end{tabular} \\\\
-Die Intervallspalte dient nur der Illustration und wird dem ML-Algorithmus nicht gezeigt.
+Die Intervallspalte dient nur der Illustration und wird dem \ac{ML}-Algorithmus nicht gezeigt.
 
 \section{Nachbearbeitung der Daten}
-Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass ML-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatisch hohen Einfluss zuschreiben, werden alle numerischen Spalten mit Hilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt danach an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.
+Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass \ac{ML}-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatisch hohen Einfluss zuschreiben, werden alle numerischen Spalten mit Hilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt danach an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.
 
-\section{Anwendung von ML-Klassifikationsalgorithmen}
+\section{Anwendung von \ac{ML}-Klassifikationsalgorithmen}
 \label{section:ml-algos}
 
-Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend den Aufnahme- und Transformationsprozess bis zu diesem Schritt. Erst in der Tabellenform, die im untersten Teil der Abbildung zu sehen ist, können die gesammelten Daten von einem herkömmlichen ML-Klassifikationsalgorithmus zum Training und außerdem zur Evaluation des damit gelernten Modells verwendet werden.
+Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend den Aufnahme- und Transformationsprozess bis zu diesem Schritt. Erst in der Tabellenform, die im untersten Teil der Abbildung zu sehen ist, können die gesammelten Daten von einem herkömmlichen \ac{ML}-Klassifikationsalgorithmus zum Training und außerdem zur Evaluation des damit gelernten Modells verwendet werden.
 
 \begin{figure}[h]
 	\centering
@@ -192,20 +192,20 @@ Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend
 	\label{fig:recording-and-transformation}
 \end{figure}
 
-Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte ML-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser ML-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
+Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte \ac{ML}-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser \ac{ML}-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
 \todo{Hyperparameter aktualisieren, falls nötig}
-\subsection{Random Forest (RF)}
+\subsection{\acf{RF}}
 Ein \textit{Random Forest} ist ein Wald von Entscheidungsbäumen (erklärt in Kapitel 14.4 \cite{Bishop2006}), die randomisiert entstanden sind. Soll eine neue Instanz klassifiziert werden, treffen alle Entscheidungsbäume eine Entscheidung und die am häufigsten vorhergesagte Klasse gewinnt. WEKA nutzt eine Implementierung nach \cite{Breiman2001}. Experimentell haben sich die folgenden Hyperparameterwerte als sinnvoll erwiesen: Die Anzahl der Bäume in Wald wurde auf 50, die Anzahl der verwendeten Features pro Baum auf 10 sowie die maximale Tiefe auf 25 festgelegt.
-\subsection{J48-Entscheidungsbaum (J48)}
+\subsection{\acf{J48}}
 J48 ist eine Implementierung des \textit{C4.5}-Algorithmus \cite{Quinlan1993}. Der Entscheidungsbaum wird anhand von Trainingsdaten $T$ iterativ durch das Hinzufügen von Entscheidungsknoten erzeugt, die den Informationsgehalt der Teilmengen von $T$ minimieren, die aus dem Split an jenem Entscheidungsknoten hervorgehen. Der Informationsgehalt ist umso höher, je mehr verschiedene Klassen sich in einer Menge von Instanzen befinden. Ein niedriger Informationsgehalt besagt demnach, dass nach einer Entscheidung an einem Entscheidungsknoten klarer geworden ist, welcher Klasse die Instanzen in den Mengen nach dem Split zuzuordnen sind.
-\subsection{Instance-Based-Learner (IB$k$)}
+\subsection{\acf{IB}}
 Der IB$k$-Algorithmus ist ein $k$NN-basierter Klassifikationsalgorithmus. Soll einer neuen Instanz $x \in \mathbb{R}^n$ eine Klasse zugeordnet werden, werden anhand eines Distanzmaßes für den Vektorraum $\mathbb{R}^n$ die $k$ nächsten Nachbarn von $x$ gesucht. $x$ wird danach die Klasse zugeordnet, die unter den $k$ Nachbarn am häufigsten vorkam. Weitere Details sind zu finden in \cite{Aha1991}.
 $k$ ist dabei ein Hyperparameter, der auf 3 eingestellt wurde.
-\subsection{Naive Bayes (NB)}
+\subsection{\acf{NB}}
 Naive Bayes ist eine probabilistische Methode zur Klassifikation \cite{John1995}. Mit $x = (x_1, ..., x_n)$ wird die Klasse $C$ gesucht, die $\mathbb{P}(C | x_1, ..., x_n)$ maximiert. $x$ besteht hier aus nominalen Attributen. Der Satz von Bayes besagt, dass $\mathbb{P}(C|x) = \frac{\mathbb{P}(C) \mathbb{P}(x | C)}{\mathbb{P}(x)}$. Da über $C$ optimiert wird, kann der Nenner für diesen Ansatz ignoriert werden. Nimmt man \textit{naiv} an, dass $x_1, ..., x_n$ voneinander unabhängig sind, kann somit statt $\mathbb{P}(C | x)$ auch folgender Term über $C$ maximiert werden: $\mathbb{P}(C) \prod_{i=1}^{n} \mathbb{P}(x_i | C)$. Durch den Trainingsdatensatz sind die $\mathbb{P}(C)$ als Prior der Klassen $C$ sowie alle $\mathbb{P}(x_i | C)$ bekannt, sodass der Term durch einfaches Ausprobieren aller Klassen maximiert werden kann.
 
 Enthält $x$ numerische Attribute, müssen diese zunächst durch nominale Attribute ersetzt werden. Der Wertebereich aller $x_i$ über den Trainingsdatensatz hinweg kann in eine feste Anzahl von Intervallen aufgeteilt werden. Für jedes Intervall $I$ wird nun eine Indikatorvariable als Feature angelegt, die angibt, ob für eine Instanz $x$ gilt, dass $x_i \in I$.
-\subsection{Multilayer Perceptron (MLP)}
+\subsection{\acf{MLP}}
 Bei dieser Methode handelt es sich um ein mehrschichtiges Netzwerk von sogenannten \textit{Perzeptren}, auch \textit{(künstliches) neuronales Netzwerk} genannt. Ein Perzeptron erhält $n$ Eingaben $x_1, ..., x_n$ und gewichtet diese mit Parametern $\Theta_1, ..., \Theta_n$, die gelernt werden. Das Perzeptron berechnet $y = g(\sum_{i=1}^{n} \Theta_i x_i)$ als Ausgabewert, wobei $g$ eine Aktivierungsfunktion ist, die den Ausgabewert beschränkt, beispielsweise die Sigmoidfunktion.
 
 Die Ausgabe eines Perzeptrons kann einem Perzeptron der nächsten Schicht als Eingang dienen. Die letzte Schicht fungiert als Ausgabe des Netzwerks, dessen Fehler anhand eines Trainingsdatensatzes bestimmt werden kann. Jedes Perzeptron berechnet, wie die eigenen Parameter $\Theta$ angepasst werden müssen, um den Fehler zu minimieren, wofür der Fehler der Perzeptren der letzten Schicht an die vorherige Schicht weiter propagiert wird (\textit{Backpropagation}). Zur Optimierung der Parameter wird ein stochastischer Gradientenabstieg verwendet. Zur Klassifikation können die Ausgangswerte der Perzeptren der letzten Schicht als Indikatorvariablen für die vorhandenen Klassen interpretiert werden. Weitere Informationen sind zu finden in \cite{Haykin1994}.

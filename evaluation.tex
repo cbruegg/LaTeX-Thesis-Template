@@ -209,7 +209,7 @@ Weiss und Lockhart untersuchten 2012 den Einfluss der Modell-Personalisierung au
 \section{Genauigkeit bei ungenauen Zeitstempeln}
 Die Problemstellung, Daten mehrerer Quellen miteinander zu kombinieren, wirft die Frage auf, inwiefern die Synchronisierung der Daten einen Einfluss auf die Genauigkeit der resultierenden Modelle besitzt. Smartphone und Band besitzen je eine eigene Uhr, sodass die Datenquellen zum selben Zeitpunkt $t$ \textit{Readings} mit Zeitstempeln $t + \epsilon_\text{Smartphone}$, bzw. $t + \epsilon_\text{Band}$ mit $|\epsilon_\text{Smartphone} - \epsilon_\text{Band}| > 0$ liefern könnten. Wird die Differenz zu groß, schadet die Kombination der Quellen möglicherweise mehr als sie nützt.
 
-Ein erster Ansatz, um dieses Problem zu bekämpfen, war daher zunächst, die beiden Uhren via Bluetooth und einem Verfahren wie dem \textit{Network Time Protocol (NTP)} \cite{Mills} zu synchronisieren. Leider ermöglicht das Microsoft Band SDK nicht die Ausführung beliebigen Codes auf dem Band, sondern nur das Abonnieren von Sensordaten-Events, weshalb kein direkter Zugriff auf die Uhr des Gerätes möglich ist. Die Events sind zwar mit Zeitstempeln versehen, jedoch kann die Übertragungszeit nicht ermittelt werden. Eine manuelle Synchronisierung der Uhren ist daher nicht möglich.
+Ein erster Ansatz, um dieses Problem zu bekämpfen, war daher zunächst, die beiden Uhren via Bluetooth und einem Verfahren wie dem \textit{\ac{NTP}} \cite{Mills} zu synchronisieren. Leider ermöglicht das Microsoft Band \acs{SDK} nicht die Ausführung beliebigen Codes auf dem Band, sondern nur das Abonnieren von Sensordaten-Events, weshalb kein direkter Zugriff auf die Uhr des Gerätes möglich ist. Die Events sind zwar mit Zeitstempeln versehen, jedoch kann die Übertragungszeit nicht ermittelt werden. Eine manuelle Synchronisierung der Uhren ist daher nicht möglich.
 
 Um zu prüfen, inwiefern die Modelle durch eine mögliche, nicht detektierbare Differenz der Uhren beeinträchtigt werden, generiert die Transformationssoftware zusätzlich zum normalen vollständigen Datensatz auch einen, in dem die Zeitstempel des Bands additiv mit gausschem Rauschen versehen wurden. Die Parameter des gausschen Rauschens wurden auf einen Mittelwert von $0$ und eine Standardabweichung von $500 \text{ms}$ festgelegt. Die Ergebnisse der Auswertung werden in Tabelle~\ref{tab:accuracy-noisy_timestamps} aufgeführt. Betrachtet man die jeweils besten Modelle, so lässt sich sowohl bei den persönlichen, als auch bei den unpersönlichen Modellen eine Verschlechterung um lediglich $0.2$ Prozentpunkte feststellen. Auch die anderen Modelle sind im Durchschnitt mit Verschlechterungen um $0.3$, bzw. $0.5$ Prozentpunkte hinreichend resistent gegen das Rauschen.
 
@@ -221,11 +221,11 @@ Um zu prüfen, ob eine Standardabweichung von $500 \text{ms}$ sinnvoll ist, wurd
 	\hline 
 	\textbf{Algo.} & \textbf{Comb, Pers.} & \textbf{Verrauscht, Pers.} &\textbf{Comb, Unpers.} & \textbf{Verrauscht, Unpers.} \\ 
 	\hline 
-	RF & \textbf{99.4} & \textbf{99.2} & \textbf{78.5} & \textbf{78.3} \\ 
-	J48 & 92.8 & 93.5 & 59.7 & 57.3 \\ 
-	IB3 & 82.3 & 81.5 & 52.9 & 52.9 \\ 
-	NB & 96.2 & 95.7 & 60.9 & 60.5 \\ 
-	MLP & 94.8 & 94.2 & 54.9 & 55.4 \\ 
+	\acs{RF} & \textbf{99.4} & \textbf{99.2} & \textbf{78.5} & \textbf{78.3} \\ 
+	\acs{J48} & 92.8 & 93.5 & 59.7 & 57.3 \\ 
+	\acs{IB}3 & 82.3 & 81.5 & 52.9 & 52.9 \\ 
+	\acs{NB} & 96.2 & 95.7 & 60.9 & 60.5 \\ 
+	\acs{MLP} & 94.8 & 94.2 & 54.9 & 55.4 \\ 
 	\hline 
 	$\varnothing$ & 93.1 & 92.8 & 61.4 & 60.9 \\ 
 	\hline
@@ -278,11 +278,11 @@ Nun werden die besten Modelle miteinander verglichen. Zur Erinnerung: \textit{Co
 	\hline 
 	\textbf{Algo.} & \textbf{5 Hz, Pers.} & \textbf{1 Hz, Pers.} &\textbf{5 Hz, Unpers.} & \textbf{1 Hz, Unpers.} \\ 
 	\hline 
-	RF & \textbf{99.0} & \textbf{98.0} & \textbf{74.6} & \textbf{70.0} \\ 
-	J48 & 93.2 & 92.6 & 62.8 & 53.4 \\ 
-	IB3 & 77.9 & 62.0 & 50.6 & 37.3 \\ 
-	NB & 94.6 & 80.3 & 63.5 & 55.0 \\ 
-	MLP & 92.3 & 84.4 & 65.9 & 46.3 \\ 
+	\acs{RF} & \textbf{99.0} & \textbf{98.0} & \textbf{74.6} & \textbf{70.0} \\ 
+	\acs{J48} & 93.2 & 92.6 & 62.8 & 53.4 \\ 
+	\acs{IB}3 & 77.9 & 62.0 & 50.6 & 37.3 \\ 
+	\acs{NB} & 94.6 & 80.3 & 63.5 & 55.0 \\ 
+	\acs{MLP} & 92.3 & 84.4 & 65.9 & 46.3 \\ 
 	\hline 
 	$\varnothing$ & 91.4 & 83.5 & 63.5 & 52.4 \\ 
 	\hline
@@ -301,7 +301,7 @@ Nun werden die besten Modelle miteinander verglichen. Zur Erinnerung: \textit{Co
 
 Bao et al. nutzten 2004 auf der Basis bereits bestehender Werke für die Transformation eine Intervallüberlappung von $50 \%$ \cite{Bao2004}. Weiss et al. probierten dies laut ihrem Paper nicht aus \cite{Weiss2016}. Um zu prüfen, ob dies eine weitere Verbesserung der Genauigkeiten erzielen könnte, wurden für die Intervalle $(t_0, t_0 + 10), ((t_0 + 10) - 10 * 0.5, (t_0 + 10) - 10 * 0.5 + 10), ...$ Features generiert und wie zuvor evaluiert. Eine Illustration der Überlappung befindet sich in Abbildung~\ref{fig:interval-overlap}.
 
-Entgegen der Erwartungen verschlechterten sich die persönlichen RF-Modelle wie in Tabelle~\ref{tab:accuracy-overlap} ersichtlich durch die Überlappung um $0.2$ Prozentpunkte, während sich die unpersönlichen Modelle sogar um $5.1$ Prozentpunkte verschlechterten.
+Entgegen der Erwartungen verschlechterten sich die persönlichen \acs{RF}-Modelle wie in Tabelle~\ref{tab:accuracy-overlap} ersichtlich durch die Überlappung um $0.2$ Prozentpunkte, während sich die unpersönlichen Modelle sogar um $5.1$ Prozentpunkte verschlechterten.
 
 \begin{table}
 \centering
@@ -309,11 +309,11 @@ Entgegen der Erwartungen verschlechterten sich die persönlichen RF-Modelle wie 
 	\hline 
 	\textbf{Algo.} & \textbf{Comb, Pers.} & \textbf{Überlapp., Pers.} &\textbf{Comb, Unpers.} & \textbf{Überlapp., Unpers.} \\ 
 	\hline 
-	RF & \textbf{99.4} & \textbf{99.2} & \textbf{78.5} & \textbf{73.4} \\ 
-	J48 & 92.8 & 96.3 & 59.7 & 57.5 \\ 
-	IB3 & 82.3 & 81.8 & 52.9 & 50.7 \\ 
-	NB & 96.2 & 95.8 & 60.9 & 59.7 \\ 
-	MLP & 94.8 & 95.0 & 54.9 & 59.4 \\ 
+	\acs{RF} & \textbf{99.4} & \textbf{99.2} & \textbf{78.5} & \textbf{73.4} \\ 
+	\acs{J48} & 92.8 & 96.3 & 59.7 & 57.5 \\ 
+	\acs{IB}3 & 82.3 & 81.8 & 52.9 & 50.7 \\ 
+	\acs{NB} & 96.2 & 95.8 & 60.9 & 59.7 \\ 
+	\acs{MLP} & 94.8 & 95.0 & 54.9 & 59.4 \\ 
 	\hline 
 	$\varnothing$ & 93.1 & 93.6 & 61.4 & 60.9 \\ 
 	\hline
@@ -329,11 +329,11 @@ Entgegen der Erwartungen verschlechterten sich die persönlichen RF-Modelle wie 
 	\hline 
 	\textbf{Algo.} & \textbf{Comb, Unpers., verschmolzen} & \textbf{Comb, Unpers., nicht verschmolzen} \\ 
 	\hline 
-	RF & \textbf{87.1} &  \textbf{78.5} \\ 
-	J48 & 73.7 &  59.7 \\ 
-	IB3 & 63.9 &  52.9  \\ 
-	NB & 72.4 & 60.9  \\ 
-	MLP & 77.6  & 54.9 \\ 
+	\acs{RF} & \textbf{87.1} &  \textbf{78.5} \\ 
+	\acs{J48} & 73.7 &  59.7 \\ 
+	\acs{IB}3 & 63.9 &  52.9  \\ 
+	\acs{NB} & 72.4 & 60.9  \\ 
+	\acs{MLP} & 77.6  & 54.9 \\ 
 	\hline 
 	$\varnothing$ & 74.9 & 61.4  \\ 
 	\hline
@@ -385,11 +385,11 @@ Entgegen der Erwartungen verschlechterten sich die persönlichen RF-Modelle wie 
 0 & 0 &66 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 19 & 0 & 0 & 0 & 0 & 84 & \textbf{r = Walking} \\
 \hline 
 \end{tabular}
-\caption{Konfusionsmatrix der unpersönlichen RF-Modelle}
+\caption{Konfusionsmatrix der unpersönlichen \ac{RF}-Modelle}
 \label{tab:confusion-impersonal-rf}
 \end{sidewaystable}
 
-Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen RF-basierten Modelle in Tabelle~\ref{tab:confusion-impersonal-rf}, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse in $298/324 \approx 92 \%$ der Fälle im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale bei all diesen Klassen das Sitzen sowie das Führen der Hand zum Mund sind.
+Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen \acs{RF}-basierten Modelle in Tabelle~\ref{tab:confusion-impersonal-rf}, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse in $298/324 \approx 92 \%$ der Fälle im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale bei all diesen Klassen das Sitzen sowie das Führen der Hand zum Mund sind.
 
 \begin{sidewaystable}
 \centering
@@ -427,11 +427,11 @@ Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen RF-basier
 0 &   0 &  60 &   0 &   0 &   0 &   0 &   0 &  26 &   0 &   0 &   0 &   0  & 83 &   \textbf{n = Walking} \\
 	\hline 
 \end{tabular}
-\caption{Konfusionsmatrix der unpersönlichen, verschmolzenen RF-Modelle}
+\caption{Konfusionsmatrix der unpersönlichen, verschmolzenen \ac{RF}-Modelle}
 \label{tab:confusion-impersonal-rf-merged}
 \end{sidewaystable}
 
-Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. Bei den RF-Modellen ist eine Verbesserung um $8.6$ Prozentpunkte zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt. Tabelle~\ref{tab:confusion-impersonal-rf-merged} zeigt die neue Konfusionsmatrix der RF-Modelle und es wird deutlich, dass aufgrund der verschmolzenen Aktivität \textit{Eating} die Fehlerrate stark gesunken ist.
+Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn man diese Aktivitäten zu einer einzigen Aktivität verschmilzt. Bei den \ac{RF}-Modellen ist eine Verbesserung um $8.6$ Prozentpunkte zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt. Tabelle~\ref{tab:confusion-impersonal-rf-merged} zeigt die neue Konfusionsmatrix der \ac{RF}-Modelle und es wird deutlich, dass aufgrund der verschmolzenen Aktivität \textit{Eating} die Fehlerrate stark gesunken ist.
 
 Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschweren kann.
 
@@ -447,7 +447,7 @@ Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönli
 Während die persönlichen Modelle lediglich auf die Bewegungsdaten einer einzelnen Person zurückgreifen, sind für die unpersönlichen Modelle Daten anderer Personen erforderlich. Daraus ergibt sich die Frage, wie die Genauigkeit der unpersönlichen Modelle von der Anzahl der Personen, auf denen dieses basiert, abhängig ist. Um dies zu ermitteln, wurden aus dem aus 10 Personen bestehenden vollständigen Datensatz $D$ für $i \in \{2, ..., 10\}$ je $N_i := \min(10, \binom{10}{i})$ verschiedene, zufällig gezogene Datensätze $D_{i,j}$ mit $j \in \{1, ..., N_i\}$ generiert. Dieser Prozess ist in Abbildung~\ref{fig:random-set-draw} illustriert. Ein Datensatz $D_{i,j}$ enthält Daten von $i \geq 2$ verschiedenen Personen, um die Aufteilung in Train- und Testsets zu ermöglichen, da ein Testset für die unpersönlichen Modelle genau eine Person enthalten soll und die Mengen disjunkt sein müssen (vgl. Abschnitt~\ref{subsec:eval-impersonal-models}). Die Genauigkeit in Abhängigkeit von der Anzahl der Personen $i$ ist dann definiert durch $G(i) := \sum_{j=1}^{N_i} \frac{\text{Genauigkeit mit } D_{i,j}}{N_i}$. Die Berechnung der Genauigkeit mit Datensatz $D_{i,j}$ erfolgt nach Abschnitt~\ref{subsec:eval-impersonal-models}.
 Abbildung~\ref{fig:accuracy-convergence} zeigt den Plot der Funktion $G$. Es ist zu erkennen, dass die Genauigkeit langsam konvergiert, wobei für $i > 10$ noch etwas höhere Genauigkeiten zu erwarten sind. Die Verifikation dieser Hypothese durch weitere Aufnahmen war im Rahmen der zeitlichen Beschränkungen einer Bachelorarbeit nicht möglich.
 
-Zum Vergleich befindet sich in Abbildung~\ref{fig:accuracy-convergence-lockhart} eine Grafik aus \cite{Lockhart2014}, die zeigt, wie sich die Genauigkeit unpersönlicher RF-Modelle, die nur aus Daten eines Smartphone-Accelerometers gewonnen wurden, in dieser Arbeit in Abhängigkeit von der Personenanzahl verhält. Der große HASC-Datensatz konvergiert gegen eine Genauigkeit von etwa $85 \%$, die laut Extrapolation der Autoren auch mit einem größeren eigenen Datensatz hätten erreicht werden können. Es fällt auf, dass auch der Plot in Abbildung~\ref{fig:accuracy-convergence} gegen einen ähnlichen Grenzwert konvergieren könnte, wobei zu beachten ist, dass die beiden externen Datensätze weniger verschiedene Aktivitäten beinhalten, die zudem hinsichtlich ihrer Erkennbarkeit durch ML-Klassifikation variieren könnten. Zusätzlich ist festzustellen, dass die Genauigkeit in Abbildung~\ref{fig:accuracy-convergence} bei 10 Personen bereits etwa $80 \%$ beträgt, während es in Abbildung~\ref{fig:accuracy-convergence-lockhart} nur etwa $63 \%$, respektive $70 \%$ sind. Dies deutet darauf hin, dass mehr Sensoren die Notwendigkeit vieler Personen im Datensatz verringern.
+Zum Vergleich befindet sich in Abbildung~\ref{fig:accuracy-convergence-lockhart} eine Grafik aus \cite{Lockhart2014}, die zeigt, wie sich die Genauigkeit unpersönlicher \ac{RF}-Modelle, die nur aus Daten eines Smartphone-Accelerometers gewonnen wurden, in dieser Arbeit in Abhängigkeit von der Personenanzahl verhält. Der große \acs{HASC}-Datensatz konvergiert gegen eine Genauigkeit von etwa $85 \%$, die laut Extrapolation der Autoren auch mit einem größeren eigenen Datensatz hätten erreicht werden können. Es fällt auf, dass auch der Plot in Abbildung~\ref{fig:accuracy-convergence} gegen einen ähnlichen Grenzwert konvergieren könnte, wobei zu beachten ist, dass die beiden externen Datensätze weniger verschiedene Aktivitäten beinhalten, die zudem hinsichtlich ihrer Erkennbarkeit durch \acs{ML}-Klassifikation variieren könnten. Zusätzlich ist festzustellen, dass die Genauigkeit in Abbildung~\ref{fig:accuracy-convergence} bei 10 Personen bereits etwa $80 \%$ beträgt, während es in Abbildung~\ref{fig:accuracy-convergence-lockhart} nur etwa $63 \%$, respektive $70 \%$ sind. Dies deutet darauf hin, dass mehr Sensoren die Notwendigkeit vieler Personen im Datensatz verringern.
 
 \begin{figure}
 \centering
@@ -486,7 +486,7 @@ ylabel=$G(i) \text{ = Genauigkeit der Modelle}$]
 \end{figure}
 
 \section{Optimierung der Hyperparameter}
-Um die unpersönlichen Modelle weiter zu verbessern, wurden die Hyperparameter des RF-Modells optimiert, da dieses Verfahren bis dato das beste Ergebnis geliefert hat. Als Baseline dient das RF1-Modell, das dieselben Hyperparameter besitzt wie das RF-Modell in Abbildung~\ref{tab:accuracy-impersonal}. Zu bemerken ist, dass die folgenden Genauigkeiten je nach Seed für den Zufallsgenerator um $\pm 1.5$ Prozentpunkte schwanken, weshalb die Genauigkeit des RF1-Modells im hier gezeigten Durchlauf des Tests rund $1.45$ Prozentpunkte über der des RF-Modells in Abbildung~\ref{tab:accuracy-impersonal} liegt.
+Um die unpersönlichen Modelle weiter zu verbessern, wurden die Hyperparameter des \acs{RF}-Modells optimiert, da dieses Verfahren bis dato das beste Ergebnis geliefert hat. Als Baseline dient das RF1-Modell, das dieselben Hyperparameter besitzt wie das \acs{RF}-Modell in Abbildung~\ref{tab:accuracy-impersonal}. Zu bemerken ist, dass die folgenden Genauigkeiten je nach Seed für den Zufallsgenerator um $\pm 1.5$ Prozentpunkte schwanken, weshalb die Genauigkeit des RF1-Modells im hier gezeigten Durchlauf des Tests rund $1.45$ Prozentpunkte über der des \acs{RF}-Modells in Abbildung~\ref{tab:accuracy-impersonal} liegt.
 
 Die variierten Hyperparameter sind die folgenden:
 
@@ -542,7 +542,7 @@ Zur Feature Selection wurde das Verfahren \textit{CfsSubsetEval} \cite{Hall1998}
 
 Begonnen wurde mit der leeren Menge, der nach und nach Features hinzugefügt worden sind, bis die Bewertung durch \textit{CfsSubsetEval} sank.
 
-Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{tab:accuracy-feature-selection}. Gegenüber Tabelle~\ref{tab:accuracy-impersonal} sind die Genauigkeiten der IB3-, NB- und MLP-Modelle wesentlich besser, wodurch auch der Durchschnittswert angehoben wird, jedoch schlägt weiterhin kein Algorithmus den RF-Algorithmus. Diesen hat die Feature Selection des Weiteren nicht verbessert, sodass sich die Feature Selection in diesem Anwendungsszenario als nicht sinnvoll erwiesen hat.
+Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{tab:accuracy-feature-selection}. Gegenüber Tabelle~\ref{tab:accuracy-impersonal} sind die Genauigkeiten der \acs{IB}3-, \acs{NB}- und \acs{MLP}-Modelle wesentlich besser, wodurch auch der Durchschnittswert angehoben wird, jedoch schlägt weiterhin kein Algorithmus den \acs{RF}-Algorithmus. Diesen hat die Feature Selection des Weiteren nicht verbessert, sodass sich die Feature Selection in diesem Anwendungsszenario als nicht sinnvoll erwiesen hat.
 
 \begin{table}
 \centering
@@ -550,11 +550,11 @@ Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{t
 	\hline 
 	\textbf{Algo.} & \textbf{Comb, Unpers.} \\ 
 	\hline 
-	RF & 78.2 \\ 
-	J48 & 60.0 \\ 
-	IB3 & 59.6 \\ 
-	NB & 67.8 \\ 
-	MLP & 68.3 \\ 
+	\acs{RF} & 78.2 \\ 
+	\acs{J48} & 60.0 \\ 
+	\acs{IB}3 & 59.6 \\ 
+	\acs{NB} & 67.8 \\ 
+	\acs{MLP} & 68.3 \\ 
 	\hline 
 	$\varnothing$ & 66.8 \\ 
 	\hline 
@@ -566,7 +566,7 @@ Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{t
 \section{Zusatz: Personenerkennung durch Bewegungsdaten}
 Die von der Transformationssoftware ausgegebenen Daten enthalten neben den regulären Features auch eine Spalte, die den Namen des Teilnehmers angibt. Vor der weiteren Auswertung wurde dieses Feature stets aus dem Datensatz entfernt, jedoch lässt es sich auch zu einem nützlichen Test verwenden. Unter geringem Aufwand konnte geprüft werden, inwiefern die Kombination mehrerer Sensoren für die Personenerkennung anhand von Bewegungsdaten geeignet ist. Diese Idee ist nicht neu: 2010 untersuchten auch Kwapisz et al. auf Basis ihrer bisherigen Entwicklungen bezüglich Aktivitätenerkennung durch Smartphones, ob diese biometrische Identifikation ermöglichen \cite{Kwapisz2010} und kamen zu einem positiven Ergebnis.
 
-Nach Entfernung der Aktivität als ehemaliges Target aus den Daten wurde WEKA eingesetzt, um mit Hilfe des auch für die Aktivitätenerkennung verwendeten RF-Modells als Target nun den Namen des Teilnehmers vorherzusagen. Evaluiert wurde die Genauigkeit über eine 10-fache Kreuzvalidierung, dessen Ergebnisse in Tabelle~\ref{tab:user-prediction-accuracy} zu sehen sind. Mit einer Genauigkeit von $97.7 \%$ ist das \textit{Comb}-Modell erwarteterweise am besten. Interessant ist der Vorsprung gegenüber den anderen Modellen: Gegenüber der Kombination der Daten des Band und der Kombination der Daten des Smartphones konnte die Genauigkeit um $10.4$ respektive $12.3$ Prozentpunkte gesteigert werden. Relativ schwach sind die Modelle, die lediglich einen einzelnen Sensor nutzen, wobei der Beschleunigungssensor des Smartphones eine überraschend gute Erkennungsrate erzielen lässt.
+Nach Entfernung der Aktivität als ehemaliges Target aus den Daten wurde WEKA eingesetzt, um mit Hilfe des auch für die Aktivitätenerkennung verwendeten \acs{RF}-Modells als Target nun den Namen des Teilnehmers vorherzusagen. Evaluiert wurde die Genauigkeit über eine 10-fache Kreuzvalidierung, dessen Ergebnisse in Tabelle~\ref{tab:user-prediction-accuracy} zu sehen sind. Mit einer Genauigkeit von $97.7 \%$ ist das \textit{Comb}-Modell erwarteterweise am besten. Interessant ist der Vorsprung gegenüber den anderen Modellen: Gegenüber der Kombination der Daten des Band und der Kombination der Daten des Smartphones konnte die Genauigkeit um $10.4$ respektive $12.3$ Prozentpunkte gesteigert werden. Relativ schwach sind die Modelle, die lediglich einen einzelnen Sensor nutzen, wobei der Beschleunigungssensor des Smartphones eine überraschend gute Erkennungsrate erzielen lässt.
 
 Bei der Interpretation dieser Genauigkeiten ist Vorsicht geboten, da insbesondere falsch-positive Erkennungen einer Person zumindest im Kontext der Authentifizierung fatal sind. Da jedoch unter anderem Kwapisz et al. bereits vielversprechende Resultate hinsichtlich dieses Aspekts lieferten, sind die hier erzielten Genauigkeiten ein guter Indikator dafür, dass auch hier die Kombination mehrerer Datenquellen förderlich sein kann, wenn die Verwendung einer einzelnen Quelle keine akzeptablen Genauigkeiten liefert.
 
