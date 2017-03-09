@@ -1,6 +1,6 @@
 \chapter{Methode}
 \label{chap:method}
-Dieses Kapitel erläutert die Art und Weise, mit der aus den im Experiment gewonnenen Daten Modelle trainiert wurden, welche die ausgeführte Aktivität automatisch erkennen können. Der erste Schritt ist die Aufnahme der Rohdaten, die durch eine in Abschnitt~\ref{sec:android-app} beschriebene Android-App realisiert wurde. Die gespeicherten Rohdaten sind noch nicht für einen herkömmlichen ML-Klassifikationsalgorithmus verwertbar, weshalb eine in Abschnitt~\ref{sec:transformation} beschriebene Transformation ausgeführt wird. Als dritter und letzter Schritt erfolgt die Ausführung diverser ML-Klassifikationsalgorithmen, die in Abschnitt~\ref{section:ml-algos} erläutert werden.
+Dieses Kapitel erläutert die Art und Weise, mit der aus den im Experiment gewonnenen Daten Modelle trainiert wurden, welche die ausgeführte Aktivität automatisch erkennen können. Der erste Schritt ist die Aufnahme der Rohdaten, die durch eine in Abschnitt~\ref{sec:android-app} beschriebene Android-App realisiert wurde. Die gespeicherten Rohdaten sind noch nicht für einen herkömmlichen ML-Klassifikationsalgorithmus verwertbar, weshalb eine in Abschnitt~\ref{sec:transformation} beschriebene Transformation sowie eine anschließende Nachbearbeitung wie in Abschnitt~\ref{sec:postprocessing} erläutert ausgeführt wird. Als dritter und letzter Schritt erfolgt die Ausführung diverser ML-Klassifikationsalgorithmen, die in Abschnitt~\ref{section:ml-algos} erläutert werden.
 
 \section{Implementierung der Aufzeichnungssoftware}
 \label{sec:android-app}
@@ -10,14 +10,19 @@ Die Aufzeichnung der Daten erforderte die Entwicklung einer neuen Software. Mit 
 \begin{definition}
 Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors gruppiert nach Komponente. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
 \end{definition}
+
+\newpage
+
 \subsection{Struktur der Aufzeichnungssoftware}
-Die Aufzeichnungssoftware wurde als Anwendung für das Android-Betriebssystem implementiert, da für diese Plattform auch ein \textit{Software Development Kit (SDK)} für das Microsoft Band 2 existiert.
-\begin{figure}[htb]
-\centering
-\includegraphics[width=\textwidth, clip, trim=6mm 6mm 9mm 6mm]{img/app-structure}
-\caption{Struktur der Aufzeichnungssoftware}
-\label{fig:app-structure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\textwidth, clip, trim=6mm 6mm 9mm 6mm]{img/app-structure}
+	\caption{Struktur der Aufzeichnungssoftware}
+	\label{fig:app-structure}
 \end{figure}
+
+Die Aufzeichnungssoftware wurde als Anwendung für das Android-Betriebssystem implementiert, da für diese Plattform auch ein \textit{Software Development Kit (SDK)} für das Microsoft Band 2 existiert.
 
 Abbildung~\ref{fig:app-structure} bietet einen Überblick über die Struktur der Aufzeichnungssoftware. Im Zentrum steht die Klasse \textit{CollectionService}, die für die robuste Sammlung der Daten verantwortlich ist und daher als persistenter Android-\textit{Service} implementiert ist, der im Gegensatz zu anderen Komponenten einer Android-App nicht ohne weiteres durch das System zur Schonung der Ressourcen beendet werden kann. Gesteuert wird die Aufnahme über eine grafische Benutzeroberfläche auf dem Smartphone selbst (\textit{AndroidUI}) sowie optional auch über eine Weboberfläche, die über einen einfachen HTTP-Server zur Verfügung steht. In den Benutzeroberflächen können der Name des Probanden sowie die ausgeführte Aktivität angegeben werden. Des Weiteren wird hierüber die Aufnahme gestartet und gestoppt.
 
@@ -178,6 +183,7 @@ Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich de
 Die Intervallspalte dient nur der Illustration und wird dem \ac{ML}-Algorithmus nicht gezeigt.
 
 \section{Nachbearbeitung der Daten}
+\label{sec:postprocessing}
 Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass \ac{ML}-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatisch hohen Einfluss zuschreiben, werden alle numerischen Spalten mit Hilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt danach an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.
 
 \section{Anwendung von \ac{ML}-Klassifikationsalgorithmen}

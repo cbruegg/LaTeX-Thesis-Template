@@ -29,7 +29,27 @@ zu finden. Fettgedruckt ist immer der jeweils höchste Wert einer Spalte.
 
 \subsection{Persönliche Modelle}
 
-Die Evaluierung der persönlichen Modelle wird wie folgt durchgeführt: Für jeden Benutzer $b$ wird eine 10-fache Kreuzvalidierung durchgeführt, wobei die Trainingsdaten nur Daten von $b$ beinhalten. Anschließend wird der Durchschnitt der einzelnen Genauigkeiten über alle Benutzer gebildet, um einen globalen Genauigkeitswert zu erhalten. Um dieses Testverfahren zu ermöglichen, wurde die WEKA-Software leicht angepasst: Die Methode zur Kreuzvalidierung wurde um einen Parameter $\texttt{foldSelector}: \texttt{Instanzen} \to \mathbb{N}$ erweitert, der für eine Instanz aus dem Datensatz zurückgibt, in welcher Iteration der Kreuzvalidierung diese aus dem Trainingsdatensatz ausgeschlossen und stattdessen im Testdatensatz verwendet wird.
+\begin{table}
+	\centering
+	\footnotesize
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline 
+		\textbf{Algo.} & \textbf{Phone accel} & \textbf{Phone gyro} & \textbf{Band accel} & \textbf{Band gyro} & \textbf{Comb} & \textbf{Band comb} & \textbf{Phone comb} \\ 
+		\hline 
+		RF & 88.7 & \textbf{68.2} & \textbf{91.6} & \textbf{80.5} & \textbf{99.4} & \textbf{97.1} & \textbf{90.7} \\ 
+		J48 & \textbf{90.0} & 64.3 & 86.5 & 72.7 & 92.8 & 90.1 & 89.7 \\ 
+		IB3 & 62.2 & 44.8 & 77.0 & 59.4 & 82.3 & 76.9 & 60.1 \\ 
+		NB & 87.6 & 60.4 & 90.9 & 78.8 & 96.2 & 92.2 & 85.5 \\ 
+		MLP & 78.9 & 51.5 & 88.9 & 67.8 & 94.8 & 90.7 & 75.1 \\ 
+		\hline 
+		$\varnothing$ & 81.5 & 57.8 & 87.0 & 71.8 & 93.1 & 89.4 & 80.2 \\ 
+		\hline 
+	\end{tabular}
+	\caption{Genauigkeit der persönlichen Modelle in Prozent}
+	\label{tab:accuracy-personal}
+\end{table}
+
+Die Evaluierung der persönlichen Modelle wird wie folgt durchgeführt: Für jeden Benutzer $b$ wird eine 10-fache Kreuzvalidierung durchgeführt, wobei die Trainingsdaten nur Daten von $b$ beinhalten. Anschließend wird der Durchschnitt der einzelnen Genauigkeiten über alle Benutzer gebildet, um einen globalen Genauigkeitswert zu erhalten. Um dieses Testverfahren zu ermöglichen, wurde die WEKA-Software leicht angepasst: Die Methode zur Kreuzvalidierung wurde um einen Parameter $\texttt{foldSelector}: \texttt{Instanzen} \to \mathbb{N}$ erweitert, der für eine Instanz aus dem Datensatz zurückgibt, in welcher Iteration der Kreuzvalidierung diese aus dem Trainingsdatensatz ausgeschlossen und stattdessen im Testdatensatz verwendet wird. Die Ergebnisse dieser Evaluierung befinden sich in Tabelle~\ref{tab:accuracy-personal}.
 
 Nutzt man nur je ein Gyroskop, ist die Qualität der persönlichen Modelle am schlechtesten. Im Gegensatz dazu haben bereits Modelle, die lediglich Daten von einem der Beschleunigungssensoren verwenden, eine gute Aussagekraft.
 
@@ -40,39 +60,40 @@ Hebt man jedoch diese künstlichen Einschränkungen auf, so wird eine Genauigkei
 Anzumerken ist, dass die Genauigkeit von $97.1 \%$, die durch die Kombination der Band-Sensoren erzielt wird, je nach Anwendungszweck bereits ausreichend sein kann und die Hinzunahme von Smartphone-Sensoren daher nicht unbedingt erforderlich ist. Dennoch folgt aus diesen Ergebnissen die wertvolle Erkenntnis, dass zumindest die Kombination der verschiedenen Sensoren des Band eine nennenswerte Verbesserung der Genauigkeit erzielt.
 
 \subsubsection{Vergleich mit Weiss et al.}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	grid=major, % Display a grid
+	grid style={dashed,gray!30}, % 
+	width=360pt,
+	height=200pt,
+	xtick=data,
+	ymin=0,
+	ymax=100,
+	ylabel=Genauigkeit,
+	symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb,Phone comb},
+	legend style={at={(0.5,-0.15)},
+		anchor=north,legend columns=-1},
+	ybar,
+	]
+	\addplot 
+	coordinates {(Phone accel,90) (Watch accel,91.6) (Watch gyro,80.5) (Comb,99.4) (Watch comb,97.1) (Phone comb,90.7)};
+	
+	\addplot 
+	coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
+	
+	\legend{Eigenes Modell,Weiss et al.}
+	\end{axis}
+	\end{tikzpicture}
+	\caption[Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}]{Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
+	\label{fig:accuracy-personal-vs-weiss}
+\end{figure}
+
 Da diese Bachelorarbeit auf der Arbeit von Weiss et al. \cite{Weiss2016} aufbaut, ist ein Vergleich der Ergebnisse sinnvoll. Abbildung~\ref{fig:accuracy-personal-vs-weiss} zeigt die Genauigkeiten der besten Modelle in Abhängigkeit von den Datenquellen. Sowohl die Quellen \textit{Watch accel} als auch \textit{Watch gyro} liefern sehr ähnliche Ergebnisse wie bei Weiss et al., nur das \textit{Phone accel}-Modell in dieser Arbeit liefert im direkten Vergleich eine deutlich bessere Genauigkeit. Eine mögliche Erklärung wäre die im Vergleich mit Weiss et al. 10-fach höhere Sampling-Rate des Sensoren des Smartphones gewesen, jedoch lieferte ein Test mit einem RF-Modell und auf 20 Hz beschränkten Smartphone-Daten immerhin noch eine Genauigkeit von $88.2 \%$. Da dies dennoch $12.7$ Prozentpunkte über dem \textit{Phone Accel}-Modell von Weiss et al. liegt, lässt sich diese Erklärung ausschließen. Eine weitere Erklärungsmöglichkeit wäre, dass die Messunsicherheit des Sensors im OnePlus 3 unter der des Sensors im Samsung Galaxy S4 liegt, das von Weiss et al. zur Aufnahme genutzt wird, jedoch kann diese Hypothese mangels eines solchen Gerätes nicht verifiziert werden. Die Methodik zur Reduktion der Sampling-Rate wird in Abschnitt~\ref{sec:lower-sampling-rate} erklärt, der sich weiteren solchen Analysen widmet.
 
 Erwartungsgemäß ist die Genauigkeit mit den vollständig kombinierten Datenquellen arbeitsübergreifend am höchsten, jedoch ist dies sogar der Fall, wenn man die Daten des Smartphones entfernt. Nutzt man hingegen nur die Daten des Smartphones, ist die Genauigkeit vergleichbar mit den beiden \textit{Watch accel}-Ergebnissen.
-
-\begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-grid=major, % Display a grid
-grid style={dashed,gray!30}, % 
-width=360pt,
-height=220pt,
-xtick=data,
-ymin=0,
-ymax=100,
-ylabel=Genauigkeit,
-symbolic x coords={Phone accel,Watch accel,Watch gyro,Comb,Watch comb,Phone comb},
-legend style={at={(0.5,-0.15)},
-	anchor=north,legend columns=-1},
-ybar,
-]
-\addplot 
-coordinates {(Phone accel,90) (Watch accel,91.6) (Watch gyro,80.5) (Comb,99.4) (Watch comb,97.1) (Phone comb,90.7)};
-
-\addplot 
-coordinates {(Phone accel,75.5) (Watch accel,93.3) (Watch gyro,79)};
-
-\legend{Eigenes Modell,Weiss et al.}
-\end{axis}
-\end{tikzpicture}
-\caption[Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}]{Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
-\label{fig:accuracy-personal-vs-weiss}
-\end{figure}
 
 \subsubsection{Variation zwischen Teilnehmern}
 Motiviert durch Weiss et al. (2012) \cite{Weiss2012} wurde auch die Genauigkeitsverteilung der Modelle untersucht. Es ist von Interesse, wie die Genauigkeit unter den Teilnehmern variiert, da allein eine hohe Durchschnittsgenauigkeit nicht zeigt, wie praxistauglich die Modelle tatsächlich sind. Ist die Genauigkeit für einige Teilnehmer sehr schlecht, für andere Teilnehmer hingegen sehr gut und damit insgesamt instabil, schränkt dies die Verwendbarkeit der Methode ein, da die Zuverlässigkeit gering ist.
@@ -81,15 +102,37 @@ Eine Analyse der persönlichen \textit{Comb}-Modelle ergab jedoch, dass keines e
 
 \subsection{Unpersönliche Modelle}
 \label{subsec:eval-impersonal-models}
-Für die Evaluierung der unpersönlichen Modelle wird eine Kreuzvalidierung über die Nutzer durchgeführt. Das heißt der Datensatz $D$ wird für alle Benutzer $b$ aufgeteilt in $D = \text{Train} \uplus \text{Test}$ mit $\text{Train} = \{\text{Intervall ist nicht von } b\}, \text{Test} = D \backslash \text{Train}$.
+
+\begin{table}
+	\centering
+	\footnotesize
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline 
+		\textbf{Algo.} & \textbf{Phone accel} & \textbf{Phone gyro} & \textbf{Band accel} & \textbf{Band gyro} & \textbf{Comb} & \textbf{Band comb} & \textbf{Phone comb} \\ 
+		\hline 
+		RF & \textbf{39.2} & \textbf{35.1} & \textbf{75.2} & \textbf{61.7} & \textbf{78.5} & \textbf{76.5} & \textbf{41.3} \\ 
+		J48 & 32.9 & 29.1 & 61.6 & 49.2 & 59.7 & 61.3 & 32.6 \\ 
+		IB3 & 24.3 & 22.6 & 60.9 & 45.0 & 52.9 & 58.0 & 26.0 \\ 
+		NB & 31.8 & 30.0 & 67.3 & 56.9 & 60.9 & 62.3 & 35.0 \\ 
+		MLP & 28.8 & 29.3 & 70.3 & 53.5 & 54.9 & 74.3 & 31.5 \\ 
+		\hline 
+		$\varnothing$ & 81.5 & 29.2 & 67.1 & 53.3 & 61.4 & 66.5 & 33.3 \\ 
+		\hline 
+	\end{tabular} 
+	\caption{Genauigkeit der unpersönlichen Modelle in Prozent}
+	\label{tab:accuracy-impersonal}
+\end{table}
+
+Für die Evaluierung der unpersönlichen Modelle wird eine Kreuzvalidierung über die Nutzer durchgeführt. Das heißt der Datensatz $D$ wird für alle Benutzer $b$ aufgeteilt in $D = \text{Train} \uplus \text{Test}$ mit $\text{Train} = \{\text{Intervall ist nicht von } b\}, \text{Test} = D \backslash \text{Train}$. Tabelle~\ref{tab:accuracy-impersonal} ist das Ergebnis dieser Evaluierung.
 
 Das schlechteste Ergebnis wird mit $35.1 \%$ bei den unpersönlichen Modellen erzielt, wenn nur das Gyroskop des Smartphones verwendet wird. Nur wenig besser sind die Modelle, die nur den Beschleunigungssensor des Smartphones ($39.2 \%$) oder beide Sensoren des Smartphones ($41.3 \%$) nutzen. Für den praktischen Gebrauch sind diese Modelle aufgrund ihrer Ungenauigkeit untauglich. Schon rund $20 $ Prozentpunkte besser sind die Modelle, die nur das Gyroskop des Band nutzen, wobei der Wechsel zum Beschleunigungssensor eine weitere Verbesserung um fast $14$ Prozentpunkte ermöglicht. Offenbar erklären die Daten des Beschleunigungssensors einen Großteil der Daten, die auch durch das Gyroskop und die anderen Sensoren des Band erklärt werden, sodass eine Kombination aller Band-Sensoren lediglich ein Verbesserung um rund einen Prozentpunkt ermöglicht. Selbiges gilt auch für die Hinzunahme der Daten des Smartphones: Es wird eine Verbesserung um $2$ Prozentpunkte erzielt, was darauf schließen lässt, dass die Armbewegungen unter den Probanden ähnlich sind, die Bewegungen auf Hüfthöhe hingegen weniger. Gegenüber dem besten Ergebnis eines einzelnen Sensors (\textit{Band accel}) mit $75.2 \%$ liefert die Kombination aller Daten eine Verbesserung um $3.3$ Prozentpunkte.
 
 Ähnlich wie bei den persönlichen Modellen zeigt sich auch hier, dass die Hinzunahme von Smartphone-Daten zu allen Band-Daten zumindest hinsichtlich der Durchschnittsgenauigkeit keine signifikante Verbesserung erzielt. Im Gegensatz zu den persönlichen Modellen sorgt allerdings auch die Kombination aller Sensoren des Bands gegenüber \textit{Band accel} nicht für nennenswert höhere Genauigkeiten.
 
-Als denkbare Erklärung für die Schwäche der unpersönlichen Modelle gegenüber den persönlichen Modellen wurde die Hypothese evaluiert, dass persönliche Modelle eher über die Bewegungsrichtung und unpersönliche Modelle eher über die Varianz in den Daten Vorhersagen bilden. Diese Hypothese beruht auf der Tatsache, dass die Ausrichtungen des Smartphones und des Fitness-Trackers über die Teilnehmer hinweg nicht gleich war und beispielsweise eine Vorwärtsbewegung daher sowohl mit einem positiven als auch einem negativen Ausschlag in den Daten des Beschleunigungssensors in den Aufnahmen erscheinen kann. Um dies zu überprüfen wurde durch Manipulation der Daten simuliert, dass Teilnehmer des Experiments in mehreren Durchläufen die Ausrichtung der Geräte ändern. Dazu wurde für jedes aufgenommene Intervall pro Komponente der Beschleunigungssensoren und der Gyroskope der beiden Geräte zufällig entschieden, ob dessen Sensordaten in diesem Intervall mit $(-1)$ oder mit $1$ multipliziert werden. Nach dieser Manipulation erreichten unpersönliche RF-Modelle eine Genauigkeit von $76.2 \%$ und persönliche RF-Modelle $97.1 \%$, was jeweils einer Beeinträchtigung um $2.3$ Prozentpunkte entspricht. Dies bedeutet einerseits, dass das in dieser Bachelorarbeit vorgestellte Verfahren gegenüber der Neuausrichtung der Geräte resistent ist, allerdings auch, dass die Hypothese aufgrund der geringen Schwächung der persönlichen Modelle nicht zutreffend ist.
+Als denkbare Erklärung für die Schwäche der unpersönlichen Modelle gegenüber den persönlichen Modellen wurde die Hypothese evaluiert, dass persönliche Modelle eher über die Bewegungsrichtung und unpersönliche Modelle eher über die Varianz in den Daten Vorhersagen bilden. Diese Hypothese beruht auf der Tatsache, dass die Ausrichtungen des Smartphones und des Fitness-Trackers über die Teilnehmer hinweg nicht gleich war und beispielsweise eine Vorwärtsbewegung daher sowohl mit einem positiven als auch einem negativen Ausschlag in den Daten des Beschleunigungssensors in den Aufnahmen erscheinen kann. Um dies zu überprüfen wurde durch Manipulation der Daten simuliert, dass Teilnehmer des Experiments in mehreren Durchläufen die Ausrichtung der Geräte ändern. Dazu wurde für jedes aufgenommene Intervall pro Komponente der Beschleunigungssensoren und der Gyroskope der beiden Geräte zufällig entschieden, ob dessen Sensordaten in diesem Intervall mit $(-1)$ oder mit $1$ multipliziert werden. Nach dieser Manipulation erreichten unpersönliche RF-Modelle eine Genauigkeit von $76.2 \%$ und persönliche RF-Modelle $97.1 \%$, was jeweils einer Beeinträchtigung um $2.3$ Prozentpunkte entspricht. Dies bedeutet einerseits, dass das in dieser Bachelorarbeit vorgestellte Verfahren gegenüber der Neuausrichtung der Geräte resistent ist. Andererseits deutet die geringe Schwächung der Modelle auch darauf hin, dass die Hypothese nicht zutreffend ist.
 
 \subsubsection{Vergleich mit Weiss et al.}
+
 Wie in Abbildung~\ref{fig:accuracy-impersonal-vs-weiss} ersichtlich wird, unterscheiden sich die unpersönlichen Modelle im Gegensatz zu den persönlichen Modellen allesamt um etwa 5 Prozent von denen von Weiss et al.
 
 Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollständig kombinierten Daten sowie den kombinierten Daten der Smartwatch, beziehungsweise des Fitness-Trackers arbeitsübergreifend am höchsten.
@@ -101,7 +144,7 @@ Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollst�
 	grid=major, % Display a grid
 	grid style={dashed,gray!30}, % 
 	width=360pt,
-	height=220pt,
+	height=200pt,
 	xtick=data,
 	ymin=0,
 	ymax=100,
@@ -124,89 +167,71 @@ Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollst�
 	\label{fig:accuracy-impersonal-vs-weiss}
 \end{figure}
 
-\begin{table}
-\centering
-\footnotesize
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-	\hline 
-	\textbf{Algo.} & \textbf{Phone accel} & \textbf{Phone gyro} & \textbf{Band accel} & \textbf{Band gyro} & \textbf{Comb} & \textbf{Band comb} & \textbf{Phone comb} \\ 
-	\hline 
-	RF & 88.7 & \textbf{68.2} & \textbf{91.6} & \textbf{80.5} & \textbf{99.4} & \textbf{97.1} & \textbf{90.7} \\ 
-	J48 & \textbf{90.0} & 64.3 & 86.5 & 72.7 & 92.8 & 90.1 & 89.7 \\ 
-	IB3 & 62.2 & 44.8 & 77.0 & 59.4 & 82.3 & 76.9 & 60.1 \\ 
-	NB & 87.6 & 60.4 & 90.9 & 78.8 & 96.2 & 92.2 & 85.5 \\ 
-	MLP & 78.9 & 51.5 & 88.9 & 67.8 & 94.8 & 90.7 & 75.1 \\ 
-	\hline 
-	$\varnothing$ & 81.5 & 57.8 & 87.0 & 71.8 & 93.1 & 89.4 & 80.2 \\ 
-	\hline 
-\end{tabular}
-\caption{Genauigkeit der persönlichen Modelle in Prozent}
-\label{tab:accuracy-personal}
-\end{table}
-
-\begin{table}
-\centering
-\footnotesize
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
-	\hline 
-	\textbf{Algo.} & \textbf{Phone accel} & \textbf{Phone gyro} & \textbf{Band accel} & \textbf{Band gyro} & \textbf{Comb} & \textbf{Band comb} & \textbf{Phone comb} \\ 
-	\hline 
-	RF & \textbf{39.2} & \textbf{35.1} & \textbf{75.2} & \textbf{61.7} & \textbf{78.5} & \textbf{76.5} & \textbf{41.3} \\ 
-	J48 & 32.9 & 29.1 & 61.6 & 49.2 & 59.7 & 61.3 & 32.6 \\ 
-	IB3 & 24.3 & 22.6 & 60.9 & 45.0 & 52.9 & 58.0 & 26.0 \\ 
-	NB & 31.8 & 30.0 & 67.3 & 56.9 & 60.9 & 62.3 & 35.0 \\ 
-	MLP & 28.8 & 29.3 & 70.3 & 53.5 & 54.9 & 74.3 & 31.5 \\ 
-	\hline 
-	$\varnothing$ & 81.5 & 29.2 & 67.1 & 53.3 & 61.4 & 66.5 & 33.3 \\ 
-	\hline 
-\end{tabular} 
-\caption{Genauigkeit der unpersönlichen Modelle in Prozent}
-\label{tab:accuracy-impersonal}
-\end{table}
+\newpage
 
 \subsubsection{Variation zwischen Teilnehmern}
+
 Wie die persönlichen Modelle wurden auch die unpersönlichen Modelle zusätzlich pro Teilnehmer evaluiert, um eine Genauigkeitsverteilung zu erhalten.
 
 Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die Genauigkeitsverteilungen, die aus dem Experiment hervorgingen. Kein unpersönliches \textit{Comb}-Modell für einen Teilnehmer war ungenauer als $65 \%$, während $80 \%$ der Teilnehmer sogar \textit{Comb}-Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. Es ist auch in dieser Abbildung offensichtlich, dass die \textit{Band accel}-Modelle genauer als die \textit{Phone accel}-Modelle sind, jedoch liegt die Spannweite der Genauigkeiten relativ gleichmäßig zwischen 60 und 90 Prozent, während bei den \textit{Comb}-Modellen eine klare Häufung im Intervall $[75, 80)$ zu erkennen ist. Des Weiteren ist im Gegensatz zu den \textit{Comb}-Modellen ein \textit{Band accel}-Modell schlechter als $65 \%$ und keines besser als $90 \%$.
 
-\begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-grid=major, % Display a grid
-grid style={dashed,gray!30}, % 
-width=\textwidth,
-height=200pt,
-xtick=data,
-ytick={0, 1, 2, 3, 4},
-ylabel=Anzahl der Teilnehmer,
-xlabel=Genauigkeit in Prozent,
-symbolic x coords={30,35,40,45,50,55,60,65,70,75,80,85,90},
-ybar,
-bar width=5pt,
-]
-\addplot 
-coordinates {(30,0) (35,0) (40,0) (45,0) (50,0) (55,0) (60,0) (65,1) (70,1) (75,4) (80,2) (85,1) (90,1)};
-
-\addplot 
-coordinates {(30,0) (35,0) (40,0) (45,0) (50,0) (55,0) (60,1) (65,2) (70,2) (75,2) (80,2) (85,1) (90,0)};
-
-\addplot 
-coordinates {(30,2) (35,4) (40,2) (45,2) (50,0) (55,0) (60,0) (65,0) (70,0) (75,0) (80,0) (85,0) (90,0)};
-
-\legend{Comb,Band accel,Phone accel}
-
-\end{axis}
-\end{tikzpicture}
-\caption[Genauigkeitsverteilungen unpersönlicher Modelle]{Genauigkeitsverteilungen unpersönlicher Modelle. Die Beschriftungen $n$ der x-Achse stehen für die Intervalle $[n, n+5)$. }
-\label{fig:accuracy-impersonal-per-user}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	grid=major, % Display a grid
+	grid style={dashed,gray!30}, % 
+	width=\textwidth,
+	height=147pt,
+	xtick=data,
+	ytick={0, 1, 2, 3, 4},
+	ylabel=Anzahl der Teilnehmer,
+	xlabel=Genauigkeit in Prozent,
+	symbolic x coords={30,35,40,45,50,55,60,65,70,75,80,85,90},
+	ybar,
+	bar width=5pt,
+	]
+	\addplot 
+	coordinates {(30,0) (35,0) (40,0) (45,0) (50,0) (55,0) (60,0) (65,1) (70,1) (75,4) (80,2) (85,1) (90,1)};
+	
+	\addplot 
+	coordinates {(30,0) (35,0) (40,0) (45,0) (50,0) (55,0) (60,1) (65,2) (70,2) (75,2) (80,2) (85,1) (90,0)};
+	
+	\addplot 
+	coordinates {(30,2) (35,4) (40,2) (45,2) (50,0) (55,0) (60,0) (65,0) (70,0) (75,0) (80,0) (85,0) (90,0)};
+	
+	\legend{Comb,Band accel,Phone accel}
+	
+	\end{axis}
+	\end{tikzpicture}
+	\caption[Genauigkeitsverteilungen unpersönlicher Modelle]{Genauigkeitsverteilungen unpersönlicher Modelle. Die Beschriftungen $n$ der x-Achse stehen für die Intervalle $[n, n+5)$. }
+	\label{fig:accuracy-impersonal-per-user}
 \end{figure}
 
 \subsection{Anmerkung zu hybriden Modellen}
 Weiss und Lockhart untersuchten 2012 den Einfluss der Modell-Personalisierung auf die Genauigkeit \cite{Weiss2012}. Neben persönlichen und unpersönlichen Modellen analysierten sie auch sogenannte \textit{hybride} Modelle, die für einen Benutzer $b$ sowohl auf Daten von $b$, als auch auf Daten anderer Benutzer zurückgreifen. Dabei stellten sie jedoch fest, dass die Qualität der hybriden Modelle unter der Qualität der persönlichen Modelle lag, weshalb sie keinen Nutzen in diesen Modellen sahen. Ausgenommen haben sie dabei lediglich den Fall, in dem zu einem Benutzer nur sehr wenige Daten bekannt sind. Aufgrund der schlechten Erfolgsaussichten zur Verbesserung der Genauigkeit durch solche Modelle wurde in dieser Arbeit auf eine Untersuchung dieser verzichtet.
 
-
 \section{Genauigkeit bei ungenauen Zeitstempeln}
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c||c|c|}
+		\hline 
+		\textbf{Algo.} & \textbf{Comb, Pers.} & \textbf{Verrauscht, Pers.} &\textbf{Comb, Unpers.} & \textbf{Verrauscht, Unpers.} \\ 
+		\hline 
+		\acs{RF} & \textbf{99.4} & \textbf{99.2} & \textbf{78.5} & \textbf{78.3} \\ 
+		\acs{J48} & 92.8 & 93.5 & 59.7 & 57.3 \\ 
+		\acs{IB}3 & 82.3 & 81.5 & 52.9 & 52.9 \\ 
+		\acs{NB} & 96.2 & 95.7 & 60.9 & 60.5 \\ 
+		\acs{MLP} & 94.8 & 94.2 & 54.9 & 55.4 \\ 
+		\hline 
+		$\varnothing$ & 93.1 & 92.8 & 61.4 & 60.9 \\ 
+		\hline
+	\end{tabular} 
+	\caption{Genauigkeit der Modelle mit verrauschten Band-Zeitstempeln in Prozent}
+	\label{tab:accuracy-noisy_timestamps}
+\end{table}
+
 Die Problemstellung, Daten mehrerer Quellen miteinander zu kombinieren, wirft die Frage auf, inwiefern die Synchronisierung der Daten einen Einfluss auf die Genauigkeit der resultierenden Modelle besitzt. Smartphone und Band besitzen je eine eigene Uhr, sodass die Datenquellen zum selben Zeitpunkt $t$ \textit{Readings} mit Zeitstempeln $t + \epsilon_\text{Smartphone}$, bzw. $t + \epsilon_\text{Band}$ mit $|\epsilon_\text{Smartphone} - \epsilon_\text{Band}| > 0$ liefern könnten. Wird die Differenz zu groß, schadet die Kombination der Quellen möglicherweise mehr als sie nützt.
 
 Ein erster Ansatz, um dieses Problem zu bekämpfen, war daher zunächst, die beiden Uhren via Bluetooth und einem Verfahren wie dem \textit{\ac{NTP}} \cite{Mills} zu synchronisieren. Leider ermöglicht das Microsoft Band \acs{SDK} nicht die Ausführung beliebigen Codes auf dem Band, sondern nur das Abonnieren von Sensordaten-Events, weshalb kein direkter Zugriff auf die Uhr des Gerätes möglich ist. Die Events sind zwar mit Zeitstempeln versehen, jedoch kann die Übertragungszeit nicht ermittelt werden. Eine manuelle Synchronisierung der Uhren ist daher nicht möglich.
@@ -215,81 +240,65 @@ Um zu prüfen, inwiefern die Modelle durch eine mögliche, nicht detektierbare D
 
 Um zu prüfen, ob eine Standardabweichung von $500 \text{ms}$ sinnvoll ist, wurde über drei Tage hinweg um jeweils 10, 15 und 18 Uhr geprüft, mit welchem zeitlichen Abstand das Umspringen von der vollen Stunde auf die nächste Minute erfolgte. Eine Verzögerung war in keinem der Fälle mit dem Auge beobachtbar, weshalb davon auszugehen ist, dass die Uhren aufgrund der bereits bestehenden Synchronisierung durch die vom Hersteller gelieferte Band-App für Android in der Regel weniger als $500 \text{ms}$ voneinander abweichen. Dies führt zu der Annahme, dass die Genauigkeit der Zeitstempel im Rahmen dieser Arbeit keinen negativen Einfluss auf die Ergebnisse hat und somit nicht weiter betrachtet werden muss.
 
-\begin{table}
-\centering
-\begin{tabular}{|c|c|c||c|c|}
-	\hline 
-	\textbf{Algo.} & \textbf{Comb, Pers.} & \textbf{Verrauscht, Pers.} &\textbf{Comb, Unpers.} & \textbf{Verrauscht, Unpers.} \\ 
-	\hline 
-	\acs{RF} & \textbf{99.4} & \textbf{99.2} & \textbf{78.5} & \textbf{78.3} \\ 
-	\acs{J48} & 92.8 & 93.5 & 59.7 & 57.3 \\ 
-	\acs{IB}3 & 82.3 & 81.5 & 52.9 & 52.9 \\ 
-	\acs{NB} & 96.2 & 95.7 & 60.9 & 60.5 \\ 
-	\acs{MLP} & 94.8 & 94.2 & 54.9 & 55.4 \\ 
-	\hline 
-	$\varnothing$ & 93.1 & 92.8 & 61.4 & 60.9 \\ 
-	\hline
-\end{tabular} 
-\caption{Genauigkeit der Modelle mit verrauschten Band-Zeitstempeln in Prozent}
-\label{tab:accuracy-noisy_timestamps}
-\end{table}
-
 \section{Genauigkeit bei einer niedrigen Sampling-Rate}
 \label{sec:lower-sampling-rate}
+
 Da beide verwendeten Geräte primär akkubetrieben sind, muss bei einer marktreifen Umsetzung einer Aufnahmesoftware auch bedacht werden, dass das Sammeln der Daten Energieressourcen beansprucht. Eine Rolle beim Energieverbrauch spielt auch die Sampling-Rate (Abtastrate): Ist sie hoch eingestellt, können die entsprechenden Sensoren nicht in einen Energiesparmodus wechseln und außerdem müssen von der anfordernden Anwendung mehr Daten verarbeitet werden, wodurch wiederum Anforderungen an den Prozessor gestellt werden \cite{Krause2005}. Beim Band kommt hinzu, dass eine höhere Bluetooth-Datenrate in Kauf genommen werden muss, die insbesondere auf den bauartbedingt kleinen Akku des Fitness-Trackers einen negativen Einfluss hat. Aus diesem Grund muss untersucht werden, inwiefern die Sampling-Rate einen Einfluss auf die Genauigkeit der Modelle besitzt, um möglicherweise Energie sparen zu können.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline 
+		\textbf{Gerät} & \textbf{Sensor} & \textbf{Durchsch. Sampling-Rate} \\ 
+		\hline 
+		Smartphone & Accelerometer & 200 Hz \\ 
+		\hline 
+		Smartphone & Gyroskop & 200 Hz \\ 
+		\hline 
+		Fitness-Tracker & Accelerometer & 8 Hz \\ 
+		\hline 
+		Fitness-Tracker & Gyroskop & 8 Hz \\ 
+		\hline 
+		Fitness-Tracker & Laufgeschwindigkeit & 1 Hz \\ 
+		\hline 
+		Fitness-Tracker & Hautwiderstand & 5 Hz \\ 
+		\hline 
+	\end{tabular}
+	\caption{Sampling-Raten der Sensoren}
+	\label{tab:sampling-rates}
+\end{table}
 
 Die Sampling-Raten, mit denen die Aufnahmesoftware Daten aufgezeichnet hat, befinden sich in Tabelle~\ref{tab:sampling-rates}. Um Sampling-Raten miteinander zu vergleichen, wurden dieselben Rohdaten verwendet wie im normalen, vollständigen Modell. Um eine Sampling-Rate von $k$ Hz zu simulieren, wurden nach einem behaltenen Reading $(t_0\,\text{secs}, \text{sensor}, \text{source}, ...)$ alle weiteren Readings $(t\,\text{secs}, \text{sensor}, \text{source}, ...)$ mit $t \in [t_0, t_0 + 1/k]$ gelöscht. Abbildung~\ref{fig:aliasing} zeigt beispielhaft Aliasingeffekte, die durch dieses Verfahren entstehen können, wenn Sensordaten Schwingungen beinhalten. Reduziert man die Sampling-Rate, ohne darüberliegende Frequenzen aus dem Signal herauszufiltern, können die noch vorhandenen Daten auf mehrere Arten (miss-)interpretiert werden. Aus diesem Grund geben die folgenden Ergebnisse untere Schranken für die Genauigkeiten an, die mit dem vorhandenen Datensatz bei verringerten Abtastraten möglich sind.
 
-\begin{figure}
-\centering
-\includegraphics[width=250pt]{img/aliasing}
-\caption{Aliasingeffekte, aus Wikipedia \cite{Moxfyre2009Aliasing}}
-\label{fig:aliasing}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=250pt]{img/aliasing}
+	\caption{Aliasingeffekte, aus Wikipedia \cite{Moxfyre2009Aliasing}}
+	\label{fig:aliasing}
 \end{figure}
 
-Nun werden die besten Modelle miteinander verglichen. Zur Erinnerung: \textit{Comb, Pers.} erzielte eine Genauigkeit von $99.4 \%$ und \textit{Comb, Unpers.} eine Genauigkeit von $78.5 \%$. Reduziert man die Sampling-Rate des persönlichen Modells auf 5 Hz, so reduziert sich die Genauigkeit um lediglich $0.4$ Prozentpunkte. Die Reduzierung auf 1 Hz verursacht eine Verschlechterung um $1.4$ Prozentpunkte, sodass selbst bei niedrigem Energieverbrauch mit persönlichen Modellen noch sehr gute Ergebnisse erzielt werden können. Stärker beeinträchtigt werden durch die Reduzierung der Sampling-Rate die unpersönlichen Modelle. Beschränkt man diese auf 5 Hz, so ergibt sich gegenüber \textit{Comb, Unpers.} eine Verschlechterung um $3.9$ Prozentpunkte. Bei einer Beschränkung auf 1 Hz beträgt die Verschlechterung $8.5$ Prozentpunkte, sodass eine Reduzierung der Sampling-Rate auf 1 Hz für unpersönliche Modelle unratsam ist, während mit 5 Hz noch akzeptable Genauigkeiten erzielt werden können.
+Nun werden die besten Modelle mit Hilfe von Tabelle~\ref{tab:accuracy-sampling_rate} miteinander verglichen. Zur Erinnerung: \textit{Comb, Pers.} erzielte eine Genauigkeit von $99.4 \%$ und \textit{Comb, Unpers.} eine Genauigkeit von $78.5 \%$. Reduziert man die Sampling-Rate des persönlichen Modells auf 5 Hz, so reduziert sich die Genauigkeit um lediglich $0.4$ Prozentpunkte. Die Reduzierung auf 1 Hz verursacht eine Verschlechterung um $1.4$ Prozentpunkte, sodass selbst bei niedrigem Energieverbrauch mit persönlichen Modellen noch sehr gute Ergebnisse erzielt werden können. Stärker beeinträchtigt werden durch die Reduzierung der Sampling-Rate die unpersönlichen Modelle. Beschränkt man diese auf 5 Hz, so ergibt sich gegenüber \textit{Comb, Unpers.} eine Verschlechterung um $3.9$ Prozentpunkte. Bei einer Beschränkung auf 1 Hz beträgt die Verschlechterung $8.5$ Prozentpunkte, sodass eine Reduzierung der Sampling-Rate auf 1 Hz für unpersönliche Modelle unratsam ist, während mit 5 Hz noch akzeptable Genauigkeiten erzielt werden können.
 
-\begin{table}
-\centering
-\begin{tabular}{|c|c|c|}
-	\hline 
-	\textbf{Gerät} & \textbf{Sensor} & \textbf{Durchsch. Sampling-Rate} \\ 
-	\hline 
-	Smartphone & Accelerometer & 200 Hz \\ 
-	\hline 
-	Smartphone & Gyroskop & 200 Hz \\ 
-	\hline 
-	Fitness-Tracker & Accelerometer & 8 Hz \\ 
-	\hline 
-	Fitness-Tracker & Gyroskop & 8 Hz \\ 
-	\hline 
-	Fitness-Tracker & Laufgeschwindigkeit & 1 Hz \\ 
-	\hline 
-	Fitness-Tracker & Hautwiderstand & 5 Hz \\ 
-	\hline 
-\end{tabular}
-\caption{Sampling-Raten der Sensoren}
-\label{tab:sampling-rates}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c||c|c|}
+		\hline 
+		\textbf{Algo.} & \textbf{5 Hz, Pers.} & \textbf{1 Hz, Pers.} &\textbf{5 Hz, Unpers.} & \textbf{1 Hz, Unpers.} \\ 
+		\hline 
+		\acs{RF} & \textbf{99.0} & \textbf{98.0} & \textbf{74.6} & \textbf{70.0} \\ 
+		\acs{J48} & 93.2 & 92.6 & 62.8 & 53.4 \\ 
+		\acs{IB}3 & 77.9 & 62.0 & 50.6 & 37.3 \\ 
+		\acs{NB} & 94.6 & 80.3 & 63.5 & 55.0 \\ 
+		\acs{MLP} & 92.3 & 84.4 & 65.9 & 46.3 \\ 
+		\hline 
+		$\varnothing$ & 91.4 & 83.5 & 63.5 & 52.4 \\ 
+		\hline
+	\end{tabular} 
+	\caption{Genauigkeit der Modelle mit reduzierter Sampling-Rate in Prozent}
+	\label{tab:accuracy-sampling_rate}
 \end{table}
 
-\begin{table}
-\centering
-\begin{tabular}{|c|c|c||c|c|}
-	\hline 
-	\textbf{Algo.} & \textbf{5 Hz, Pers.} & \textbf{1 Hz, Pers.} &\textbf{5 Hz, Unpers.} & \textbf{1 Hz, Unpers.} \\ 
-	\hline 
-	\acs{RF} & \textbf{99.0} & \textbf{98.0} & \textbf{74.6} & \textbf{70.0} \\ 
-	\acs{J48} & 93.2 & 92.6 & 62.8 & 53.4 \\ 
-	\acs{IB}3 & 77.9 & 62.0 & 50.6 & 37.3 \\ 
-	\acs{NB} & 94.6 & 80.3 & 63.5 & 55.0 \\ 
-	\acs{MLP} & 92.3 & 84.4 & 65.9 & 46.3 \\ 
-	\hline 
-	$\varnothing$ & 91.4 & 83.5 & 63.5 & 52.4 \\ 
-	\hline
-\end{tabular} 
-\caption{Genauigkeit der Modelle mit reduzierter Sampling-Rate in Prozent}
-\label{tab:accuracy-sampling_rate}
-\end{table}
+\newpage
 
 \section{Genauigkeit bei Überlappung der Intervalle}
 \begin{figure}[htb]
@@ -323,54 +332,14 @@ Entgegen der Erwartungen verschlechterten sich die persönlichen \acs{RF}-Modell
 \end{table}
 
 \section{Genauigkeit bei Verschmelzung der Ess- und Trinkaktivitäten}
-\begin{sidewaystable}
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
-\hline 
-\textbf{a} &  \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e} & \textbf{f} & \textbf{g} & \textbf{h} & \textbf{i} & \textbf{j} & \textbf{k} & \textbf{l} & \textbf{m} & \textbf{n} & \textbf{o} & \textbf{p} & \textbf{q} & \textbf{r} & \textbf{$<$ Output für $\vee$} \\
-\hline 
-\hline 
-149 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 & 8 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & \textbf{a = Brushing Teeth} \\
-\hline 
-0 & 153 & 0 & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & \textbf{b = Clapping} \\
-\hline 
-0 & 0 & 126 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &17 & 0 & 0 & 0 & 0 & 26 & \textbf{c = Climbing Stairs} \\
-\hline 
-0 & 11 & 0 & 147 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 5 & 0 & 0 & 0 & 0 & \textbf{d = Basketball} \\
-\hline 
-0 & 0 & 0 & 0 & \cellcolor{lightgray} 133 & \cellcolor{lightgray} 6 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} 9 & \cellcolor{lightgray}  0 & 0 & 0 & 0 & 0 & 0 & 12 & 0 & 3 & 0 & \textbf{e = Drinking} \\
-\hline 
-1 & 0 & 0 & 0 & \cellcolor{lightgray} 5 & \cellcolor{lightgray} 135 & \cellcolor{lightgray} 3 & \cellcolor{lightgray} 15 & \cellcolor{lightgray} 4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & \textbf{f = Eating Chips} \\
-\hline 
-3 & 0 & 0 & 0 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} \cellcolor{lightgray} 11 & \cellcolor{lightgray} 106 & \cellcolor{lightgray} 3 & \cellcolor{lightgray} 24 & 0 & 3 & 0 & 0 & 0 & 2 & 0 & 9 & 0 & \textbf{g = Eating Pasta} \\
-\hline 
-3 & 0 & 0 & 0 & \cellcolor{lightgray} 14 & \cellcolor{lightgray} 26 & \cellcolor{lightgray} 15 & \cellcolor{lightgray} 75 & \cellcolor{lightgray} 27 & 0 & 6 & 0 & 0 & 0 & 7 & 1 & 3 & 0 & \textbf{h = Eating Sandwich} \\
-\hline 
-7 & 0 & 0 & 0 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} 13 & \cellcolor{lightgray} 39 & \cellcolor{lightgray} 44 & \cellcolor{lightgray} 84 & 0 & 0 & 0 & 0 & 0 & 3 & 0 & 2 & 0 & \textbf{i = Eating Soup} \\
-\hline 
-6 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 148 & 0 & 0 & 3 & 2 & 0 & 0 & 0 & 0 & \textbf{j = Folding Clothes} \\
-\hline 
-0 & 0 & 0 & 0 & 0 & 5 & 7 & 6 & 2 & 0 & 139 & 0 & 0 & 0 & 0 & 0 & 4 & 0 & \textbf{k = Handwriting} \\
-\hline 
-0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 166 & 0 & 0 & 0 & 0 & 0 & 0 & \textbf{l = Jogging} \\
-\hline 
-0 & 0 &13 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 150 & 0 & 0 & 0 & 0 & 2 & \textbf{m = Soccer Ball} \\
-\hline 
-0 & 0 & 0 & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 145 & 0 & 0 & 0 & 0 & \textbf{n = Playing Catch} \\
-\hline 
-4 & 0 & 0 & 0 & 1 & 2 & 2 & 1 & 1 & 0 & 4 & 0 & 0 & 0 & 136 & 8 & 5 & 0 & \textbf{o = Sitting} \\
-\hline 
-1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 &15 & 142 & 0 & 0 & \textbf{p = Standing} \\
-\hline 
-2 & 0 & 0 & 0 & 1 & 1 & 4 & 1 & 0 & 0 & 27 & 0 & 0 & 0 & 0 & 0 & 125 & 0 & \textbf{q = Typing} \\
-\hline 
-0 & 0 &66 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 19 & 0 & 0 & 0 & 0 & 84 & \textbf{r = Walking} \\
-\hline 
-\end{tabular}
-\caption{Konfusionsmatrix der unpersönlichen \ac{RF}-Modelle}
-\label{tab:confusion-impersonal-rf}
-\end{sidewaystable}
-\begin{table}
+
+Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen \acs{RF}-basierten Modelle in Tabelle~\ref{tab:confusion-impersonal-rf} auf Seite~\pageref{tab:confusion-impersonal-rf}, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse in $298/324 \approx 92 \%$ der Fälle im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale bei all diesen Klassen das Sitzen sowie das Führen der Hand zum Mund sind.
+
+Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn die Aktivitäten \textit{Eating Chips, Eating Pasta, Eating Sandwich, Eating Soup} und \textit{Drinking} zu einer einzigen Aktivität \textit{Eating} verschmolzen werden. Bei den \ac{RF}-Modellen ist eine Verbesserung um $8.6$ Prozentpunkte zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt. Tabelle~\ref{tab:confusion-impersonal-rf-merged} auf Seite~\pageref{tab:confusion-impersonal-rf-merged} zeigt die neue Konfusionsmatrix der \ac{RF}-Modelle und es wird deutlich, dass aufgrund der verschmolzenen Aktivität \textit{Eating} die Fehlerrate stark gesunken ist.
+
+Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschwert.
+
+\begin{table}[h]
 	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline 
@@ -389,57 +358,101 @@ Entgegen der Erwartungen verschlechterten sich die persönlichen \acs{RF}-Modell
 	\label{tab:accuracy-merge-eating}
 \end{table}
 
-Betrachtet man die Konfusionsmatrix der vollständigen unpersönlichen \acs{RF}-basierten Modelle in Tabelle~\ref{tab:confusion-impersonal-rf}, so lässt sich feststellen, dass die Klassen, die sich mit Essen oder Trinken beschäftigen, nur ungenau erkannt werden und somit die Durchschnittsgenauigkeit entsprechend senken. Zudem liegt die fehlerhaft vorhergesagte Klasse in $298/324 \approx 92 \%$ der Fälle im Bereich des Essens und Trinkens. Zurückzuführen ist dies auf die Tatsache, dass sich diese Aktivitäten untereinander ähneln, da die zentralen Bewegungsmerkmale bei all diesen Klassen das Sitzen sowie das Führen der Hand zum Mund sind.
-
-\begin{sidewaystable}
-\centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
-	\hline 
-  \textbf{a} &   \textbf{b} &   \textbf{c} &   \textbf{d} &   \textbf{e} &   \textbf{f} &   \textbf{g} &   \textbf{h} &   \textbf{i} &   \textbf{j} &   \textbf{k} &   \textbf{l} &   \textbf{m}  &  \textbf{n} & \textbf{$<$ Output für $\vee$} \\
-\hline 
-\hline
-143 &   0 &   0 &   0 &   5 &  12 &   0 &   0 &   0 &   1 &   0 &   0 &   0  &  0 &   \textbf{a = Brushing Teeth} \\
-\hline 
-0 & 155 &   0 &   5 &   0 &   0 &   0 &   0 &   0 &   1 &   0 &   0 &   0  &  0 &   \textbf{b = Clapping} \\
-\hline 
-0 &   0 & 126 &   0 &   0 &   0 &   0 &   1 &  13 &   0 &   0 &   0 &   0  & 30 &   \textbf{c = Climbing Stairs} \\
-\hline 
-0 &   5 &   0 & 136 &   0 &   5 &   0 &   0 &   0 &  18 &   0 &   0 &   0  &  0 &   \textbf{d = Basketball} \\
-\hline 
-2 &   0 &   0 &   0 & 830 &   0 &   2 &   0 &   0 &   0 &  16 &   0 &   7  &  0 &   \textbf{e = Eating} \\
-\hline 
-2 &   0 &   0 &   0 &   0 & 155 &   0 &   0 &   0 &   2 &   0 &   0 &   0  &  0 &   \textbf{f = Folding Clothes} \\
-\hline 
-0 &   0 &   0 &   0 &  30 &   0 & 124 &   0 &   0 &   0 &   0 &   0 &   9  &  0 &   \textbf{g = Handwriting} \\
-\hline 
-0 &   0 &   0 &   0 &   0 &   0 &   0 & 168 &   0 &   0 &   0 &   0 &   0  &  0 &   \textbf{h = Jogging} \\
-\hline 
-0 &   0 &   6 &   0 &   0 &   0 &   0 &   1 & 157 &   1 &   0 &   0 &   0  &  1 &   \textbf{i = Soccer Ball} \\
-\hline 
-0 &   0 &   0 &   7 &   0 &   2 &   0 &   1 &   2 & 143 &   0 &   0 &   0  &  0 &   \textbf{j = Playing Catch} \\
-\hline 
-1 &   0 &   0 &   0 &  23 &   0 &   2 &   0 &   0 &   0 & 130 &   8 &   0  &  0 &   \textbf{k = Sitting} \\
-\hline 
-0 &   0 &   0 &   0 &   5 &   0 &   0 &   0 &   0 &   0 &  17 & 138 &   0  &  0 &   \textbf{l = Standing} \\
-\hline 
-1 &   0 &   0 &   0 &  37 &   0 &  18 &   0 &   0 &   0 &   0 &   0 & 105  &  0 &   \textbf{m = Typing} \\
-\hline 
-0 &   0 &  60 &   0 &   0 &   0 &   0 &   0 &  26 &   0 &   0 &   0 &   0  & 83 &   \textbf{n = Walking} \\
-	\hline 
-\end{tabular}
-\caption{Konfusionsmatrix der unpersönlichen, verschmolzenen \ac{RF}-Modelle}
-\label{tab:confusion-impersonal-rf-merged}
+\begin{sidewaystable}[ph]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
+		\hline 
+		\textbf{a} &  \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e} & \textbf{f} & \textbf{g} & \textbf{h} & \textbf{i} & \textbf{j} & \textbf{k} & \textbf{l} & \textbf{m} & \textbf{n} & \textbf{o} & \textbf{p} & \textbf{q} & \textbf{r} & \textbf{$<$ Output für $\vee$} \\
+		\hline 
+		\hline 
+		149 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 & 8 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & \textbf{a = Brushing Teeth} \\
+		\hline 
+		0 & 153 & 0 & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & \textbf{b = Clapping} \\
+		\hline 
+		0 & 0 & 126 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 &17 & 0 & 0 & 0 & 0 & 26 & \textbf{c = Climbing Stairs} \\
+		\hline 
+		0 & 11 & 0 & 147 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 5 & 0 & 0 & 0 & 0 & \textbf{d = Basketball} \\
+		\hline 
+		0 & 0 & 0 & 0 & \cellcolor{lightgray} 133 & \cellcolor{lightgray} 6 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} 9 & \cellcolor{lightgray}  0 & 0 & 0 & 0 & 0 & 0 & 12 & 0 & 3 & 0 & \textbf{e = Drinking} \\
+		\hline 
+		1 & 0 & 0 & 0 & \cellcolor{lightgray} 5 & \cellcolor{lightgray} 135 & \cellcolor{lightgray} 3 & \cellcolor{lightgray} 15 & \cellcolor{lightgray} 4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & \textbf{f = Eating Chips} \\
+		\hline 
+		3 & 0 & 0 & 0 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} \cellcolor{lightgray} 11 & \cellcolor{lightgray} 106 & \cellcolor{lightgray} 3 & \cellcolor{lightgray} 24 & 0 & 3 & 0 & 0 & 0 & 2 & 0 & 9 & 0 & \textbf{g = Eating Pasta} \\
+		\hline 
+		3 & 0 & 0 & 0 & \cellcolor{lightgray} 14 & \cellcolor{lightgray} 26 & \cellcolor{lightgray} 15 & \cellcolor{lightgray} 75 & \cellcolor{lightgray} 27 & 0 & 6 & 0 & 0 & 0 & 7 & 1 & 3 & 0 & \textbf{h = Eating Sandwich} \\
+		\hline 
+		7 & 0 & 0 & 0 & \cellcolor{lightgray} 0 & \cellcolor{lightgray} 13 & \cellcolor{lightgray} 39 & \cellcolor{lightgray} 44 & \cellcolor{lightgray} 84 & 0 & 0 & 0 & 0 & 0 & 3 & 0 & 2 & 0 & \textbf{i = Eating Soup} \\
+		\hline 
+		6 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 148 & 0 & 0 & 3 & 2 & 0 & 0 & 0 & 0 & \textbf{j = Folding Clothes} \\
+		\hline 
+		0 & 0 & 0 & 0 & 0 & 5 & 7 & 6 & 2 & 0 & 139 & 0 & 0 & 0 & 0 & 0 & 4 & 0 & \textbf{k = Handwriting} \\
+		\hline 
+		0 & 0 & 2 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 166 & 0 & 0 & 0 & 0 & 0 & 0 & \textbf{l = Jogging} \\
+		\hline 
+		0 & 0 &13 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 150 & 0 & 0 & 0 & 0 & 2 & \textbf{m = Soccer Ball} \\
+		\hline 
+		0 & 0 & 0 & 7 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 3 & 145 & 0 & 0 & 0 & 0 & \textbf{n = Playing Catch} \\
+		\hline 
+		4 & 0 & 0 & 0 & 1 & 2 & 2 & 1 & 1 & 0 & 4 & 0 & 0 & 0 & 136 & 8 & 5 & 0 & \textbf{o = Sitting} \\
+		\hline 
+		1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 &15 & 142 & 0 & 0 & \textbf{p = Standing} \\
+		\hline 
+		2 & 0 & 0 & 0 & 1 & 1 & 4 & 1 & 0 & 0 & 27 & 0 & 0 & 0 & 0 & 0 & 125 & 0 & \textbf{q = Typing} \\
+		\hline 
+		0 & 0 &66 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 19 & 0 & 0 & 0 & 0 & 84 & \textbf{r = Walking} \\
+		\hline 
+	\end{tabular}
+	\caption{Konfusionsmatrix der unpersönlichen \ac{RF}-Modelle}
+	\label{tab:confusion-impersonal-rf}
 \end{sidewaystable}
 
-Tabelle~\ref{tab:accuracy-merge-eating} zeigt, wie sich die Genauigkeit der unpersönlichen Modelle verändert, wenn die Aktivitäten \textit{Eating Chips, Eating Pasta, Eating Sandwich, Eating Soup} und \textit{Drinking} zu einer einzigen Aktivität \textit{Eating} verschmolzen werden. Bei den \ac{RF}-Modellen ist eine Verbesserung um $8.6$ Prozentpunkte zu erkennen, wovon ein Teil auch darauf zurückzuführen sein könnte, dass es insgesamt weniger Klassen gibt und die Wahrscheinlichkeit einer Fehlklassifikation somit sinkt. Tabelle~\ref{tab:confusion-impersonal-rf-merged} zeigt die neue Konfusionsmatrix der \ac{RF}-Modelle und es wird deutlich, dass aufgrund der verschmolzenen Aktivität \textit{Eating} die Fehlerrate stark gesunken ist.
+\begin{sidewaystable}[ph]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
+		\hline 
+		\textbf{a} &   \textbf{b} &   \textbf{c} &   \textbf{d} &   \textbf{e} &   \textbf{f} &   \textbf{g} &   \textbf{h} &   \textbf{i} &   \textbf{j} &   \textbf{k} &   \textbf{l} &   \textbf{m}  &  \textbf{n} & \textbf{$<$ Output für $\vee$} \\
+		\hline 
+		\hline
+		143 &   0 &   0 &   0 &   5 &  12 &   0 &   0 &   0 &   1 &   0 &   0 &   0  &  0 &   \textbf{a = Brushing Teeth} \\
+		\hline 
+		0 & 155 &   0 &   5 &   0 &   0 &   0 &   0 &   0 &   1 &   0 &   0 &   0  &  0 &   \textbf{b = Clapping} \\
+		\hline 
+		0 &   0 & 126 &   0 &   0 &   0 &   0 &   1 &  13 &   0 &   0 &   0 &   0  & 30 &   \textbf{c = Climbing Stairs} \\
+		\hline 
+		0 &   5 &   0 & 136 &   0 &   5 &   0 &   0 &   0 &  18 &   0 &   0 &   0  &  0 &   \textbf{d = Basketball} \\
+		\hline 
+		2 &   0 &   0 &   0 & 830 &   0 &   2 &   0 &   0 &   0 &  16 &   0 &   7  &  0 &   \textbf{e = Eating} \\
+		\hline 
+		2 &   0 &   0 &   0 &   0 & 155 &   0 &   0 &   0 &   2 &   0 &   0 &   0  &  0 &   \textbf{f = Folding Clothes} \\
+		\hline 
+		0 &   0 &   0 &   0 &  30 &   0 & 124 &   0 &   0 &   0 &   0 &   0 &   9  &  0 &   \textbf{g = Handwriting} \\
+		\hline 
+		0 &   0 &   0 &   0 &   0 &   0 &   0 & 168 &   0 &   0 &   0 &   0 &   0  &  0 &   \textbf{h = Jogging} \\
+		\hline 
+		0 &   0 &   6 &   0 &   0 &   0 &   0 &   1 & 157 &   1 &   0 &   0 &   0  &  1 &   \textbf{i = Soccer Ball} \\
+		\hline 
+		0 &   0 &   0 &   7 &   0 &   2 &   0 &   1 &   2 & 143 &   0 &   0 &   0  &  0 &   \textbf{j = Playing Catch} \\
+		\hline 
+		1 &   0 &   0 &   0 &  23 &   0 &   2 &   0 &   0 &   0 & 130 &   8 &   0  &  0 &   \textbf{k = Sitting} \\
+		\hline 
+		0 &   0 &   0 &   0 &   5 &   0 &   0 &   0 &   0 &   0 &  17 & 138 &   0  &  0 &   \textbf{l = Standing} \\
+		\hline 
+		1 &   0 &   0 &   0 &  37 &   0 &  18 &   0 &   0 &   0 &   0 &   0 & 105  &  0 &   \textbf{m = Typing} \\
+		\hline 
+		0 &   0 &  60 &   0 &   0 &   0 &   0 &   0 &  26 &   0 &   0 &   0 &   0  & 83 &   \textbf{n = Walking} \\
+		\hline 
+	\end{tabular}
+	\caption{Konfusionsmatrix der unpersönlichen, verschmolzenen \ac{RF}-Modelle}
+	\label{tab:confusion-impersonal-rf-merged}
+\end{sidewaystable}
 
-Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönlichen Modellen darauf geachtet werden sollte, dass die zu erkennenden Aktivitäten nicht zu feingranular voneinander getrennt werden, da dies die Klassifikation stark erschwert.
+\newpage
 
 \section{Genauigkeit in Abhängigkeit von der Teilnehmeranzahl}
 \label{sec:accuracy-usercount}
 \begin{figure}
 \centering
-\includegraphics[clip, trim=7mm 7mm 7mm 6mm, width=\textwidth]{img/random-set-draw}
+\includegraphics[clip, trim=7mm 7mm 7mm 6mm, width=0.9\textwidth]{img/random-set-draw}
 \caption{Ziehung der Datensätze $D_{i,j}$}
 \label{fig:random-set-draw}
 \end{figure}
@@ -447,35 +460,37 @@ Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönli
 Während die persönlichen Modelle lediglich auf die Bewegungsdaten einer einzelnen Person zurückgreifen, sind für die unpersönlichen Modelle Daten anderer Personen erforderlich. Daraus ergibt sich die Frage, wie die Genauigkeit der unpersönlichen Modelle von der Anzahl der Personen, auf denen dieses basiert, abhängig ist. Um dies zu ermitteln, wurden aus dem aus 10 Personen bestehenden vollständigen Datensatz $D$ für $i \in \{2, ..., 10\}$ je $N_i := \min(10, \binom{10}{i})$ verschiedene, zufällig gezogene Datensätze $D_{i,j}$ mit $j \in \{1, ..., N_i\}$ generiert. Dieser Prozess ist in Abbildung~\ref{fig:random-set-draw} illustriert. Ein Datensatz $D_{i,j}$ enthält Daten von $i \geq 2$ verschiedenen Personen, um die Aufteilung in Train- und Testsets zu ermöglichen, da ein Testset für die unpersönlichen Modelle genau eine Person enthalten soll und die Mengen disjunkt sein müssen (vgl. Abschnitt~\ref{subsec:eval-impersonal-models}). Die Genauigkeit in Abhängigkeit von der Anzahl der Personen $i$ ist dann definiert durch $G(i) := \sum_{j=1}^{N_i} \frac{\text{Genauigkeit mit } D_{i,j}}{N_i}$. Die Berechnung der Genauigkeit mit Datensatz $D_{i,j}$ erfolgt nach Abschnitt~\ref{subsec:eval-impersonal-models}.
 Abbildung~\ref{fig:accuracy-convergence} zeigt den Plot der Funktion $G$. Es ist zu erkennen, dass die Genauigkeit langsam konvergiert, wobei für $i > 10$ noch etwas höhere Genauigkeiten zu erwarten sind. Die Verifikation dieser Hypothese durch weitere Aufnahmen war im Rahmen der zeitlichen Beschränkungen einer Bachelorarbeit nicht möglich.
 
-Zum Vergleich befindet sich in Abbildung~\ref{fig:accuracy-convergence-lockhart} eine Grafik aus \cite{Lockhart2014}, die zeigt, wie sich die Genauigkeit unpersönlicher \ac{RF}-Modelle, die nur aus Daten eines Smartphone-Accelerometers gewonnen wurden, in dieser Arbeit in Abhängigkeit von der Personenanzahl verhält. Der große \acs{HASC}-Datensatz konvergiert gegen eine Genauigkeit von etwa $85 \%$, die laut Extrapolation der Autoren auch mit einem größeren eigenen Datensatz hätten erreicht werden können. Es fällt auf, dass auch der Plot in Abbildung~\ref{fig:accuracy-convergence} gegen einen ähnlichen Grenzwert zu konvergieren scheint, wobei zu beachten ist, dass die beiden externen Datensätze weniger verschiedene Aktivitäten beinhalten, die zudem hinsichtlich ihrer Erkennbarkeit durch \acs{ML}-Klassifikation variieren könnten. Zusätzlich ist festzustellen, dass die Genauigkeit in Abbildung~\ref{fig:accuracy-convergence} bei 10 Personen bereits etwa $80 \%$ beträgt, während es in Abbildung~\ref{fig:accuracy-convergence-lockhart} nur etwa $63 \%$, respektive $70 \%$ sind. Dies deutet darauf hin, dass mehr Sensoren die Notwendigkeit vieler Personen im Datensatz verringern.
-
-\begin{figure}
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-grid=major, % Display a grid
-grid style={dashed,gray!30}, % 
-ymin=0,
-ymax=100,
-xmin=1,
-xlabel=$i \text{ = Anzahl der Personen}$,
-ylabel=$G(i) \text{ = Genauigkeit der Modelle}$]
-\addplot[color=black,mark=x] coordinates {
-	(2, 52.52308602)
-	(3, 64.3778887)
-	(4, 67.2191227465409)
-	(5, 72.94877937)
-	(6, 73.61805308)
-	(7, 74.9440529)
-	(8, 76.93207282)
-	(9, 76.83383234)
-	(10, 79.919409)
-};
-\end{axis}
-\end{tikzpicture}
-\caption{Genauigkeit in Abhängigkeit von der Personenanzahl}
-\label{fig:accuracy-convergence}
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+	\begin{axis}[
+	grid=major, % Display a grid
+	grid style={dashed,gray!30}, % 
+	ymin=0,
+	ymax=100,
+	xmin=1,
+	height=185pt,
+	width=185pt,
+	xlabel=$i \text{ = Anzahl der Personen}$,
+	ylabel=$G(i) \text{ = Genauigkeit der Modelle}$]
+	\addplot[color=black,mark=x] coordinates {
+		(2, 52.52308602)
+		(3, 64.3778887)
+		(4, 67.2191227465409)
+		(5, 72.94877937)
+		(6, 73.61805308)
+		(7, 74.9440529)
+		(8, 76.93207282)
+		(9, 76.83383234)
+		(10, 79.919409)
+	};
+	\end{axis}
+	\end{tikzpicture}
+	\caption{Genauigkeit in Abhängigkeit von der Personenanzahl}
+	\label{fig:accuracy-convergence}
 \end{figure}
+
+Zum Vergleich befindet sich in Abbildung~\ref{fig:accuracy-convergence-lockhart} eine Grafik aus \cite{Lockhart2014}, die zeigt, wie sich die Genauigkeit unpersönlicher \ac{RF}-Modelle, die nur aus Daten eines Smartphone-Accelerometers gewonnen wurden, in dieser Arbeit in Abhängigkeit von der Personenanzahl verhält. Der große \acs{HASC}-Datensatz konvergiert gegen eine Genauigkeit von etwa $85 \%$, die laut Extrapolation der Autoren auch mit einem größeren eigenen Datensatz hätten erreicht werden können. Es fällt auf, dass auch der Plot in Abbildung~\ref{fig:accuracy-convergence} gegen einen ähnlichen Grenzwert zu konvergieren scheint, wobei zu beachten ist, dass die beiden externen Datensätze weniger verschiedene Aktivitäten beinhalten, die zudem hinsichtlich ihrer Erkennbarkeit durch \acs{ML}-Klassifikation variieren könnten. Zusätzlich ist festzustellen, dass die Genauigkeit in Abbildung~\ref{fig:accuracy-convergence} bei 10 Personen bereits etwa $80 \%$ beträgt, während es in Abbildung~\ref{fig:accuracy-convergence-lockhart} nur etwa $63 \%$, respektive $70 \%$ sind. Dies deutet darauf hin, dass mehr Sensoren die Notwendigkeit vieler Personen im Datensatz verringern.
 
 \begin{figure}
 \centering
@@ -495,38 +510,38 @@ Die variierten Hyperparameter sind die folgenden:
 	\item \textit{maxDepth} bestimmt die maximale Tiefe der Entscheidungsbäume im Wald. Ein niedriger Wert sorgt dafür, dass der Baum sich den Trainingsdaten nicht zu sehr anpasst und \textit{Overfitting} somit vermieden wird. Dabei muss beachtet werden, dass ein zu niedriger Wert wiederum dafür sorgen kann, dass für eine Instanz zu wenige Features betrachtet werden können, um eine genaue Klassifizierung zu ermöglichen.
 \end{itemize}
 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c||c|}
+		\hline 
+		& \textbf{numIterations} & \textbf{numFeatures} & \textbf{maxDepth} & \textbf{Genauigkeit in Prozent} \\ 
+		\hline 
+		\textbf{RF8} & 75 & $f$ & 50 & 81.229 \\ 
+		\hline 
+		\textbf{RF7} & 100 & $f$ & 75 & 80.7925 \\ 
+		\hline 
+		\textbf{RF4} & 100 & $f$ & 50 & 80.6917 \\ 
+		\hline 
+		\textbf{RF6} & 150 & $f$ & 50 & 80.1545 \\ 
+		\hline 
+		\textbf{RF9} & 100 & $f$ & 30 & 80.0537 \\ 
+		\hline 
+		\textbf{RF1} & 50 & 10 & 25 & 79.953 \\ 
+		\hline 
+		\textbf{RF2} & 200 & $\infty$ & $\infty$ & 73.5729 \\ 
+		\hline 
+		\textbf{RF5} & 200 & $\infty$ & 50 & 73.2371 \\ 
+		\hline 
+		\textbf{RF3} & 200 & $\infty$ & 50 & 72.6998 \\ 
+		\hline
+	\end{tabular}
+	\caption{Hyperparameteroptimierung}
+	\label{tab:hyperparam-opt}
+\end{table}
+
 Tabelle~\ref{tab:hyperparam-opt} zeigt die Genauigkeiten in Abhängigkeit von den Hyperparametern. In einigen Fällen wurde für \textit{numFeatures} der WEKA-Standardwert $f = \lfloor log_2(n - 1) + 1 \rfloor = \lfloor log_2(208) + 1 \rfloor = 8$ verwendet wird, wobei $n$ die Anzahl der Features einer Instanz ist.
 
 Gegenüber der Baseline ist das RF8-Modell das beste, allerdings nur weniger als $1.3$ Prozentpunkte besser, sodass die Differenz unter den Veränderungen durch zufallsbedingte Schwankungen liegt. Es ist jedoch festzustellen, dass der automatisch gewählte Wert $f$ für \textit{numFeatures} die besten Ergebnisse erzielt. Eine Erhöhung der maximalen Tiefe auf 50 oder gar 75 erzielt keine nennenswert besseren Ergebnisse als die oben gewählte Tiefe von 25. Auch für die Anzahl der Bäume gilt, dass bereits 50 annähernd so gut sind wie 100 oder mehr. Positiv zu vermerken ist somit, dass in diesem Anwendungsfall von Random Forests auch kleine Werte eine gute Genauigkeit liefern, wobei der Leistungsbedarf entsprechend niedriger ist.
-
-\begin{table}
-\centering
-\begin{tabular}{|c|c|c|c||c|}
-	\hline 
-	& \textbf{numIterations} & \textbf{numFeatures} & \textbf{maxDepth} & \textbf{Genauigkeit in Prozent} \\ 
-	\hline 
-	\textbf{RF8} & 75 & $f$ & 50 & 81.229 \\ 
-	\hline 
-	\textbf{RF7} & 100 & $f$ & 75 & 80.7925 \\ 
-	\hline 
-	\textbf{RF4} & 100 & $f$ & 50 & 80.6917 \\ 
-	\hline 
-	\textbf{RF6} & 150 & $f$ & 50 & 80.1545 \\ 
-	\hline 
-	\textbf{RF9} & 100 & $f$ & 30 & 80.0537 \\ 
-	\hline 
-	\textbf{RF1} & 50 & 10 & 25 & 79.953 \\ 
-	\hline 
-	\textbf{RF2} & 200 & $\infty$ & $\infty$ & 73.5729 \\ 
-	\hline 
-	\textbf{RF5} & 200 & $\infty$ & 50 & 73.2371 \\ 
-	\hline 
-	\textbf{RF3} & 200 & $\infty$ & 50 & 72.6998 \\ 
-	\hline
-\end{tabular}
-\caption{Hyperparameteroptimierung}
-\label{tab:hyperparam-opt}
-\end{table}
 
 \section{Einfluss von Feature-Selection}
 Betrachtet man die \textit{Comb}-Spalte in Tabelle~\ref{tab:accuracy-impersonal}, so fällt auf, dass die Genauigkeiten der übrigen Modelle dem RF-Modell deutlich unterlegen sind. Da dies bei den persönlichen Modellen nicht der Fall ist, und es somit kein inhärentes Problem mit der Art der Daten zu geben scheint, ist es untersuchenswert, ob die anderen Algorithmen nicht durch eine Vorauswahl der Features (\textit{Feature Selection}) höhere Genauigkeiten liefern können, da eine solche Auswahl prinzipiell auch durch den Zufall im Random Forest erfolgt.
@@ -543,7 +558,7 @@ Begonnen wurde mit der leeren Menge, der nach und nach Features hinzugefügt wor
 
 Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{tab:accuracy-feature-selection}. Gegenüber Tabelle~\ref{tab:accuracy-impersonal} sind die Genauigkeiten der \acs{IB}3-, \acs{NB}- und \acs{MLP}-Modelle wesentlich besser, wodurch auch der Durchschnittswert angehoben wird, jedoch schlägt weiterhin kein Algorithmus den \acs{RF}-Algorithmus. Diesen hat die Feature Selection des Weiteren nicht verbessert, sodass sich die Feature Selection in diesem Anwendungsszenario als nicht sinnvoll erwiesen hat.
 
-\begin{table}
+\begin{table}[h]
 \centering
 \begin{tabular}{|c|c|}
 	\hline 
