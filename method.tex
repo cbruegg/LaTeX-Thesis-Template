@@ -6,6 +6,8 @@ Dieses Kapitel erläutert die Art und Weise, mit der aus den im Experiment gewon
 \label{sec:android-app}
 Die Aufzeichnung der Daten erforderte die Entwicklung einer neuen Software. Mit dem \textit{Actitracker} besteht zwar bereits eine Software von Lockhart et al. \cite{Lockhart2014}, jedoch unterstützt diese die synchronisierte Aufnahme mehrerer Sensoren sowie das Microsoft Band 2 generell nicht. Wichtige Anforderungen an die Aufzeichnungssoftware waren in dieser Arbeit eine hohe Zuverlässigkeit, Fernsteuerbarkeit und das automatische Hochladen der Daten auf einen Datenspeicher im Anschluss an die Aufnahme. Teilnehmer des Experimentes sollten mit der Anwendung möglichst wenig in Berührung kommen.
 
+Zunächst wird im Folgenden die Struktur der Messdaten definiert, woraufhin der Aufbau der Aufzeichnungssoftware erläutert wird.
+
 \subsection{Definition der Messdaten}
 \begin{definition}
 Ein \textit{Reading} besteht aus einem Unix-Zeitstempel in Millisekunden, einer Gerätequelle, einem Sensortyp und den Werten des Sensors gruppiert nach Komponente. Ein Beispiel ist $(1000, \text{Band}, \text{Gyroscope}, \{x \to 0.0, y \to 1.0, z \to 1.0\})$.
@@ -180,11 +182,12 @@ Die Berechnung für $I_2$ erfolgt analog. Aus den obigen Features ergibt sich de
 	$I_2$ & $...$ & $...$ & $...$ & Jogging   \\ 
 	\hline 
 \end{tabular} \\\\\\
-Die Intervallspalte dient nur der Illustration und wird dem \ac{ML}-Algorithmus nicht gezeigt.
+Die Intervallspalte dient nur der Illustration und wird dem \ac{ML}-Algorithmus nicht gezeigt. Die grundlegende Transformation in ein zu konventionellen ML-Algorithmen kompatibles Format ist damit abgeschlossen. Der folgende Abschnitt behandelt die Nachbearbeitung dieser Daten, welche die Verarbeitung durch ML-Algorithmen erleichtert.
 
 \section{Nachbearbeitung der Daten}
 \label{sec:postprocessing}
 Bei der Transformation kann sich das Problem ergeben, dass nicht jede Zelle der resultierenden Tabelle einen Wert enthält. Dazu kann es beispielsweise kommen, wenn der Algorithmus \texttt{AverageTimeBetweenPeaks} \textit{Nil} zurückgibt. Enthält eine Zelle keinen Wert, so wird in ihr der Durchschnittswert des gefüllten Teils der Spalte eingesetzt. Um dem Risiko vorzubeugen, dass \ac{ML}-Algorithmen Spalten mit betragsmäßig hohen Werten fälschlicherweise auch automatisch hohen Einfluss zuschreiben, werden alle numerischen Spalten mit Hilfe des z-Score-Verfahrens normalisiert. Dazu wird von den Werten jeder Spalte der Durchschnittswert dieser abgezogen, wonach das Resultat durch die Standardabweichung der Spalte geteilt wird. Der Betrag einer Zelle gibt danach an, wie viele Standardabweichungen vom Durchschnitt abgewichen wird.
+Nun werden mit den Daten wie im folgenden Abschnitt beschrieben mithilfe von ML-Algorithmen Modelle trainiert.
 
 \section{Anwendung von \ac{ML}-Klassifikationsalgorithmen}
 \label{section:ml-algos}
@@ -198,7 +201,7 @@ Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend
 	\label{fig:recording-and-transformation}
 \end{figure}
 
-Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte \ac{ML}-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser \ac{ML}-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
+Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte \ac{ML}-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser \ac{ML}-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben, bevor die Evaluierung der daraus resultierenden Modelle erfolgt. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
 
 \subsection{\acf{RF}}
 Ein \textit{Random Forest} ist ein Wald von Entscheidungsbäumen (erklärt in Kapitel 14.4 \cite{Bishop2006}), die randomisiert entstanden sind. Soll eine neue Instanz klassifiziert werden, treffen alle Entscheidungsbäume eine Entscheidung und die am häufigsten vorhergesagte Klasse gewinnt. WEKA nutzt eine Implementierung nach \cite{Breiman2001}. Experimentell haben sich die folgenden Hyperparameterwerte als sinnvoll erwiesen: Die Anzahl der Bäume in Wald wurde auf 50, die Anzahl der verwendeten Features pro Baum auf 10 sowie die maximale Tiefe auf 25 festgelegt.
