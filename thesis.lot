@@ -15,7 +15,7 @@
 \contentsline {table}{\numberline {6.8}{\ignorespaces Konfusionsmatrix der unpers\IeC {\"o}nlichen \ac {RF}-Modelle\relax }}{40}{table.caption.66}
 \contentsline {table}{\numberline {6.9}{\ignorespaces Konfusionsmatrix der unpers\IeC {\"o}nlichen, verschmolzenen \ac {RF}-Modelle\relax }}{41}{table.caption.67}
 \contentsline {table}{\numberline {6.10}{\ignorespaces Hyperparameteroptimierung\relax }}{44}{table.caption.71}
-\contentsline {table}{\numberline {6.11}{\ignorespaces Genauigkeit mit Feature Selection\relax }}{45}{table.caption.72}
+\contentsline {table}{\numberline {6.11}{\ignorespaces Genauigkeit der unpers\IeC {\"o}nlichen Modelle ohne und mit Feature Selection}}{45}{table.caption.72}
 \contentsline {table}{\numberline {6.12}{\ignorespaces Genauigkeit der Personenerkennung\relax }}{46}{table.caption.73}
 \addvspace {10\p@ }
 \addvspace {10\p@ }

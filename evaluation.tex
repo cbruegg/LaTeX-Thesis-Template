@@ -556,24 +556,24 @@ Zur Feature Selection wurde das Verfahren \textit{CfsSubsetEval} \cite{Hall1998}
 
 Begonnen wurde mit der leeren Menge, der nach und nach Features hinzugefügt worden sind, bis die Bewertung durch \textit{CfsSubsetEval} sank.
 
-Unter Einsatz der Feature Selection entstanden die Ergebnisse aus Tabelle~\ref{tab:accuracy-feature-selection}. Gegenüber Tabelle~\ref{tab:accuracy-impersonal} sind die Genauigkeiten der \acs{IB}3-, \acs{NB}- und \acs{MLP}-Modelle wesentlich besser, wodurch auch der Durchschnittswert angehoben wird, jedoch schlägt weiterhin kein Algorithmus den \acs{RF}-Algorithmus. Diesen hat die Feature Selection des Weiteren nicht verbessert, sodass sich die Feature Selection in diesem Anwendungsszenario als nicht sinnvoll erwiesen hat.
+Tabelle~\ref{tab:accuracy-feature-selection} zeigt die Unterschiede zwischen den unpersönlichen Modellen ohne und mit Feature Selection. Die Genauigkeiten der \acs{IB}3-, \acs{NB}- und \acs{MLP}-Modelle sind unter Anwendung der Feature Selection wesentlich besser, wodurch auch der Durchschnittswert angehoben wird, jedoch schlägt weiterhin kein Algorithmus den \acs{RF}-Algorithmus. Diesen hat die Feature Selection des Weiteren nicht verbessert, sodass sich die Feature Selection in diesem Anwendungsszenario als nicht sinnvoll erwiesen hat.
 
 \begin{table}[h]
 \centering
-\begin{tabular}{|c|c|}
+\begin{tabular}{|c|c|c|}
 	\hline 
-	\textbf{Algo.} & \textbf{Comb, Unpers.} \\ 
+	\textbf{Algo.} & \textbf{Comb, Unpers., ohne FS} & \textbf{Comb, Unpers., mit FS} \\ 
 	\hline 
-	\acs{RF} & 78.2 \\ 
-	\acs{J48} & 60.0 \\ 
-	\acs{IB}3 & 59.6 \\ 
-	\acs{NB} & 67.8 \\ 
-	\acs{MLP} & 68.3 \\ 
+	\acs{RF} & 78.5 & 78.2 \\ 
+	\acs{J48} & 59.7 & 60.0 \\ 
+	\acs{IB}3 & 52.9 & 59.6 \\ 
+	\acs{NB} & 60.9 & 67.8 \\ 
+	\acs{MLP} & 54.9 & 68.3 \\ 
 	\hline 
-	$\varnothing$ & 66.8 \\ 
+	$\varnothing$ & 61.4 & 66.8 \\ 
 	\hline 
 \end{tabular}
-\caption{Genauigkeit mit Feature Selection}
+\caption[Genauigkeit der unpersönlichen Modelle ohne und mit Feature Selection]{Genauigkeit der unpersönlichen Modelle ohne und mit Feature Selection (FS)}
 \label{tab:accuracy-feature-selection}
 \end{table}
 
