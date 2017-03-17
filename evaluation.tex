@@ -98,7 +98,7 @@ Erwartungsgemäß ist die Genauigkeit mit den vollständig kombinierten Datenque
 \subsubsection{Variation zwischen Teilnehmern}
 Motiviert durch Weiss et al. (2012) \cite{Weiss2012} wurde auch die Genauigkeitsverteilung der Modelle untersucht. Es ist von Interesse, wie die Genauigkeit unter den Teilnehmern variiert, da allein eine hohe Durchschnittsgenauigkeit nicht zeigt, wie praxistauglich die Modelle tatsächlich sind. Ist die Genauigkeit für einige Teilnehmer sehr schlecht, für andere Teilnehmer hingegen sehr gut und damit insgesamt instabil, schränkt dies die Verwendbarkeit der Methode ein, da die Zuverlässigkeit gering ist.
 
-Eine Analyse der persönlichen \textit{Comb}-Modelle ergab jedoch, dass keines eine schlechtere Genauigkeit als $98.69 \%$ lieferte, wobei bereits der außerordentlich hohe Durchschnittswert von $99.4 \%$ implizierte, dass die persönlichen Modelle nicht schlecht sein konnten. Eine größere Rolle wird diese Analyse demnach bei den unpersönlichen Modellen spielen.
+Eine Analyse der persönlichen \textit{Comb}-Modelle ergab jedoch, dass keines eine schlechtere Genauigkeit als $98.69 \%$ lieferte, wobei bereits der außerordentlich hohe Durchschnittswert von $99.4 \%$ implizierte, dass die persönlichen Modelle nicht schlecht sein konnten. Die Varianz der Genauigkeiten betrug $0.2$ Prozentpunkte. Eine größere Rolle wird diese Analyse demnach bei den unpersönlichen Modellen spielen.
 
 \subsection{Unpersönliche Modelle}
 \label{subsec:eval-impersonal-models}
@@ -173,7 +173,7 @@ Wie bei den persönlichen Modellen ist auch hier die Genauigkeit mit den vollst�
 
 Wie die persönlichen Modelle wurden auch die unpersönlichen Modelle zusätzlich pro Teilnehmer evaluiert, um eine Genauigkeitsverteilung zu erhalten.
 
-Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die Genauigkeitsverteilungen, die aus dem Experiment hervorgingen. Kein unpersönliches \textit{Comb}-Modell für einen Teilnehmer war ungenauer als $65 \%$, während $80 \%$ der Teilnehmer sogar \textit{Comb}-Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. Es ist auch in dieser Abbildung offensichtlich, dass die \textit{Band accel}-Modelle genauer als die \textit{Phone accel}-Modelle sind, jedoch liegt die Spannweite der Genauigkeiten relativ gleichmäßig zwischen 60 und 90 Prozent, während bei den \textit{Comb}-Modellen eine klare Häufung im Intervall $[75, 80)$ zu erkennen ist. Des Weiteren ist im Gegensatz zu den \textit{Comb}-Modellen ein \textit{Band accel}-Modell schlechter als $65 \%$ und keines besser als $90 \%$.
+Abbildung~\ref{fig:accuracy-impersonal-per-user} zeigt die Genauigkeitsverteilungen, die aus dem Experiment hervorgingen. Kein unpersönliches \textit{Comb}-Modell für einen Teilnehmer war ungenauer als $65 \%$, während $80 \%$ der Teilnehmer sogar \textit{Comb}-Modelle mit einer Genauigkeit von mindestens $75 \%$ besaßen. Die Varianz der Genauigkeiten der \textit{Comb}-Modelle betrug $43.1$ Prozentpunkte. Es ist auch in dieser Abbildung offensichtlich, dass die \textit{Band accel}-Modelle genauer als die \textit{Phone accel}-Modelle sind, jedoch liegt die Spannweite der Genauigkeiten relativ gleichmäßig zwischen 60 und 90 Prozent, während bei den \textit{Comb}-Modellen eine klare Häufung im Intervall $[75, 80)$ zu erkennen ist. Des Weiteren ist im Gegensatz zu den \textit{Comb}-Modellen ein \textit{Band accel}-Modell schlechter als $65 \%$ und keines besser als $90 \%$.
 
 \begin{figure}[h]
 	\centering
@@ -363,7 +363,7 @@ Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönli
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
 		\hline 
-		\textbf{a} &  \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e} & \textbf{f} & \textbf{g} & \textbf{h} & \textbf{i} & \textbf{j} & \textbf{k} & \textbf{l} & \textbf{m} & \textbf{n} & \textbf{o} & \textbf{p} & \textbf{q} & \textbf{r} & \textbf{$<$ Output für $\vee$} \\
+		\textbf{a} & \textbf{b} & \textbf{c} & \textbf{d} & \textbf{e} & \textbf{f} & \textbf{g} & \textbf{h} & \textbf{i} & \textbf{j} & \textbf{k} & \textbf{l} & \textbf{m} & \textbf{n} & \textbf{o} & \textbf{p} & \textbf{q} & \textbf{r} & \textbf{$<$ Output für $\vee$} \\
 		\hline 
 		\hline 
 		149 & 0 & 0 & 0 & 0 & 0 & 2 & 0 & 0 & 8 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 0 & \textbf{a = Brushing Teeth} \\
