@@ -42,9 +42,10 @@ Um Instanzen zu erzeugen, teilt die Transformationssoftware die Ursprungsdaten z
 Um aus den sequentiellen Daten des Intervalls eine feste Anzahl von Features zu gewinnen, die dieses Intervall beschreiben, werden Aggregatfunktionen benötigt, die eine Liste von Zahlen $A[1..N]$ auf eine feste Anzahl von Werten reduziert, welche die sequentiellen Daten in Kombination möglichst gut beschreiben. In den folgenden Abschnitten werden die auch von Weiss et al. verwendeten \cite{Weiss2016} Aggregatfunktionen in Anlehnung an Kwapisz et al. \cite{Kwapisz2011} begründet und definiert.
 \subsubsection{Average \& Standard Deviation}
 Der Durchschnittswert einer Reihe von Zahlen ist im Kontext der Aktivitätenerkennung relevant, da er zusammen mit der ebenfalls nachfolgend definierten Standardabweichung auf einfache Art und Weise angibt, in welchen Bereichen sich die Sensordaten bewegen.
+\vspace{-5pt}
 \begin{align*}
-\text{Avg}(A) &:= \frac{1}{N} \cdot \sum_{a \in A} a \\
-\text{StdDev}(A) &:= \sqrt{\frac{1}{N} \cdot \sum_{a \in A} (a - \text{Avg}(A))^2}
+	\text{Avg}(A) &:= \frac{1}{N} \cdot \sum_{a \in A} a \\
+	\text{StdDev}(A) &:= \sqrt{\frac{1}{N} \cdot \sum_{a \in A} (a - \text{Avg}(A))^2}
 \end{align*}
 \subsubsection{Average Absolute Difference}
 Diese Funktion gibt ähnlich wie \textit{StdDev} Veränderungen in den Datenreihen wieder, ist dabei jedoch nicht quadratisch und somit für ML-Algorithmen möglicherweise leichter zu handhaben.
@@ -71,7 +72,7 @@ Algorithmus~\ref{algo:avgTimeBetweenPeaks} beschreibt die Berechnung des Wertes.
 
 Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an den gesammelten Daten als gut geeignet. Für andere Datensätze kann eine Anpassung erforderlich sein.
 
-\begin{algorithm}
+\begin{algorithm}[hp]
     \caption{IndicesOfPeaks($A$, $t$), $t \in [0,1]$. Returns a list of indices $i$ where $A[i] \cdot t \geq A[i+1]$}
     \label{algo:indicesOfPeaks}
     \begin{algorithmic}
@@ -85,12 +86,12 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
     \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}
+\begin{algorithm}[hp]
     \caption{AverageTimeBetweenPeaks($A, \text{timeForIndex}, \text{minPeaks}$)}
     \label{algo:avgTimeBetweenPeaks}
     \begin{algorithmic}
         \State \LeftComment \textit{First, heuristically define what a peak is}
-        \State $\text{indicesOfPeaks} \gets \text{IndicesOfPeaks}(A, t = 0.8)$
+        \State $\text{indicesOfPeaks} \gets \Call{IndicesOfPeaks}{A, t = 0.8}$
         \If{$\text{indicesOfPeaks} = \emptyset$}
             \State \Return Nil
         \EndIf
@@ -115,6 +116,8 @@ Die im Pseudocode verwendeten Konstanten erwiesen sich im praktischen Test an de
         \State \Return \Call{Avg}{timesBetweenPeaks}
     \end{algorithmic}
 \end{algorithm}
+
+\newpage
 
 \subsection{Anwendung der Aggregatfunktionen}
 Die Transformationssoftware reduziert nun mit Hilfe der Aggregatfunktionen die Readings eines jeden Intervalls $I$ auf eine konstante Anzahl skalarer Werte, welche die Features der Instanz darstellen. Im Folgenden sei $I$ ein Array der Struktur $I[G][S][K] \in \mathbb{R}^\alpha$, das die Messungen gruppiert nach Gerät ($G$), Sensor ($S$) und Komponente ($K$) beinhaltet. Des Weiteren sei $F_I$ die Menge der Features des Intervalls $I$. Die Folgenden Unterabschnitte zeigen den Aufbau von $F_I$ mittels der Aggregatfunktionen:
@@ -192,8 +195,6 @@ Nun werden mit den Daten wie im folgenden Abschnitt beschrieben mithilfe von ML-
 \section{Anwendung von \ac{ML}-Klassifikationsalgorithmen}
 \label{section:ml-algos}
 
-Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend den Aufnahme- und Transformationsprozess bis zu diesem Schritt. Erst in der Tabellenform, die im untersten Teil der Abbildung zu sehen ist, können die gesammelten Daten von einem herkömmlichen \ac{ML}-Klassifikationsalgorithmus zum Training und außerdem zur Evaluation des damit gelernten Modells verwendet werden.
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=\textwidth,clip,trim=5mm 5mm 5mm 5mm]{img/transformation}
@@ -201,10 +202,12 @@ Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend
 	\label{fig:recording-and-transformation}
 \end{figure}
 
+Abbildung~\ref{fig:recording-and-transformation} zeigt noch einmal abschließend den Aufnahme- und Transformationsprozess bis zu diesem Schritt. Erst in der Tabellenform, die im untersten Teil der Abbildung zu sehen ist, können die gesammelten Daten von einem herkömmlichen \ac{ML}-Klassifikationsalgorithmus zum Training und außerdem zur Evaluation des damit gelernten Modells verwendet werden.
+
 Um die Vergleichbarkeit mit \cite{Weiss2016} sicherzustellen, wurde die Java-basierte \ac{ML}-Software WEKA zum maschinellen Lernen verwendet. Diese bietet fertige Implementierungen diverser \ac{ML}-Algorithmen an, die sowohl mittels einer grafischen Benutzeroberfläche, als auch in Code verwendet werden können. Die in dieser Arbeit verwendeten Algorithmen entsprechen denen aus \cite{Weiss2016} und werden im Folgenden kurz beschrieben, bevor die Evaluierung der daraus resultierenden Modelle erfolgt. Falls nicht anders angegeben, wurden für jedes Modell die standardmäßigen Hyperparameter verwendet. Dabei handelt es sich um Parameter, die der jeweilige Algorithmus nicht selbst lernen kann.
 
 \subsection{\acf{RF}}
-Ein \textit{Random Forest} ist ein Wald von Entscheidungsbäumen (erklärt in Kapitel 14.4 \cite{Bishop2006}), die randomisiert entstanden sind. Soll eine neue Instanz klassifiziert werden, treffen alle Entscheidungsbäume eine Entscheidung und die am häufigsten vorhergesagte Klasse gewinnt. WEKA nutzt eine Implementierung nach \cite{Breiman2001}. Experimentell haben sich die folgenden Hyperparameterwerte als sinnvoll erwiesen: Die Anzahl der Bäume in Wald wurde auf 50, die Anzahl der verwendeten Features pro Baum auf 10 sowie die maximale Tiefe auf 25 festgelegt.
+Ein \textit{Random Forest} ist ein Wald von Entscheidungsbäumen (erklärt in Kapitel 14.4 \cite{Bishop2006}), die randomisiert entstanden sind. Soll eine neue Instanz klassifiziert werden, treffen alle Entscheidungsbäume eine Entscheidung und die am häufigsten vorhergesagte Klasse gewinnt. WEKA nutzt eine Implementierung nach \cite{Breiman2001}. Experimentell haben sich die folgenden Hyperparameterwerte als sinnvoll erwiesen: Die Anzahl der Bäume in Wald wurde auf 50, die Anzahl der verwendeten Features pro Baum auf 10 sowie die maximale Tiefe auf 25 festgelegt. Die Ermittlung dieser Werte erfolgte durch manuelles Ausprobieren, nachdem die Sammlung der Daten durch das Experiment abgeschlossen war.
 \subsection{\acf{J48}}
 J48 ist eine Implementierung des \textit{C4.5}-Algorithmus \cite{Quinlan1993}. Der Entscheidungsbaum wird anhand von Trainingsdaten $T$ iterativ durch das Hinzufügen von Entscheidungsknoten erzeugt, die den Informationsgehalt der Teilmengen von $T$ minimieren, die aus dem Split an jenem Entscheidungsknoten hervorgehen. Der Informationsgehalt ist umso höher, je mehr verschiedene Klassen sich in einer Menge von Instanzen befinden. Ein niedriger Informationsgehalt besagt demnach, dass nach einer Entscheidung an einem Entscheidungsknoten klarer geworden ist, welcher Klasse die Instanzen in den Mengen nach dem Split zuzuordnen sind.
 \subsection{\acl{IB}}
