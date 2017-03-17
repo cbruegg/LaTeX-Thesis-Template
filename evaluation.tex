@@ -1,7 +1,7 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
 
-Dieses Kapitel widmet sich der Auswertung der Ergebnisse anhand verschiedener Metriken. Eingebettet in der Transformationssoftware befindet sich ein Präprozessor, der die aufgenommenen Daten vor der Transformation manipulieren kann. Auf diese Weise werden mehrere Trainingsdatensätze erstellt, die in der Evaluation daraufhin analysiert werden, wie genau ein Klassifikator nach dem Training mit ihnen Vorhersagen treffen kann.
+Dieses Kapitel widmet sich der Auswertung der Ergebnisse anhand verschiedener Metriken. Eingebettet in der Transformationssoftware befindet sich ein Präprozessor, der die aufgenommenen Daten vor der Transformation manipulieren kann. Auf diese Weise werden mehrere Trainingsdatensätze erstellt, die in der Evaluation daraufhin analysiert werden, wie genau ein Klassifikator nach dem Training mit ihnen Vorhersagen treffen kann. Die in Abschnitt~\ref{sec:transformation} erwähnte Intervalldauer $S$ wurde wie in dem Paper von Weiss et al. auf zehn Sekunden festgelegt~\cite{Weiss2016}.
 \\\\
 Die folgenden Datensätze werden generiert:
 
@@ -87,7 +87,7 @@ Anzumerken ist, dass die Genauigkeit von $97.1 \%$, die durch die Kombination de
 	\legend{Eigenes Modell,Weiss et al.}
 	\end{axis}
 	\end{tikzpicture}
-	\caption[Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}]{Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al. \cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
+	\caption[Vergleich der Genauigkeiten der persönlichen Modelle mit Weiss et al.~\cite{Weiss2016}]{Vergleich der Genauigkeiten der jeweils besten persönlichen Modelle mit Weiss et al.~\cite{Weiss2016}. Die \textit{Watch} ist in dieser Arbeit das Band.}
 	\label{fig:accuracy-personal-vs-weiss}
 \end{figure}
 
@@ -359,6 +359,7 @@ Aus diesen Daten lässt sich schließen, dass bei der Verwendung von unpersönli
 \end{table}
 
 \begin{sidewaystable}[ph]
+	\hspace{-0.75cm}
 	\centering
 	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c||l|}
 		\hline 
